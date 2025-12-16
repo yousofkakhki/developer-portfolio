@@ -13,6 +13,11 @@
     "blogs": "BLOGS",
     "viewMore": "View More",
     "allBlogs": "All Blogs",
+    "blog": {
+      "minRead": "Min Read",
+      "backToBlogs": "Back to Blogs",
+      "readOnDevTo": "Read original on dev.to"
+    },
     "contact": "CONTACT"
   },
   "hero": {
@@ -33,7 +38,22 @@
     "title": "PROJECTS"
   },
   "education": {
-    "title": "Educations"
+    "title": "Educations",
+    "1": {
+      "title": "Master of Science in Computer Science",
+      "institution": "Amirkabir University of Technology",
+      "details": [
+        "As a member of the Blockchain Committee, developed a virtual coin reward system using Hyperledger Sawtooth & Node.js.",
+        "Thesis: Developed 'GreedyLearner,' a gamified application for learning computer science algorithms."
+      ]
+    },
+    "2": {
+      "title": "Bachelor of Science in Computer Science",
+      "institution": "Bojnurd University",
+      "details": [
+        "Served as a Teaching Assistant (TA) for the Data Structures course."
+      ]
+    }
   },
   "contact": {
     "title": "Contact with me",
