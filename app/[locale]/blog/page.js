@@ -1,47 +1,49 @@
 // @flow strict
 import { personalData } from "@/utils/data/personal-data";
 import { getTranslations } from 'next-intl/server';
-import BlogCard from "../../components/homepage/blog/blog-card";
+import BlogPageClient from "./blog-page-client";
 
 async function getBlogs() {
-  const res = await fetch(`https://dev.to/api/articles?username=${personalData.devUsername}`, {
-    next: { revalidate: 3600 } // Revalidate every hour
-  })
+  try {
+    const res = await fetch(`https://dev.to/api/articles?username=${personalData.devUsername}`, {
+      next: { revalidate: 3600 }
+    });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    if (!res.ok) {
+      return [];
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.warn('Error fetching blogs:', error);
+    return [];
   }
-
-  const data = await res.json();
-  return data;
-};
-
-async function page() {
-  const blogs = await getBlogs();
-  const t = await getTranslations('nav');
-
-  return (
-    <div className="py-8">
-      <div className="flex justify-center my-5 lg:py-8">
-        <div className="flex  items-center">
-          <span className="w-24 h-[2px] bg-gradient-to-r from-transparent to-[#1a1443]"></span>
-          <span className="bg-gradient-to-br from-[#1a1443] to-[#25213b] w-fit text-white p-2 px-5 text-2xl rounded-md border border-[#16f2b3]/20 shadow-lg">
-            {t('allBlogs') || 'All Blogs'}
-          </span>
-          <span className="w-24 h-[2px] bg-gradient-to-l from-transparent to-[#1a1443]"></span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 lg:gap-8 xl:gap-10">
-        {
-          blogs.map((blog, i) => (
-            blog?.cover_image &&
-            <BlogCard blog={blog} key={i} />
-          ))
-        }
-      </div>
-    </div>
-  );
 }
 
-export default page;
+export default async function BlogPage({ params }) {
+  const { locale } = await params;
+  const blogs = await getBlogs();
+  const t = await getTranslations('blog');
+
+  // Extract unique tags from all blogs
+  const allTags = [...new Set(
+    blogs.flatMap(blog => blog?.tag_list || [])
+  )].slice(0, 10);
+
+  return (
+    <BlogPageClient 
+      blogs={blogs} 
+      allTags={allTags}
+      locale={locale}
+      translations={{
+        title: t('allBlogs') || 'All Blog Posts',
+        searchPlaceholder: t('searchPlaceholder') || 'Search articles...',
+        allTags: t('allTags') || 'All',
+        noResults: t('noResults') || 'No articles found',
+        noResultsDescription: t('noResultsDescription') || 'Try adjusting your search or filter.',
+        clearFilters: t('clearFilters') || 'Clear filters',
+      }}
+    />
+  );
+}

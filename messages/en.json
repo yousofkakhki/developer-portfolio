@@ -13,12 +13,19 @@
     "blogs": "BLOGS",
     "viewMore": "View More",
     "allBlogs": "All Blogs",
-    "blog": {
-      "minRead": "Min Read",
-      "backToBlogs": "Back to Blogs",
-      "readOnDevTo": "Read original on dev.to"
-    },
     "contact": "CONTACT"
+  },
+  "blog": {
+    "minRead": "min",
+    "backToBlogs": "Back to Blogs",
+    "readOnDevTo": "Read original on dev.to",
+    "readMore": "Read article",
+    "allBlogs": "All Blog Posts",
+    "searchPlaceholder": "Search articles...",
+    "allTags": "All",
+    "noResults": "No articles found",
+    "noResultsDescription": "Try adjusting your search or filter to find what you're looking for.",
+    "clearFilters": "Clear filters"
   },
   "hero": {
     "hello": "Hello, I'm",

@@ -13,12 +13,19 @@
     "blogs": "وبلاگ",
     "viewMore": "مشاهده بیشتر",
     "allBlogs": "همه وبلاگ‌ها",
-    "blog": {
-      "minRead": "دقیقه مطالعه",
-      "backToBlogs": "بازگشت به وبلاگ‌ها",
-      "readOnDevTo": "خواندن نسخه اصلی در dev.to"
-    },
     "contact": "تماس با من"
+  },
+  "blog": {
+    "minRead": "دقیقه",
+    "backToBlogs": "بازگشت به وبلاگ‌ها",
+    "readOnDevTo": "خواندن نسخه اصلی در dev.to",
+    "readMore": "مطالعه مقاله",
+    "allBlogs": "همه مقالات",
+    "searchPlaceholder": "جستجوی مقالات...",
+    "allTags": "همه",
+    "noResults": "مقاله‌ای یافت نشد",
+    "noResultsDescription": "جستجو یا فیلتر خود را تغییر دهید.",
+    "clearFilters": "پاک کردن فیلترها"
   },
   "hero": {
     "hello": "سلام، من",
