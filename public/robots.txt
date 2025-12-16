@@ -1,0 +1,14 @@
+# robots.txt for kakhki.ir
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://kakhki.ir/sitemap.xml
+
+# Crawl-delay (optional)
+Crawl-delay: 1
+

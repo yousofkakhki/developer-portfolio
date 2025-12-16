@@ -3,8 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: demo-nextjs-dev
+    container_name: developer-portfolio-dev
     environment:
+      - NODE_ENV=development
       - WATCHPACK_POLLING=true
     volumes:
       - .:/app
@@ -14,16 +15,20 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    restart: unless-stopped
 
   prod:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    container_name: demo-nextjs
+    container_name: developer-portfolio
+    environment:
+      - NODE_ENV=production
     ports:
-      - "3005:3000"
+      - "3000:3000"
     env_file:
       - .env
+    restart: unless-stopped
 
 volumes:
   node_modules:

@@ -1,6 +1,11 @@
+
+
 "use client"
 
-import Lottie from "lottie-react";
+import dynamic from 'next/dynamic';
+
+// Dynamically import the Lottie component with SSR (Server-Side Rendering) disabled.
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 const AnimationLottie = ({ animationPath, width }) => {
   const defaultOptions = {

@@ -1,0 +1,195 @@
+{
+  "common": {
+    "contactMe": "Contact me",
+    "getResume": "Get Resume",
+    "allRightsReserved": "All Rights Reserved"
+  },
+  "nav": {
+    "about": "ABOUT",
+    "experience": "EXPERIENCE",
+    "skills": "SKILLS",
+    "projects": "PROJECTS",
+    "education": "EDUCATION",
+    "blogs": "BLOGS",
+    "viewMore": "View More",
+    "allBlogs": "All Blogs",
+    "contact": "CONTACT"
+  },
+  "hero": {
+    "hello": "Hello, I'm",
+    "a": "a"
+  },
+  "about": {
+    "title": "Who I am?",
+    "sidebar": "ABOUT ME"
+  },
+  "experience": {
+    "title": "Experiences"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "projects": {
+    "title": "PROJECTS"
+  },
+  "education": {
+    "title": "Educations"
+  },
+  "contact": {
+    "title": "Contact with me",
+    "description": "If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests.",
+    "yourName": "Your Name:",
+    "yourEmail": "Your Email:",
+    "yourMessage": "Your Message:",
+    "validEmail": "Please provide a valid email!",
+    "allFieldsRequired": "All fields are required!",
+    "sendMessage": "Send Message",
+    "sendingMessage": "Sending Message...",
+    "messageSentSuccess": "Message sent successfully!",
+    "messageSendFailed": "Failed to send message. Please try again later.",
+    "sidebar": "CONTACT"
+  },
+  "notFound": {
+    "title": "404",
+    "pageNotFound": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist.",
+    "goToHome": "Go to Home"
+  },
+  "personal": {
+    "name": "Yousef Kakhki",
+    "designation": "Technical Lead & Backend Architect",
+    "title": "Building the Future of FinTech and Blockchain",
+    "description": "I build secure, high-performance backend systems for the digital finance and blockchain space. From P2P crypto trading platforms to award-winning AI installations, I lead teams and write the code that powers complex, data-intensive applications.",
+    "about": "For nearly a decade, my career has been driven by a passion for solving complex backend challenges and building the robust infrastructure that powers innovative technology. My focus lies in the demanding worlds of FinTech and blockchain, where security, performance, and scalability are paramount.\n\nMy journey has taken me from deep, hands-on systems programming—optimizing the Linux kernel and building secure software delivery pipelines—to leading talented teams as a CTO. I thrive on architecting systems from the ground up, whether it's a P2P cryptocurrency exchange, a secure crypto-to-fiat payment gateway, or an award-winning AI installation. I lead by example, contributing directly to the codebase while managing the full IT and DevOps lifecycle.\n\nI believe in creating environments where engineers can do their best work. I am always seeking ambitious challenges where I can contribute to building impactful technology and help a talented team succeed."
+  },
+  "experiences": {
+    "1": {
+      "title": "Technical & AI Team Lead",
+      "company": "Capitalino (A CITEX spin-off venture)",
+      "duration": "(Oct 2023 - Jun 2025)",
+      "description": [
+        "Recruited by the former Vice President of CITEX to lead the technical team for this new venture, managing all IT/DevOps operations and playing a key role in the team's growth.",
+        "Provided hands-on technical leadership, architecting and coding core financial systems including RESTful APIs, an investor dashboard, and a secure crypto-to-fiat payment gateway.",
+        "Spearheaded high-impact projects, including an award-winning 'AI Hologram' (Best Booth, ITEX 2024) and a competitive gamification platform for the Shiraz ITEX 2023 exhibition."
+      ]
+    },
+    "2": {
+      "title": "Systems Engineer",
+      "company": "Batna",
+      "duration": "(May 2021 - May 2022)",
+      "description": [
+        "Led the end-to-end design and implementation of a secure Over-the-Air (OTA) software delivery pipeline for embedded Linux systems.",
+        "Executed deep, system-level optimizations on the Linux kernel and core services to meet specialized performance and hardware requirements."
+      ]
+    },
+    "3": {
+      "title": "Back End Developer",
+      "company": "Avin Avisa",
+      "duration": "(Nov 2019 - Dec 2020)",
+      "description": [
+        "Architected a P2P cryptocurrency trading platform from the ground up, leading backend development with Node.js, TypeScript, and MongoDB.",
+        "Guaranteed financial data integrity by engineering a system for atomic transactions and integrating securely with the Ethereum blockchain."
+      ]
+    },
+    "4": {
+      "title": "Application Developer",
+      "company": "Azma Data Structure",
+      "duration": "(Apr 2018 - Mar 2021)",
+      "description": [
+        "Developed large-scale client applications with a sharp focus on robust and efficient integration with backend REST APIs for real-time data synchronization."
+      ]
+    }
+  },
+  "projects": {
+    "title": "PROJECTS",
+    "myRole": "My Role:",
+    "tools": "Tools:",
+    "viewCode": "View Code",
+    "viewDemo": "View Demo",
+    "codeNotAvailable": "Code not available",
+    "demoNotAvailable": "Demo not available",
+    "1": {
+      "name": "Award-Winning AI Hologram Project",
+      "description": "Spearheaded the design and development of an innovative AI-powered hologram installation. The project was a major success, combining complex backend logic with an interactive user experience, resulting in the company winning the prestigious Best Booth at ITEX 2024.",
+      "role": "Technical & AI Team Lead",
+      "tools": ["Python", "AI/ML Libraries", "FastAPI", "WebSocket", "Docker"],
+      "code": "",
+      "demo": ""
+    },
+    "2": {
+      "name": "Digital Investment Management Dashboard",
+      "description": "Architected and coded the heavy computational logic for a data-intensive investor dashboard, providing real-time analytics and portfolio management features for Capitalino's clients.",
+      "role": "Lead Backend Architect",
+      "tools": ["Node.js", "TypeScript", "REST APIs", "MongoDB", "Data Visualization", "Docker"],
+      "code": "",
+      "demo": ""
+    },
+    "3": {
+      "name": "Crypto-to-Fiat Payment Gateway",
+      "description": "Designed and implemented a secure, high-performance gateway to bridge cryptocurrency transactions with traditional fiat payment systems. This mission-critical project enabled seamless and reliable currency exchange for users of the platform.",
+      "role": "Technical Architect",
+      "tools": ["Node.js", "REST APIs", "Database Security", "Payment Processing APIs", "Nginx"],
+      "code": "",
+      "demo": ""
+    },
+    "4": {
+      "name": "Financial Trading Gamification Platform",
+      "description": "Engineered and launched a competitive gamification platform for financial trading simulations. The platform debuted at the Shiraz ITEX 2023 international exhibition to drive user engagement and demonstrate real-time data handling capabilities.",
+      "role": "Senior Software Engineer",
+      "tools": ["Node.js", "React", "Next.js", "WebSocket", "Tailwind CSS"],
+      "code": "",
+      "demo": ""
+    },
+    "5": {
+      "name": "Secure Over-the-Air (OTA) Update System",
+      "description": "Led the end-to-end engineering of a secure software delivery pipeline for embedded Linux devices. This involved creating the package generation process, server-side infrastructure, and client-side update application, alongside performing deep, low-level kernel optimizations.",
+      "role": "Systems Engineer",
+      "tools": ["Linux", "C", "Bash", "Python", "Jenkins", "CI/CD", "Network Security"],
+      "code": "",
+      "demo": ""
+    },
+    "6": {
+      "name": "GreedyLearner: Gamified Algorithm Tutor",
+      "description": "Developed as my Master's thesis, 'GreedyLearner' is an Android application that gamifies complex computer science algorithms to improve student motivation and learning outcomes through a guided discovery approach. The app was successfully published on app stores.",
+      "role": "Solo Developer & Researcher",
+      "tools": ["Java", "Android SDK", "Android Studio", "Gamification", "NoSQL"],
+      "code": "https://github.com/yourusername/greedylearner",
+      "demo": ""
+    },
+    "7": {
+      "name": "P2P Cryptocurrency Trading Platform",
+      "description": "Architected and built a complete Peer-to-Peer cryptocurrency trading platform from the ground up. A key feature was the implementation of atomic transactions in MongoDB to guarantee financial data integrity, along with secure integration with the Ethereum blockchain via Web3.js.",
+      "role": "Lead Backend Developer",
+      "tools": ["Node.js", "TypeScript", "MongoDB", "Web3.js", "Ethereum", "REST APIs", "Docker"],
+      "code": "",
+      "demo": ""
+    },
+    "8": {
+      "name": "Blockchain-Based Virtual Coin System",
+      "description": "As a member of the university's Blockchain Committee, I developed a proof-of-concept virtual coin and reward system. The project utilized Hyperledger Sawtooth and Node.js to enable users to earn blockchain-based tokens from real-world transactions.",
+      "role": "Researcher & Developer",
+      "tools": ["Hyperledger Sawtooth", "Node.js", "Blockchain", "REST APIs"],
+      "code": "",
+      "demo": ""
+    }
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "readFullLetter": "Read Full Letter →",
+    "1": {
+      "name": "Ali Mohammadian",
+      "title": "CEO, Capitalino",
+      "quote": "Mr. Kakhki is a highly capable, disciplined, and solution-oriented professional whose presence adds value at every stage of a project—from design through delivery."
+    },
+    "2": {
+      "name": "Emran Mohades",
+      "title": "COO, Capitalino",
+      "quote": "His ability to bridge technical depth with strategic thinking made a significant contribution to the company's technical evolution and overall performance."
+    }
+  },
+  "metadata": {
+    "title": "Portfolio of Yousef Kakhki - Software Developer",
+    "description": "This is the portfolio of Yousef Kakhki. I am a full stack developer and a self taught developer. I love to learn new things and I am always open to collaborating with others. I am a quick learner and I am always looking for new challenges."
+  }
+}
+

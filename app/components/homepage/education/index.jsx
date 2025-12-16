@@ -1,20 +1,26 @@
 // @flow strict
-import { educations } from "@/utils/data/educations";
+"use client";
+import { useTranslations } from 'next-intl';
 import Image from "next/image";
 import { BsPersonWorkspace } from "react-icons/bs";
 import lottieFile from '../../../assets/lottie/study.json';
 import AnimationLottie from "../../helper/animation-lottie";
 import GlowCard from "../../helper/glow-card";
+import { educations } from "@/utils/data/educations";
 
 function Education() {
+  const t = useTranslations('education');
+
   return (
     <div id="education" className="relative z-50 border-t my-12 lg:my-24 border-[#25213b]">
       <Image
         src="/section.svg"
-        alt="Hero"
+        alt=""
         width={1572}
         height={795}
-        className="absolute top-0 -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-full max-w-none h-auto"
+        aria-hidden="true"
+        loading="lazy"
       />
       <div className="flex justify-center -translate-y-[1px]">
         <div className="w-3/4">
@@ -23,12 +29,12 @@ function Education() {
       </div>
 
       <div className="flex justify-center my-5 lg:py-8">
-        <div className="flex  items-center">
-          <span className="w-24 h-[2px] bg-[#1a1443]"></span>
-          <span className="bg-[#1a1443] w-fit text-white p-2 px-5 text-xl rounded-md">
-            Educations
+        <div className="flex items-center">
+          <span className="w-24 h-[2px] bg-gradient-to-r from-transparent to-[#1a1443]"></span>
+          <span className="bg-gradient-to-br from-[#1a1443] to-[#25213b] w-fit text-white p-2 px-5 text-xl rounded-md border border-[#16f2b3]/20 shadow-lg">
+            {t('title')}
           </span>
-          <span className="w-24 h-[2px] bg-[#1a1443]"></span>
+          <span className="w-24 h-[2px] bg-gradient-to-l from-transparent to-[#1a1443]"></span>
         </div>
       </div>
 
@@ -48,10 +54,13 @@ function Education() {
                     <div className="p-3 relative text-white">
                       <Image
                         src="/blur-23.svg"
-                        alt="Hero"
+                        alt=""
                         width={1080}
                         height={200}
-                        className="absolute bottom-0 opacity-80"
+                        className="absolute bottom-0 opacity-80 w-full h-auto"
+                        aria-hidden="true"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 1080px"
                       />
                       <div className="flex justify-center">
                         <p className="text-xs sm:text-sm text-[#16f2b3]">

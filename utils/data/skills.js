@@ -1,110 +1,43 @@
 export const skillsData = [
-  'HTML',
-  'CSS',
-  'Javascript',
-  'Typescript',
-  'React',
-  'Next JS',
-  'Tailwind',
+  // --- Core Backend ---
+  'Node.js',
+  'Express.js',
+  'TypeScript',
+  'JavaScript',
+  'Python',
+  'Go',
+  'REST APIs',
+  'Microservices',
+
+  // --- Blockchain ---
+  'Ethereum',
+  'Web3.js',
+  'Hyperledger Sawtooth',
+  'Crypto Trading Systems',
+  
+  // --- Databases ---
   'MongoDB',
   'MySQL',
   'PostgreSQL',
-  'Git',
-  'AWS',
-  'Bootstrap',
+  'NoSQL',
+
+  // --- DevOps & Infrastructure ---
   'Docker',
-  'Go',
-  'Figma',
-  'Firebase',
-  'MaterialUI',
+  'AWS',
+  'Jenkins',
+  'CI/CD',
   'Nginx',
-  'Strapi'
-]
-
-// Choose your skills from below. Make sure it's in the same format and spelled correctly.
-// Couldn't find the required skills? Raise an issue on github at https://github.com/hhhrrrttt222111/developer-portfolio/issues/new
-
-
-// AVAILABLE SKILLS
-
-/* 
-  HTML
-  CSS
-  JS 
-  React
-  Next JS
-  Nuxt JS
-  Node JS
-  Vue
-  Angular
-  Docker
-  Photoshop
-  Illustrator
-  Svelte
-  GCP
-  Azure
-  Fastify
-  Haxe
-  Ionic
-  Markdown
-  Microsoft Office
-  Picsart
-  Sketch
-  Unity
-  WolframAlpha
-  Adobe XD
-  After Effects
-  Bootstrap
-  Bulma
-  CapacitorJs
-  Coffeescript
-  MemSQL
-  C
-  C++
-  C#
-  Python
-  Java
-  Julia
-  Matlab
-  Swift
-  Ruby
-  Kotlin
-  Go
-  PHP
-  Flutter
-  Dart
-  Typescript
-  Swift
-  Git
-  Figma
-  Canva
-  Ubuntu
-  Bootstrap
-  MongoDB
-  Tailwind
-  ViteJS
-  VuetifyJS
-  MySQL
-  PostgreSQL
-  Prisma
-  AWS
-  Firebase
-  Blender
-  Premiere Pro
-  Adobe Audition
-  Deno
-  Django
-  Gimp
-  Graphql
-  Lightroom
-  MaterialUI
-  Nginx
-  Numpy
-  OpenCV
-  Pytorch
-  Selenium
-  Strapi
-  Tensorflow
-  Webex
-  Wordpress
-*/
+  'Linux',
+  'Server Administration',
+  
+  // --- Systems & Foundational ---
+  'C',
+  'Git',
+  'Bash',
+  'Linux Kernel',
+  'HTML',
+  'CSS',
+  'React',
+  'Next JS',
+  'Tailwind'
+];

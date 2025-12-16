@@ -1,22 +1,46 @@
 FROM node:20 AS base
-WORKDIR /app
-RUN npm i -g pnpm
-RUN npm i -g next
 
+WORKDIR /app
+
+# Copy package files
 COPY package*.json ./
-RUN pnpm install
 
+# Install dependencies
+RUN npm ci --only=production=false
+
+# Copy application files
 COPY . .
-RUN pnpm build
 
-FROM node:20-alpine3.19 as release
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine AS release
+
 WORKDIR /app
-RUN npm i -g pnpm
 
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/package.json ./package.json
+# Copy package files
+COPY package*.json ./
+
+# Install only production dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application from base stage
 COPY --from=base /app/.next ./.next
+COPY --from=base /app/public ./public
+COPY --from=base /app/app ./app
+COPY --from=base /app/next.config.js ./next.config.js
+COPY --from=base /app/i18n.js ./i18n.js
+COPY --from=base /app/messages ./messages
+COPY --from=base /app/middleware.js ./middleware.js
+COPY --from=base /app/middleware-security.js ./middleware-security.js
+COPY --from=base /app/tailwind.config.js ./tailwind.config.js
+COPY --from=base /app/postcss.config.js ./postcss.config.js
+COPY --from=base /app/jsconfig.json ./jsconfig.json
+COPY --from=base /app/utils ./utils
 
+# Expose port
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+# Start production server
+CMD ["npm", "start"]

@@ -1,20 +1,21 @@
 export const educations = [
   {
     id: 1,
-    title: "Bachelor Degree",
-    duration: "2020 - Present",
-    institution: "National University of Bangladesh",
+    title: "Master of Science in Computer Science",
+    duration: "2018 - 2021",
+    institution: "Amirkabir University of Technology",
+    details: [
+      "As a member of the Blockchain Committee, developed a virtual coin reward system using Hyperledger Sawtooth & Node.js.",
+      "Thesis: Developed 'GreedyLearner,' a gamified application for learning computer science algorithms."
+    ]
   },
   {
     id: 2,
-    title: "Higher Secondary Certificate",
-    duration: "2018 - 2020",
-    institution: "Noakhali Islamia Kamil Madrasah",
-  },
-  {
-    id: 3,
-    title: "Secondary School Certificate",
-    duration: "2008 - 2018",
-    institution: "Baitus Saif Islamia Madrasah",
+    title: "Bachelor of Science in Computer Science",
+    duration: "2012 - 2017",
+    institution: "Bojnurd University",
+    details: [
+      "Served as a Teaching Assistant (TA) for the Data Structures course."
+    ]
   }
-]
+];
