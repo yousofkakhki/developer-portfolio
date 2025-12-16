@@ -29,13 +29,16 @@ async function getBlogBySlug(slug) {
 }
 
 export async function generateStaticParams() {
-  const blogs = await getBlogs();
-  return blogs.map((blog) => ({
-    slug: blog.slug || blog.id?.toString() || Math.random().toString(36).substring(7),
-  }));
+  // Return empty array to use dynamic rendering
+  // Blog posts will be fetched at request time
+  return [];
 }
 
-export default async function BlogPost({ params: { slug, locale } }) {
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
+export default async function BlogPost({ params }) {
+  const { slug, locale } = await params;
   const blog = await getBlogBySlug(slug);
   const t = await getTranslations('blog');
 
