@@ -9,7 +9,7 @@ import GlowCard from "../../helper/glow-card";
 import { educations } from "@/utils/data/educations";
 
 function Education() {
-  const t = useTranslations('education');
+  const t = useTranslations();
 
   return (
     <div id="education" className="relative z-50 border-t my-12 lg:my-24 border-[#25213b]">
@@ -50,7 +50,7 @@ function Education() {
             <div className="flex flex-col gap-6">
               {
                 educations.map(education => {
-                  const eduData = t.raw(`${education.id}`);
+                  const eduData = t.raw(`education.${education.id}`);
                   const title = eduData?.title || education.title;
                   const institution = eduData?.institution || education.institution;
                   const details = eduData?.details || [];
