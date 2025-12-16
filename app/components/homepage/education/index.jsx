@@ -32,7 +32,7 @@ function Education() {
         <div className="flex items-center">
           <span className="w-24 h-[2px] bg-gradient-to-r from-transparent to-[#1a1443]"></span>
           <span className="bg-gradient-to-br from-[#1a1443] to-[#25213b] w-fit text-white p-2 px-5 text-xl rounded-md border border-[#16f2b3]/20 shadow-lg">
-            {t('title')}
+            {t('education.title')}
           </span>
           <span className="w-24 h-[2px] bg-gradient-to-l from-transparent to-[#1a1443]"></span>
         </div>

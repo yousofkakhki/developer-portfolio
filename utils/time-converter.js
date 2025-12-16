@@ -1,4 +1,4 @@
-export function timeConverter(isoTime) {
+export function timeConverter(isoTime, locale = 'en') {
   const currentTime = new Date().getTime();
   const pastTime = new Date(isoTime).getTime();
   const timeDifference = currentTime - pastTime;
@@ -10,17 +10,38 @@ export function timeConverter(isoTime) {
   const months = Math.floor(days / 30);
   const years = Math.floor(months / 12);
 
+  const translations = {
+    en: {
+      seconds: 'seconds ago',
+      minutes: 'minutes ago',
+      hours: 'hours ago',
+      days: 'days ago',
+      months: 'months ago',
+      years: 'years ago',
+    },
+    fa: {
+      seconds: 'ثانیه پیش',
+      minutes: 'دقیقه پیش',
+      hours: 'ساعت پیش',
+      days: 'روز پیش',
+      months: 'ماه پیش',
+      years: 'سال پیش',
+    }
+  };
+
+  const t = translations[locale] || translations.en;
+
   if (seconds < 60) {
-    return `${seconds} seconds ago`;
+    return `${seconds} ${t.seconds}`;
   } else if (minutes < 60) {
-    return `${minutes} minutes ago`;
+    return `${minutes} ${t.minutes}`;
   } else if (hours < 24) {
-    return `${hours} hours ago`;
+    return `${hours} ${t.hours}`;
   } else if (days < 30) {
-    return `${days} days ago`;
+    return `${days} ${t.days}`;
   } else if (months < 12) {
-    return `${months} months ago`;
+    return `${months} ${t.months}`;
   } else {
-    return `${years} years ago`;
+    return `${years} ${t.years}`;
   }
 }

@@ -81,7 +81,7 @@ function BlogCard({ blog, index = 0 }) {
             <div className="flex items-center gap-1.5">
               <BsCalendar3 className="w-3 h-3" />
               <time dateTime={blog?.published_at}>
-                {timeConverter(blog?.published_at)}
+                {timeConverter(blog?.published_at, locale)}
               </time>
             </div>
             <div className="flex items-center gap-3">
