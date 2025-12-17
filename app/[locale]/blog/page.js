@@ -1,30 +1,14 @@
 // @flow strict
-import { personalData } from "@/utils/data/personal-data";
 import { getTranslations } from 'next-intl/server';
+import { getLocalBlogs } from "@/utils/data/local-blogs";
 import BlogPageClient from "./blog-page-client";
-
-async function getBlogs() {
-  try {
-    const res = await fetch(`https://dev.to/api/articles?username=${personalData.devUsername}`, {
-      next: { revalidate: 3600 }
-    });
-
-    if (!res.ok) {
-      return [];
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.warn('Error fetching blogs:', error);
-    return [];
-  }
-}
 
 export default async function BlogPage({ params }) {
   const { locale } = await params;
-  const blogs = await getBlogs();
   const t = await getTranslations('blog');
+  
+  // Get local blogs instead of dev.to
+  const blogs = getLocalBlogs(locale);
 
   // Extract unique tags from all blogs
   const allTags = [...new Set(

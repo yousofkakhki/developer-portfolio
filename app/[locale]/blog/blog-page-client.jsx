@@ -161,3 +161,4 @@ export default function BlogPageClient({ blogs, allTags, locale, translations })
   );
 }
 
+

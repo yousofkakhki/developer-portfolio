@@ -16,9 +16,9 @@
     "contact": "CONTACT"
   },
   "blog": {
+    "title": "Blog",
     "minRead": "min",
     "backToBlogs": "Back to Blogs",
-    "readOnDevTo": "Read original on dev.to",
     "readMore": "Read article",
     "allBlogs": "All Blog Posts",
     "searchPlaceholder": "Search articles...",

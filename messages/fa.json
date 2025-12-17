@@ -16,9 +16,9 @@
     "contact": "تماس با من"
   },
   "blog": {
+    "title": "وبلاگ",
     "minRead": "دقیقه",
     "backToBlogs": "بازگشت به وبلاگ‌ها",
-    "readOnDevTo": "خواندن نسخه اصلی در dev.to",
     "readMore": "مطالعه مقاله",
     "allBlogs": "همه مقالات",
     "searchPlaceholder": "جستجوی مقالات...",

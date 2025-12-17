@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1224"/>
+      <stop offset="50%" style="stop-color:#1a1443"/>
+      <stop offset="100%" style="stop-color:#0d1224"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#16f2b3"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="200" cy="100" r="300" fill="#16f2b3" opacity="0.05"/>
+  <circle cx="1000" cy="530" r="250" fill="#8b5cf6" opacity="0.05"/>
+  <text x="600" y="280" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white">Building a Premium</text>
+  <text x="600" y="350" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="url(#accent)">Bilingual Portfolio</text>
+  <text x="600" y="420" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" fill="#94a3b8">with Next.js 15</text>
+  <rect x="100" y="500" width="1000" height="4" fill="url(#accent)" rx="2"/>
+  <text x="600" y="560" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#64748b">Glassmorphism • RTL Support • Docker • i18n</text>
+</svg>
+
