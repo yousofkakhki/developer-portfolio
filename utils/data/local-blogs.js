@@ -4,8 +4,9 @@ import path from 'path';
 
 // Import blog posts statically for build-time
 import portfolioBlog from '@/content/blogs/building-bilingual-portfolio.json';
+import hybridRoomBlog from '@/content/blogs/hybrid-room-scalability-blog.json';
 
-const localBlogs = [portfolioBlog];
+const localBlogs = [hybridRoomBlog, portfolioBlog];
 
 export function getLocalBlogs(locale = 'en') {
   return localBlogs.map(blog => ({
