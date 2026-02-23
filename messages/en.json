@@ -93,7 +93,7 @@
     "1": {
       "title": "Solutions Architect",
       "company": "HonarAmoozesh (Remote/Contract)",
-      "duration": "(Jul 2025 - Present)",
+      "duration": "(Jul 2025 - Nov 2025)",
       "tech": "WebRTC (LiveKit), HLS, NATS JetStream, Go",
       "description": [
         "Architected a hybrid dual-stream system serving 1,200+ concurrent users.",
@@ -230,8 +230,8 @@
     }
   },
   "metadata": {
-    "title": "Yousef Kakhki | Head of Software & System Architect",
-    "description": "Portfolio of Yousef Kakhki, M.Sc. System Architect specializing in WebRTC, High-Frequency Fintech, and Linux Kernel optimization."
+    "title": "Yousef Kakhki | System Architect & Infrastructure Lead",
+    "description": "Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in System Design. Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps."
   }
 }
 

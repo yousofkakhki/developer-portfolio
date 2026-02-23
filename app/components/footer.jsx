@@ -11,22 +11,26 @@ function Footer() {
   const tPersonal = useTranslations('personal');
 
   return (
-    <div className="relative border-t bg-[#0d1224] border-[#353951] text-white z-10">
+    <footer className="relative border-t bg-slate-900 border-slate-700 text-white z-10">
       <div className="mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] py-6 lg:py-10">
-        <div className="flex justify-center relative">
-          <div className="absolute top-0 h-[1px] w-1/2  bg-gradient-to-r from-transparent via-violet-500 to-transparent"></div>
-        </div>
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-slate-400">
             © {new Date().getFullYear()} {tPersonal('name')}. {tCommon('allRightsReserved')}.
           </p>
-          {/* ADDED: Social media icons */}
-          <div className="flex items-center gap-5 mt-4 md:mt-0">
+          <div className="flex items-center gap-5">
+            <a
+              href="/files/yousef-kakhki-resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            >
+              Résumé (PDF)
+            </a>
             <Link
               target="_blank"
               rel="noopener noreferrer"
               href={personalData.github}
-              className="text-text-muted hover:text-accent-secondary transition-colors duration-300"
+              className="text-slate-400 hover:text-slate-200 transition-colors"
               aria-label="GitHub Profile"
             >
               <BsGithub size={20} />
@@ -35,7 +39,7 @@ function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               href={personalData.linkedIn}
-              className="text-text-muted hover:text-accent-secondary transition-colors duration-300"
+              className="text-slate-400 hover:text-slate-200 transition-colors"
               aria-label="LinkedIn Profile"
             >
               <BsLinkedin size={20} />
@@ -43,7 +47,7 @@ function Footer() {
           </div>
         </div>
       </div>
-    </div >
+    </footer>
   );
 };
 

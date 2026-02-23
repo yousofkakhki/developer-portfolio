@@ -29,8 +29,8 @@ export async function generateMetadata({ params: { locale } }) {
   const metadata = messages.metadata || {};
   const personal = messages.personal || {};
   
-  const title = metadata.title || 'Yousef Kakhki | Head of Software & System Architect';
-  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki, M.Sc. System Architect specializing in WebRTC, High-Frequency Fintech, and Linux Kernel optimization.';
+  const title = metadata.title || 'Yousef Kakhki | System Architect & Infrastructure Lead';
+  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in System Design. Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.';
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir';
   
   // Generate locale-specific URLs
@@ -41,12 +41,12 @@ export async function generateMetadata({ params: { locale } }) {
   // Locale-specific OG image alt text
   const ogImageAlt = locale === 'fa' 
     ? 'یوسف کاخکی - معمار سیستم و مدیر نرم‌افزار'
-    : 'Yousef Kakhki - Head of Software & System Architect';
+    : 'Yousef Kakhki – System Architect & Infrastructure Lead';
 
   return {
     title: {
       default: title,
-      template: '%s | Yousef Kakhki'
+      template: '%s | Yousef Kakhki – System Architect'
     },
     description,
     keywords: [
@@ -148,7 +148,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
         <link rel="alternate" hreflang="en" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/en`} />
         <link rel="alternate" hreflang="fa" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/fa`} />
         <link rel="alternate" hreflang="x-default" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/en`} />
-        <meta name="theme-color" content="#0d1224" />
+        <meta name="theme-color" content="#0f172a" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         {/* Additional SEO meta tags */}
         <meta name="geo.region" content="IR-07" />
