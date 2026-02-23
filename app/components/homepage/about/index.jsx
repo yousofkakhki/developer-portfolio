@@ -1,76 +1,57 @@
 // @flow strict
 "use client";
-import { useTranslations, useLocale } from 'next-intl';
-import { useScrollReveal } from '@/utils/hooks/useScrollReveal';
+import { useTranslations } from 'next-intl';
 import { memo } from 'react';
 
 /**
- * AboutSection component - Displays about me information
- * @returns {JSX.Element}
+ * AboutSection component - Clean professional background section
  */
 function AboutSection() {
   const t = useTranslations();
-  const locale = useLocale();
-  const isRTL = locale === 'fa';
-  const [sectionRef, sectionRevealed] = useScrollReveal({ threshold: 0.2 });
-  const [contentRef, contentRevealed] = useScrollReveal({ threshold: 0.15 });
 
   return (
-    <div 
-      id="about" 
-      ref={sectionRef}
-      className={`my-12 lg:my-16 relative transition-all duration-1000 ${
-        sectionRevealed ? 'opacity-100' : 'opacity-100'
-      }`}
-    >
-      {/* Enhanced background decoration with animation */}
-      <div className="absolute inset-0 -z-10 opacity-10">
-        <div className="absolute top-0 start-0 w-64 h-64 bg-gradient-to-br from-pink-500 to-violet-600 rounded-full blur-3xl animate-pulse-glow"></div>
-        <div className="absolute bottom-0 end-0 w-64 h-64 bg-gradient-to-tl from-[#16f2b3] to-violet-600 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }}></div>
-      </div>
-      
-      {/* This new grid creates a 12-column layout on large screens */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start relative">
+    <section id="about" className="py-16 px-4">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-semibold text-slate-100 mb-8">
+          {t('about.title')}
+        </h2>
         
-        {/* Main Text Content - This now lives in the first 10 columns */}
-        <div 
-          ref={contentRef}
-          className={`lg:col-span-10 flex flex-col gap-6 transition-all duration-1000 ${
-            contentRevealed 
-              ? 'opacity-100 translate-x-0' 
-              : `opacity-0 ${isRTL ? 'translate-x-10' : '-translate-x-10'}`
-          }`}
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <div className={`w-12 h-[2px] bg-gradient-to-r rtl:bg-gradient-to-l from-[#16f2b3] to-transparent animate-shimmer`}></div>
-            <p className="font-medium text-[#16f2b3] text-xl uppercase tracking-wider text-gradient">
-              {t('about.title')}
-            </p>
-            <div className="flex-1 h-[2px] bg-gradient-to-r rtl:bg-gradient-to-l from-transparent via-[#16f2b3] to-transparent animate-shimmer"></div>
-          </div>
-          <p className="text-text-secondary text-base lg:text-lg whitespace-pre-line leading-relaxed">
-            {t('personal.about')}
+        {/* Profile content */}
+        <div className="space-y-6 text-base leading-relaxed text-slate-400">
+          <p>
+            Head of Software & System Architect with an M.Sc. in System Design from Amirkabir 
+            University of Technology (Tehran Polytechnic – Iran&apos;s #1 ranked university in Computer Science). 
+            Expert in bridging hardware-level efficiency with cloud-scale architecture.
+          </p>
+          <p>
+            Proven track record in leading cross-functional teams, optimizing Linux kernels, and 
+            architecting hybrid WebRTC/HLS infrastructures for high-concurrency Fintech and Media platforms. 
+            Career trajectory spans embedded systems (Linux kernel optimization, IoT firmware), high-frequency 
+            trading engines (sub-100ms matching with ACID compliance), to enterprise cloud infrastructure 
+            (Docker Swarm orchestration, ELK stacks, disaster recovery).
+          </p>
+          <p>
+            Current focus: designing production-grade distributed systems that serve thousands of concurrent 
+            users while maintaining operational excellence (99.9%+ uptime, sub-100ms latency, measurable 
+            cost optimization).
           </p>
         </div>
-
-        {/* Decorative Sidebar - This now lives in the last 2 columns */}
-        <div 
-          className={`hidden lg:flex flex-col items-center justify-center lg:col-span-2 transition-all duration-1000 ${
-            contentRevealed 
-              ? 'opacity-100 translate-x-0' 
-              : `opacity-0 ${isRTL ? '-translate-x-10' : 'translate-x-10'}`
-          }`}
-        >
-          <span className="bg-gradient-to-br from-[#1a1443] to-[#25213b] w-fit text-white rotate-90 p-2 px-5 text-xl rounded-md border border-[#16f2b3]/20 shadow-lg glass hover:border-[#16f2b3]/40 transition-all duration-300">
-            {t('about.sidebar')}
-          </span>
-          <span className="h-36 w-[2px] bg-gradient-to-b from-[#1a1443] via-[#16f2b3] to-[#1a1443] animate-pulse-glow"></span>
+        
+        {/* ITEX Award Callout */}
+        <div className="mt-8 border-l-4 border-burgundy bg-slate-800 p-6 rounded-r">
+          <div className="flex items-start gap-3">
+            <span className="text-burgundy text-xl">🏆</span>
+            <div>
+              <p className="text-slate-200 font-medium">Best Booth Award – ITEX 2024</p>
+              <p className="text-slate-400 text-sm mt-1">
+                AI Hologram Project Lead – Capitalino
+              </p>
+            </div>
+          </div>
         </div>
-
       </div>
-    </div>
+    </section>
   );
 }
 
-// Memoize component to prevent unnecessary re-renders
 export default memo(AboutSection);

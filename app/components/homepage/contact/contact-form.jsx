@@ -2,8 +2,7 @@
 // @flow strict
 import { isValidEmail } from "@/utils/check-email";
 import axios from "axios";
-import { useState } from "react";
-import { TbMailForward } from "react-icons/tb";
+import { useState, memo } from "react";
 import { toast } from "react-toastify";
 
 function ContactForm() {
@@ -55,14 +54,16 @@ function ContactForm() {
 
   return (
     <div>
-      <p className="font-medium mb-5 text-[#16f2b3] text-xl uppercase">Contact with me</p>
-      <div className="max-w-3xl text-white rounded-lg border border-[#464c6a] p-3 lg:p-5">
-        <p className="text-sm text-[#d3d8e8]">{"If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests."}</p>
-        <div className="mt-6 flex flex-col gap-4">
+      <h3 className="font-medium mb-5 text-slate-200 text-xl">Get in Touch</h3>
+      <div className="border border-slate-700 bg-slate-800/50 rounded p-6">
+        <p className="text-sm text-slate-400 mb-6">
+          {"If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests."}
+        </p>
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Name: </label>
+            <label className="text-sm text-slate-300">Your Name</label>
             <input
-              className="bg-[#10172d] w-full border rounded-md border-[#353a52] focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
+              className="bg-slate-900 w-full border rounded border-slate-700 focus:border-slate-500 outline-none transition-colors px-3 py-2 text-slate-200"
               type="text"
               maxLength="100"
               required={true}
@@ -73,9 +74,9 @@ function ContactForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Email: </label>
+            <label className="text-sm text-slate-300">Your Email</label>
             <input
-              className="bg-[#10172d] w-full border rounded-md border-[#353a52] focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
+              className="bg-slate-900 w-full border rounded border-slate-700 focus:border-slate-500 outline-none transition-colors px-3 py-2 text-slate-200"
               type="email"
               maxLength="100"
               required={true}
@@ -90,9 +91,9 @@ function ContactForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Message: </label>
+            <label className="text-sm text-slate-300">Your Message</label>
             <textarea
-              className="bg-[#10172d] w-full border rounded-md border-[#353a52] focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
+              className="bg-slate-900 w-full border rounded border-slate-700 focus:border-slate-500 outline-none transition-colors px-3 py-2 text-slate-200"
               maxLength="500"
               name="message"
               required={true}
@@ -102,30 +103,23 @@ function ContactForm() {
               value={userInput.message}
             />
           </div>
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-start gap-3 mt-2">
             {error.required && <p className="text-sm text-red-400">
-              All fiels are required!
+              All fields are required!
             </p>}
             <button
-              className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold"
+              className="px-6 py-3 border border-slate-500 text-slate-100 rounded hover:bg-slate-700 transition-colors"
               role="button"
               onClick={handleSendMail}
               disabled={isLoading}
             >
-              {
-                isLoading ?
-                <span>Sending Message...</span>:
-                <span className="flex items-center gap-1">
-                  Send Message
-                  <TbMailForward size={20} />
-                </span>
-              }
+              {isLoading ? 'Sending...' : 'Send Message'}
             </button>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default ContactForm;
+export default memo(ContactForm);

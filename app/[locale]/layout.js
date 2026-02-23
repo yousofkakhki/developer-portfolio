@@ -29,8 +29,8 @@ export async function generateMetadata({ params: { locale } }) {
   const metadata = messages.metadata || {};
   const personal = messages.personal || {};
   
-  const title = metadata.title || 'Yousef Kakhki - Technical Lead & Backend Architect';
-  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki - Technical Lead & Backend Architect specializing in FinTech and Blockchain';
+  const title = metadata.title || 'Yousef Kakhki | Head of Software & System Architect';
+  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki, M.Sc. System Architect specializing in WebRTC, High-Frequency Fintech, and Linux Kernel optimization.';
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir';
   
   // Generate locale-specific URLs
@@ -40,8 +40,8 @@ export async function generateMetadata({ params: { locale } }) {
   
   // Locale-specific OG image alt text
   const ogImageAlt = locale === 'fa' 
-    ? 'یوسف کاخکی - مدیر فنی و معمار بک‌اند'
-    : 'Yousef Kakhki - Technical Lead & Backend Architect';
+    ? 'یوسف کاخکی - معمار سیستم و مدیر نرم‌افزار'
+    : 'Yousef Kakhki - Head of Software & System Architect';
 
   return {
     title: {
@@ -51,21 +51,20 @@ export async function generateMetadata({ params: { locale } }) {
     description,
     keywords: [
       'Yousef Kakhki',
-      'Backend Architect',
-      'Technical Lead',
-      'FinTech',
-      'Blockchain',
-      'Node.js',
-      'TypeScript',
-      'Software Engineer',
-      'Iran',
+      'System Architect',
+      'Head of Software',
+      'LiveKit Expert',
+      'NATS JetStream',
+      'Fintech Lead',
+      'WebRTC',
+      'Node.js Architect',
+      'Linux Kernel',
       'Tehran',
       locale === 'fa' ? 'یوسف کاخکی' : '',
-      locale === 'fa' ? 'معمار بک‌اند' : '',
-      locale === 'fa' ? 'مدیر فنی' : '',
-      locale === 'fa' ? 'توسعه‌دهنده بک‌اند' : '',
+      locale === 'fa' ? 'معمار سیستم' : '',
+      locale === 'fa' ? 'مدیر نرم‌افزار' : '',
       locale === 'fa' ? 'فین‌تک' : '',
-      locale === 'fa' ? 'بلاک‌چین' : ''
+      locale === 'fa' ? 'وب‌آر‌تی‌سی' : ''
     ].filter(Boolean),
     authors: [{ name: 'Yousef Kakhki' }],
     creator: 'Yousef Kakhki',

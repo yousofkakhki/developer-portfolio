@@ -16,7 +16,7 @@
     "contact": "CONTACT"
   },
   "blog": {
-    "title": "Blog",
+    "title": "Architectural Case Studies",
     "minRead": "min",
     "backToBlogs": "Back to Blogs",
     "readMore": "Read article",
@@ -84,46 +84,61 @@
   },
   "personal": {
     "name": "Yousef Kakhki",
-    "designation": "Technical Lead & Backend Architect",
-    "title": "Building the Future of FinTech and Blockchain",
-    "description": "I build secure, high-performance backend systems for the digital finance and blockchain space. From P2P crypto trading platforms to award-winning AI installations, I lead teams and write the code that powers complex, data-intensive applications.",
+    "designation": "System Architect & Infrastructure Lead",
+    "title": "Bridging hardware-level efficiency with cloud-scale distributed systems",
+    "description": "Head of Software & System Architect with an M.Sc. in System Design. Specializing in WebRTC, high-frequency fintech systems, and Linux kernel optimization.",
     "about": "For nearly a decade, my career has been driven by a passion for solving complex backend challenges and building the robust infrastructure that powers innovative technology. My focus lies in the demanding worlds of FinTech and blockchain, where security, performance, and scalability are paramount.\n\nMy journey has taken me from deep, hands-on systems programming—optimizing the Linux kernel and building secure software delivery pipelines—to leading talented teams as a CTO. I thrive on architecting systems from the ground up, whether it's a P2P cryptocurrency exchange, a secure crypto-to-fiat payment gateway, or an award-winning AI installation. I lead by example, contributing directly to the codebase while managing the full IT and DevOps lifecycle.\n\nI believe in creating environments where engineers can do their best work. I am always seeking ambitious challenges where I can contribute to building impactful technology and help a talented team succeed."
   },
   "experiences": {
     "1": {
-      "title": "Technical & AI Team Lead",
-      "company": "Capitalino (A CITEX spin-off venture)",
-      "duration": "(Oct 2023 - Jun 2025)",
+      "title": "Solutions Architect",
+      "company": "HonarAmoozesh (Remote/Contract)",
+      "duration": "(Jul 2025 - Present)",
+      "tech": "WebRTC (LiveKit), HLS, NATS JetStream, Go",
       "description": [
-        "Recruited by the former Vice President of CITEX to lead the technical team for this new venture, managing all IT/DevOps operations and playing a key role in the team's growth.",
-        "Provided hands-on technical leadership, architecting and coding core financial systems including RESTful APIs, an investor dashboard, and a secure crypto-to-fiat payment gateway.",
-        "Spearheaded high-impact projects, including an award-winning 'AI Hologram' (Best Booth, ITEX 2024) and a competitive gamification platform for the Shiraz ITEX 2023 exhibition."
+        "Architected a hybrid dual-stream system serving 1,200+ concurrent users.",
+        "Engineered sub-100ms signaling via NATS JetStream and reduced infrastructure costs by 78% using intelligent HLS fallbacks."
       ]
     },
     "2": {
-      "title": "Systems Engineer",
-      "company": "Batna",
-      "duration": "(May 2021 - May 2022)",
+      "title": "Head of Software & AI Development",
+      "company": "Capitalino",
+      "duration": "(Oct 2023 - Jun 2025)",
+      "tech": "Docker Swarm, Python (AI), Node.js, Odoo ERP",
       "description": [
-        "Led the end-to-end design and implementation of a secure Over-the-Air (OTA) software delivery pipeline for embedded Linux systems.",
-        "Executed deep, system-level optimizations on the Linux kernel and core services to meet specialized performance and hardware requirements."
+        "Led a 4-person team in building a $2M/month crypto-to-fiat gateway.",
+        "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
+        "Directed ERP customization and internal network security."
       ]
     },
     "3": {
-      "title": "Back End Developer",
+      "title": "Senior Backend Engineer",
       "company": "Avin Avisa",
-      "duration": "(Nov 2019 - Dec 2020)",
+      "duration": "(Apr 2021 - Sep 2023)",
+      "tech": "Greedy Algorithms, Web3.js, PostgreSQL, Redis",
       "description": [
-        "Architected a P2P cryptocurrency trading platform from the ground up, leading backend development with Node.js, TypeScript, and MongoDB.",
-        "Guaranteed financial data integrity by engineering a system for atomic transactions and integrating securely with the Ethereum blockchain."
+        "Designed a sub-100ms P2P matching engine using Greedy Knapsack algorithms.",
+        "Implemented ACID-compliant ledgers for high-frequency trading."
       ]
     },
     "4": {
-      "title": "Application Developer",
-      "company": "Azma Data Structure",
-      "duration": "(Apr 2018 - Mar 2021)",
+      "title": "Systems Engineer (Embedded Linux)",
+      "company": "Batna",
+      "duration": "(Sep 2019 - Mar 2021)",
+      "tech": "Yocto, C++, Linux Kernel",
       "description": [
-        "Developed large-scale client applications with a sharp focus on robust and efficient integration with backend REST APIs for real-time data synchronization."
+        "Concurrent with M.Sc. studies.",
+        "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices."
+      ]
+    },
+    "5": {
+      "title": "Android Systems Developer",
+      "company": "Azma Data Structure",
+      "duration": "(Apr 2016 - Aug 2019)",
+      "tech": "Android NDK, C++, Java",
+      "description": [
+        "Developed native C++ modules for GPS sensor fusion.",
+        "Engineered offline-first state synchronization engines."
       ]
     }
   },
@@ -215,8 +230,8 @@
     }
   },
   "metadata": {
-    "title": "Portfolio of Yousef Kakhki - Software Developer",
-    "description": "This is the portfolio of Yousef Kakhki. I am a full stack developer and a self taught developer. I love to learn new things and I am always open to collaborating with others. I am a quick learner and I am always looking for new challenges."
+    "title": "Yousef Kakhki | Head of Software & System Architect",
+    "description": "Portfolio of Yousef Kakhki, M.Sc. System Architect specializing in WebRTC, High-Frequency Fintech, and Linux Kernel optimization."
   }
 }
 

@@ -14,7 +14,7 @@ export default async function Home({ params }) {
   const blogs = getLocalBlogs(locale);
 
   return (
-    <div suppressHydrationWarning>
+    <div suppressHydrationWarning className="max-w-5xl mx-auto">
       <HeroSection />
       <AboutSection />
       <Experience />

@@ -3,43 +3,58 @@
 export const experiences = [
   {
     id: 1,
-    title: 'Technical & AI Team Lead',
-    company: "Capitalino (A CITEX spin-off venture)",
-    duration: "(Oct 2023 - Jun 2025)",
+    title: 'Solutions Architect',
+    company: "HonarAmoozesh (Remote/Contract)",
+    duration: "(Jul 2025 - Present)",
+    tech: "WebRTC (LiveKit), HLS, NATS JetStream, Go",
     description: [
-      "Recruited by the former Vice President of CITEX to lead the technical team for this new venture, managing all IT/DevOps operations and playing a key role in the team's growth.",
-      "Provided hands-on technical leadership, architecting and coding core financial systems including RESTful APIs, an investor dashboard, and a secure crypto-to-fiat payment gateway.",
-      "Spearheaded high-impact projects, including an award-winning 'AI Hologram' (Best Booth, ITEX 2024) and a competitive gamification platform for the Shiraz ITEX 2023 exhibition."
+      "Architected a hybrid dual-stream system serving 1,200+ concurrent users.",
+      "Engineered sub-100ms signaling via NATS JetStream and reduced infrastructure costs by 78% using intelligent HLS fallbacks."
     ]
   },
   {
     id: 2,
-    title: 'Systems Engineer',
-    company: "Batna",
-    duration: "(May 2021 - May 2022)",
+    title: 'Head of Software & AI Development',
+    company: "Capitalino",
+    duration: "(Oct 2023 - Jun 2025)",
+    tech: "Docker Swarm, Python (AI), Node.js, Odoo ERP",
     description: [
-      "Led the end-to-end design and implementation of a secure Over-the-Air (OTA) software delivery pipeline for embedded Linux systems.",
-      "Executed deep, system-level optimizations on the Linux kernel and core services to meet specialized performance and hardware requirements."
+      "Led a 4-person team in building a $2M/month crypto-to-fiat gateway.",
+      "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
+      "Directed ERP customization and internal network security."
     ]
   },
   {
     id: 3,
-    title: "Back End Developer",
+    title: "Senior Backend Engineer",
     company: "Avin Avisa",
-    duration: "(Nov 2019 - Dec 2020)",
+    duration: "(Apr 2021 - Sep 2023)",
+    tech: "Greedy Algorithms, Web3.js, PostgreSQL, Redis",
     description: [
-      "Architected a P2P cryptocurrency trading platform from the ground up, leading backend development with Node.js, TypeScript, and MongoDB.",
-      "Guaranteed financial data integrity by engineering a system for atomic transactions and integrating securely with the Ethereum blockchain."
+      "Designed a sub-100ms P2P matching engine using Greedy Knapsack algorithms.",
+      "Implemented ACID-compliant ledgers for high-frequency trading."
     ]
   },
-  // NEWLY ADDED FOUNDATIONAL EXPERIENCE
   {
     id: 4,
-    title: "Application Developer",
-    company: "Azma Data Structure",
-    duration: "(Apr 2018 - Mar 2021)",
+    title: "Systems Engineer (Embedded Linux)",
+    company: "Batna",
+    duration: "(Sep 2019 - Mar 2021)",
+    tech: "Yocto, C++, Linux Kernel",
     description: [
-      "Developed large-scale client applications with a sharp focus on robust and efficient integration with backend REST APIs for real-time data synchronization."
+      "Concurrent with M.Sc. studies.",
+      "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices."
+    ]
+  },
+  {
+    id: 5,
+    title: "Android Systems Developer",
+    company: "Azma Data Structure",
+    duration: "(Apr 2016 - Aug 2019)",
+    tech: "Android NDK, C++, Java",
+    description: [
+      "Developed native C++ modules for GPS sensor fusion.",
+      "Engineered offline-first state synchronization engines."
     ]
   }
 ];

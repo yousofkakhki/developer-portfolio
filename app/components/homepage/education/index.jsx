@@ -1,107 +1,62 @@
 // @flow strict
 "use client";
 import { useTranslations } from 'next-intl';
-import Image from "next/image";
-import { BsPersonWorkspace } from "react-icons/bs";
-import lottieFile from '../../../assets/lottie/study.json';
-import AnimationLottie from "../../helper/animation-lottie";
-import GlowCard from "../../helper/glow-card";
+import { memo } from 'react';
 import { educations } from "@/utils/data/educations";
 
 function Education() {
   const t = useTranslations();
 
   return (
-    <div id="education" className="relative z-50 border-t my-12 lg:my-24 border-[#25213b]">
-      <Image
-        src="/section.svg"
-        alt=""
-        width={1572}
-        height={795}
-        className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-full max-w-none h-auto"
-        aria-hidden="true"
-        loading="lazy"
-      />
-      <div className="flex justify-center -translate-y-[1px]">
-        <div className="w-3/4">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-violet-500 to-transparent  w-full" />
+    <section id="education" className="py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-semibold text-slate-100 mb-12">
+          {t('education.title')}
+        </h2>
+
+        <div className="space-y-6">
+          {educations.map(education => {
+            const eduData = t.raw(`education.${education.id}`);
+            const title = eduData?.title || education.title;
+            const institution = eduData?.institution || education.institution;
+            const details = eduData?.details || [];
+            
+            return (
+              <article 
+                key={education.id} 
+                className="border border-slate-700 bg-slate-800/50 rounded p-6"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                  <div>
+                    <h3 className="text-lg font-medium text-slate-100">
+                      {title}
+                    </h3>
+                    <p className="text-slate-400">
+                      {institution}
+                    </p>
+                  </div>
+                  <span className="text-sm text-slate-500 font-mono whitespace-nowrap">
+                    {education.duration}
+                  </span>
+                </div>
+                
+                {details.length > 0 && (
+                  <ul className="space-y-1 text-slate-400 text-sm mt-3">
+                    {details.map((detail, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-slate-600 mt-1">—</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            );
+          })}
         </div>
       </div>
-
-      <div className="flex justify-center my-5 lg:py-8">
-        <div className="flex items-center">
-          <span className="w-24 h-[2px] bg-gradient-to-r from-transparent to-[#1a1443]"></span>
-          <span className="bg-gradient-to-br from-[#1a1443] to-[#25213b] w-fit text-white p-2 px-5 text-xl rounded-md border border-[#16f2b3]/20 shadow-lg">
-            {t('education.title')}
-          </span>
-          <span className="w-24 h-[2px] bg-gradient-to-l from-transparent to-[#1a1443]"></span>
-        </div>
-      </div>
-
-      <div className="py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-          <div className="flex justify-center items-start">
-            <div className="w-3/4 h-3/4">
-              <AnimationLottie animationPath={lottieFile} />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex flex-col gap-6">
-              {
-                educations.map(education => {
-                  const eduData = t.raw(`education.${education.id}`);
-                  const title = eduData?.title || education.title;
-                  const institution = eduData?.institution || education.institution;
-                  const details = eduData?.details || [];
-                  
-                  return (
-                    <GlowCard key={education.id} identifier={`education-${education.id}`}>
-                      <div className="p-3 relative text-white">
-                        <Image
-                          src="/blur-23.svg"
-                          alt=""
-                          width={1080}
-                          height={200}
-                          className="absolute bottom-0 opacity-80 w-full h-auto"
-                          aria-hidden="true"
-                          loading="lazy"
-                          sizes="(max-width: 768px) 100vw, 1080px"
-                        />
-                        <div className="flex justify-center">
-                          <p className="text-xs sm:text-sm text-[#16f2b3]">
-                            {education.duration}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-x-8 px-3 py-5">
-                          <div className="text-violet-500  transition-all duration-300 hover:scale-125">
-                            <BsPersonWorkspace size={36} />
-                          </div>
-                          <div>
-                            <p className="text-base sm:text-xl mb-2 font-medium uppercase">
-                              {title}
-                            </p>
-                            <p className="text-sm sm:text-base text-text-tertiary">{institution}</p>
-                          </div>
-                        </div>
-                        {details.length > 0 && (
-                          <ul className="text-text-tertiary list-disc list-inside ms-4 rtl:me-4 rtl:ms-0 text-sm sm:text-base mt-2 px-3" style={{ listStylePosition: 'inside' }}>
-                            {details.map((detail, index) => (
-                              <li key={index} className="mb-2">{detail}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </GlowCard>
-                  );
-                })
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
-};
+}
 
-export default Education;
+export default memo(Education);
