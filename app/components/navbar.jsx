@@ -116,7 +116,7 @@ function Navbar() {
           <NavLink href={`/${locale}#skills`} section="skills">{t('skills')}</NavLink>
           <NavLink href={`/${locale}#projects`} section="projects">{t('projects')}</NavLink>
           <NavLink href={`/${locale}#education`} section="education">{t('education')}</NavLink>
-          <NavLink href={`/${locale}#contact`} section="contact">CONTACT</NavLink>
+          <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
           <div className="ml-4">
             <LanguageSwitcher />
           </div>
@@ -151,7 +151,7 @@ function Navbar() {
             <MobileNavLink href={`/${locale}#skills`} section="skills">{t('skills')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#projects`} section="projects">{t('projects')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#education`} section="education">{t('education')}</MobileNavLink>
-            <MobileNavLink href={`/${locale}#contact`} section="contact">CONTACT</MobileNavLink>
+            <MobileNavLink href={`/${locale}#contact`} section="contact">{t('contact')}</MobileNavLink>
           </div>
         </div>
       )}
