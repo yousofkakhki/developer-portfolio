@@ -104,7 +104,7 @@ function HeroSection() {
           
           {/* Profile image column */}
           <div className="flex-shrink-0 flex justify-center md:justify-end">
-            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-lg overflow-hidden border border-slate-700">
+            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-lg overflow-hidden">
               <Image
                 src="/avatar.png"
                 alt={t('personal.name')}

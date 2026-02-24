@@ -52,13 +52,17 @@ export async function generateMetadata({ params: { locale } }) {
     keywords: [
       'Yousef Kakhki',
       'System Architect',
-      'Head of Software',
+      'Infrastructure Lead',
       'LiveKit Expert',
       'NATS JetStream',
       'Fintech Lead',
       'WebRTC',
       'Node.js Architect',
       'Linux Kernel',
+      'Docker Swarm',
+      'Kubernetes',
+      'Embedded Linux',
+      'High-Frequency Trading',
       'Tehran',
       locale === 'fa' ? 'یوسف کاخکی' : '',
       locale === 'fa' ? 'معمار سیستم' : '',
@@ -182,7 +186,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           {/* Skip to main content link for accessibility */}
           <a 
             href="#main-content" 
-            className="skip-to-main focus:top-0"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-slate-800 focus:text-slate-100 focus:rounded focus:border focus:border-slate-600"
             aria-label="Skip to main content"
           >
             {locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content'}

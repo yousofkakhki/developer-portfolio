@@ -31,22 +31,34 @@ export default function StructuredData({ locale, messages }) {
       personalData.facebook
     ].filter(Boolean),
     "image": `${siteUrl}/avatar.png`,
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Amirkabir University of Technology (Tehran Polytechnic)",
+        "url": "https://aut.ac.ir"
+      }
+    ],
     "knowsAbout": [
-      "Backend Development",
-      "FinTech",
-      "Blockchain",
+      "System Architecture",
+      "WebRTC",
+      "LiveKit",
+      "HLS Streaming",
+      "NATS JetStream",
+      "High-Frequency Trading",
       "Node.js",
       "TypeScript",
-      "System Architecture",
+      "Go",
+      "Docker Swarm",
+      "Kubernetes",
+      "Linux Kernel",
+      "Embedded Linux",
+      "PostgreSQL",
+      "Redis",
       "DevOps",
-      "Linux",
-      "MongoDB",
-      "Ethereum",
-      "P2P Trading Platforms",
-      "Payment Gateways",
-      "AI/ML",
-      "Cryptocurrency",
-      "Hyperledger"
+      "IoT",
+      "Yocto",
+      "HAProxy",
+      "Prometheus"
     ]
   };
 
