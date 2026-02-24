@@ -12,7 +12,7 @@ function Testimonials() {
       name: t('1.name'),
       title: t('1.title'),
       quote: t('1.quote'),
-      letterUrl: "/recommendation-ali-mohammadian.jpg"
+      letterUrl: "/recommendation.pdf"
     },
     {
       name: t('2.name'),

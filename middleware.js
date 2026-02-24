@@ -54,8 +54,8 @@ const intlMiddleware = createMiddleware({
   // Always use locale prefix in URLs
   localePrefix: 'always',
 
-  // Detect locale from Accept-Language header
-  localeDetection: true
+  // Locale auto-detection disabled — always default to EN
+  localeDetection: false
 });
 
 export default async function middleware(request) {
@@ -65,10 +65,9 @@ export default async function middleware(request) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // If no locale in path and it's the root path, detect and redirect
+  // Always redirect root to /en (locale auto-detection disabled)
   if (!pathnameHasLocale && pathname === '/') {
-    const detectedLocale = await detectIranIP(request);
-    const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url);
+    const newUrl = new URL(`/${defaultLocale}${pathname}`, request.url);
     const redirectResponse = NextResponse.redirect(newUrl);
     return securityHeaders(request, redirectResponse);
   }

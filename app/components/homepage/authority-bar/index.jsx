@@ -24,7 +24,7 @@ function AuthorityBar() {
         <div className="md:hidden w-32 h-px bg-slate-700"></div>
 
         <Link
-          href="/files/yousef-kakhki-resume.pdf"
+          href="/recommendation.pdf"
           target="_blank"
           className="flex items-center gap-2 px-6 py-3 rounded border border-burgundy text-slate-200 hover:bg-burgundy hover:text-white transition-colors group"
         >
