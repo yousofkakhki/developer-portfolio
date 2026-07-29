@@ -33,6 +33,14 @@ test('revised hybrid-classroom article is evidence-bounded and explicitly separa
   assert.match(article.content.en, /HLS is useful when the product requirement is recorded or processed material available after the session/i);
   assert.match(article.content.en, /not a substitute for a participant who needs to join the class now/i);
   assert.match(article.content.fa, /بازپخش با تأخیر/);
+
+  const image = fs.readFileSync(path.join(root, 'public/blog/og/hybrid-room-scalability-nats-livekit.png'));
+  assert.deepEqual(image.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  assert.equal(image.readUInt32BE(16), 1200);
+  assert.equal(image.readUInt32BE(20), 630);
+
+  const page = fs.readFileSync(path.join(root, 'app/[locale]/blog/[slug]/page.js'), 'utf8');
+  assert.equal((page.match(/width: 1200, height: 630/g) || []).length, 2);
 });
 
 test('published copy excludes unsupported case-study claims', () => {

@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
       publishedTime: blog.published_at,
       modifiedTime: blog.updated_at,
       tags: blog.tag_list,
-      images: [{ url: ogImage, width: 1200, height: 628 }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: { card: 'summary_large_image', title: blog.title, description: blog.description, images: [ogImage] },
   };
@@ -90,7 +90,7 @@ export default async function BlogPost({ params }) {
         mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
         headline: blog.title,
         description: blog.seo_description,
-        image: { '@type': 'ImageObject', url: getArticleImage(blog, siteUrl), width: 1200, height: 628 },
+        image: { '@type': 'ImageObject', url: getArticleImage(blog, siteUrl), width: 1200, height: 630 },
         datePublished: blog.published_at,
         dateModified: blog.updated_at,
         inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
