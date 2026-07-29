@@ -4,26 +4,35 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const blogsDir = path.join(root, 'content/blogs');
-const unsafeSlugs = [
+const legacyUnsafeSlugs = [
   'getting-a-german-blue-card-without-a-degree-in-2026',
   'hybrid-sfumcu-webinar-architecture-for-10k-viewers',
   'idempotent-cryptofiat-gateway-in-frankfurt',
   'offlinefirst-pwa-web-sensors-sleep',
   'preemptrt-tuning-for-sub-second-ota-on-arm-edge-nodes',
   'sfu-first-webrtc-scaling-in-frankfurt-for-1k',
-  'hybrid-room-scalability-nats-livekit',
 ];
 
-test('unsupported case-study articles remain unpublished', () => {
+test('legacy unsupported case-study drafts cannot be published if reintroduced', () => {
   const bySlug = new Map(fs.readdirSync(blogsDir)
     .filter(file => file.endsWith('.json'))
     .map(file => JSON.parse(fs.readFileSync(path.join(blogsDir, file), 'utf8')))
     .map(blog => [blog.slug, blog]));
-  for (const slug of unsafeSlugs) {
+  for (const slug of legacyUnsafeSlugs) {
     const blog = bySlug.get(slug);
-    assert.ok(blog, `missing article ${slug}`);
-    assert.equal(blog.published, false, slug);
+    if (blog) assert.equal(blog.published, false, slug);
   }
+});
+
+test('revised hybrid-classroom article is evidence-bounded and explicitly separates delayed HLS', () => {
+  const article = JSON.parse(fs.readFileSync(path.join(blogsDir, 'hybrid-room-scalability-blog.json'), 'utf8'));
+  const copy = JSON.stringify(article);
+  assert.equal(article.published, true);
+  assert.equal(article.draft, false);
+  assert.doesNotMatch(copy, /78%|1000\+|1,000\+|cost reduction/i);
+  assert.match(article.content.en, /HLS is useful when the product requirement is recorded or processed material available after the session/i);
+  assert.match(article.content.en, /not a substitute for a participant who needs to join the class now/i);
+  assert.match(article.content.fa, /بازپخش با تأخیر/);
 });
 
 test('published copy excludes unsupported case-study claims', () => {
