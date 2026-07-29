@@ -14,10 +14,14 @@
 
 # production
 /build
+/data/analytics/*.jsonl
+!/data/analytics/.gitkeep
 
 # misc
 .DS_Store
 *.pem
+*.backup-*
+/public/index.html
 
 # debug
 npm-debug.log*

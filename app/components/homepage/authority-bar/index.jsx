@@ -14,7 +14,7 @@ function AuthorityBar() {
             <span className="text-white font-semibold text-sm md:text-base">
               Best Booth Award – ITEX 2024
             </span>
-            <p className="text-slate-500 text-xs md:text-sm">
+            <p className="text-slate-400 text-xs md:text-sm">
               AI Hologram Lead
             </p>
           </div>

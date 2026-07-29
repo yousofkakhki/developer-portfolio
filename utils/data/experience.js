@@ -6,10 +6,10 @@ export const experiences = [
     title: 'Solutions Architect',
     company: "HonarAmoozesh (Remote/Contract)",
     duration: "(Jul 2025 - Present)",
-    tech: "WebRTC (LiveKit), HLS, NATS JetStream, Go",
+    tech: "WebRTC (LiveKit), delayed HLS playback, NATS JetStream, Go",
     description: [
-      "Architected a hybrid dual-stream system serving 1,200+ concurrent users.",
-      "Engineered sub-100ms signaling via NATS JetStream and reduced infrastructure costs by 78% using intelligent HLS fallbacks."
+      "Architected live WebRTC delivery for 5,000+ concurrent users.",
+      "Engineered low-latency signaling via NATS JetStream and supported HLS playback for material available hours after the live session—not as a live fallback."
     ]
   },
   {
@@ -19,7 +19,7 @@ export const experiences = [
     duration: "(Oct 2023 - Jun 2025)",
     tech: "Docker Swarm, Python (AI), Node.js, Odoo ERP",
     description: [
-      "Led a 4-person team in building a $2M/month crypto-to-fiat gateway.",
+      "Led a 4-person team in building and deploying a crypto-to-fiat payment gateway.",
       "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
       "Directed ERP customization and internal network security."
     ]

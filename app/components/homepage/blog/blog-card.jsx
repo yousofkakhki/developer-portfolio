@@ -32,7 +32,7 @@ function BlogCard({ blog, index = 0 }) {
 
         {/* Content */}
         <div className="p-4">
-          <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+          <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
             <time dateTime={blog?.published_at}>
               {timeConverter(blog?.published_at, locale)}
             </time>
@@ -44,7 +44,7 @@ function BlogCard({ blog, index = 0 }) {
             {blog?.title}
           </h3>
 
-          <p className="text-sm text-slate-500 mt-2 line-clamp-2">
+          <p className="text-sm text-slate-400 mt-2 line-clamp-2">
             {blog?.description}
           </p>
         </div>

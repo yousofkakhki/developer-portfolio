@@ -36,6 +36,8 @@ module.exports = withNextIntl({
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Keep canonical SEO metadata in <head> for every crawler and audit user agent.
+  htmlLimitedBots: /.*/,
   // Performance optimizations
   // Note: swcMinify is enabled by default in Next.js 15+
   compiler: {
@@ -68,20 +70,6 @@ module.exports = withNextIntl({
               test: /node_modules/,
               priority: 20,
             },
-            // Separate chunk for Swiper
-            swiper: {
-              name: 'swiper',
-              test: /[\\/]node_modules[\\/]swiper[\\/]/,
-              chunks: 'all',
-              priority: 30,
-            },
-            // Separate chunk for Lottie
-            lottie: {
-              name: 'lottie',
-              test: /[\\/]node_modules[\\/]lottie-react[\\/]/,
-              chunks: 'all',
-              priority: 30,
-            },
             // Common chunk for shared code
             common: {
               name: 'common',
@@ -98,11 +86,6 @@ module.exports = withNextIntl({
   },
   // Experimental features for performance
   experimental: {
-    optimizePackageImports: [
-      'react-icons',
-      'lottie-react',
-      'swiper',
-      'react-fast-marquee',
-    ],
+    optimizePackageImports: ['react-icons'],
   },
 })

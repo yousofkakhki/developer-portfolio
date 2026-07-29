@@ -25,7 +25,7 @@ function Skills() {
         <div className="space-y-8">
           {Object.entries(skillCategories).map(([category, skills]) => (
             <div key={category}>
-              <h3 className="text-sm font-mono text-slate-500 mb-3 uppercase tracking-wide">
+              <h3 className="text-sm font-mono text-slate-400 mb-3 uppercase tracking-wide">
                 {category}
               </h3>
               <div className="flex flex-wrap gap-2">

@@ -42,7 +42,129 @@
     "title": "Skills"
   },
   "projects": {
-    "title": "Projects"
+    "title": "Projects",
+    "myRole": "My Role:",
+    "tools": "Tools:",
+    "viewCode": "View Code",
+    "viewDemo": "View Demo",
+    "codeNotAvailable": "Code not available",
+    "demoNotAvailable": "Demo not available",
+    "1": {
+      "name": "Award-Winning AI Hologram Project",
+      "description": "Designed the AI backend for a real-time hologram installation: camera feed → pose estimation pipeline → WebSocket projection control, all under 80ms end-to-end. Demonstrated at ITEX 2024, winning Best Booth against 200+ exhibitors.",
+      "role": "Technical & AI Team Lead",
+      "tools": [
+        "Python",
+        "AI/ML Libraries",
+        "FastAPI",
+        "WebSocket",
+        "Docker"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "2": {
+      "name": "Digital Investment Management Dashboard",
+      "description": "Architected and coded the heavy computational logic for a data-intensive investor dashboard, providing real-time analytics and portfolio management features for Capitalino's clients.",
+      "role": "Lead Backend Architect",
+      "tools": [
+        "Node.js",
+        "TypeScript",
+        "REST APIs",
+        "MongoDB",
+        "Data Visualization",
+        "Docker"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "3": {
+      "name": "Crypto-to-Fiat Payment Gateway",
+      "description": "Architected and deployed a crypto-to-fiat gateway integrating blockchain transactions with fiat payment workflows. Designed secure backend services, transaction state handling, and the supporting operational infrastructure.",
+      "role": "Technical Architect",
+      "tools": [
+        "Node.js",
+        "REST APIs",
+        "Database Security",
+        "Payment Processing APIs",
+        "Nginx"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "4": {
+      "name": "Financial Trading Gamification Platform",
+      "description": "Engineered and launched a competitive gamification platform for financial trading simulations. The platform debuted at the Shiraz ITEX 2023 international exhibition to drive user engagement and demonstrate real-time data handling capabilities.",
+      "role": "Senior Software Engineer",
+      "tools": [
+        "Node.js",
+        "React",
+        "Next.js",
+        "WebSocket",
+        "Tailwind CSS"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "5": {
+      "name": "Secure Over-the-Air (OTA) Update System",
+      "description": "Built an atomic OTA update system for 5,000+ IoT edge devices: delta compression, rollback on checksum failure, A/B partition switching. Reduced kernel boot time by 40% via PREEMPT_RT tuning and eliminating unnecessary initrd stages.",
+      "role": "Systems Engineer",
+      "tools": [
+        "Linux",
+        "C",
+        "Bash",
+        "Python",
+        "Jenkins",
+        "CI/CD",
+        "Network Security"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "6": {
+      "name": "GreedyLearner: Gamified Algorithm Tutor",
+      "description": "Developed as my Master's thesis, 'GreedyLearner' is an Android application that gamifies complex computer science algorithms to improve student motivation and learning outcomes through a guided discovery approach. The app was successfully published on app stores.",
+      "role": "Solo Developer & Researcher",
+      "tools": [
+        "Java",
+        "Android SDK",
+        "Android Studio",
+        "Gamification",
+        "NoSQL"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "7": {
+      "name": "P2P Cryptocurrency Trading Platform",
+      "description": "Architected and built a complete Peer-to-Peer cryptocurrency trading platform from the ground up. A key feature was the implementation of atomic transactions in MongoDB to guarantee financial data integrity, along with secure integration with the Ethereum blockchain via Web3.js.",
+      "role": "Lead Backend Developer",
+      "tools": [
+        "Node.js",
+        "TypeScript",
+        "MongoDB",
+        "Web3.js",
+        "Ethereum",
+        "REST APIs",
+        "Docker"
+      ],
+      "code": "",
+      "demo": ""
+    },
+    "8": {
+      "name": "Blockchain-Based Virtual Coin System",
+      "description": "Developed a permissioned blockchain reward system on Hyperledger Sawtooth as part of the university Blockchain Committee. Users earned tokens from verified real-world actions, settled via a Node.js REST gateway with idempotency guarantees.",
+      "role": "Researcher & Developer",
+      "tools": [
+        "Hyperledger Sawtooth",
+        "Node.js",
+        "Blockchain",
+        "REST APIs"
+      ],
+      "code": "",
+      "demo": ""
+    }
   },
   "education": {
     "title": "Education",
@@ -86,27 +208,27 @@
     "name": "Yousef Kakhki",
     "designation": "System Architect & Infrastructure Lead",
     "title": "Bridging hardware-level efficiency with cloud-scale distributed systems",
-    "description": "System Architect & Technical Lead with an M.Sc. in System Design from Amirkabir University of Technology (Tehran Polytechnic). Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.",
-    "about": "For nearly a decade, my career has been driven by a passion for solving complex backend challenges and building the robust infrastructure that powers innovative technology. My focus lies in the demanding worlds of FinTech and blockchain, where security, performance, and scalability are paramount.\n\nMy journey has taken me from deep, hands-on systems programming—optimizing the Linux kernel and building secure software delivery pipelines—to leading talented teams as a CTO. I thrive on architecting systems from the ground up, whether it's a P2P cryptocurrency exchange, a secure crypto-to-fiat payment gateway, or an award-winning AI installation. I lead by example, contributing directly to the codebase while managing the full IT and DevOps lifecycle.\n\nI believe in creating environments where engineers can do their best work. I am always seeking ambitious challenges where I can contribute to building impactful technology and help a talented team succeed."
+    "description": "System Architect & Technical Lead with an M.Sc. in Computer Science (System Design) from Amirkabir University of Technology (Tehran Polytechnic). Specializing in WebRTC/LiveKit live media, delayed HLS playback, high-frequency trading engines, embedded Linux, and DevOps.",
+    "about": "Ten years of backend and systems work, mostly on problems where the failure modes are expensive: a deployed crypto-to-fiat gateway, a WebRTC platform serving 5,000 concurrent users with delayed HLS playback, and a Linux OTA pipeline for IoT devices.\n\nI move between abstraction layers. One week I am tuning NATS JetStream for low-latency signaling; the next I am writing kernel patches or working through reconciliation logic with the finance team. I have led engineering teams while continuing to contribute directly to the codebase.\n\nCurrently targeting Senior Backend, Staff Engineer, or Tech Lead roles in the EU (Germany Blue Card / Netherlands HSM). M.Sc. in Computer Science (System Design) from Amirkabir University. IELTS 7.5."
   },
   "experiences": {
     "1": {
       "title": "Solutions Architect",
       "company": "HonarAmoozesh (Remote/Contract)",
       "duration": "(Jul 2025 - Nov 2025)",
-      "tech": "WebRTC (LiveKit), HLS, NATS JetStream, Go",
+      "tech": "WebRTC (LiveKit), delayed HLS playback, NATS JetStream, Go",
       "description": [
-        "Architected a hybrid dual-stream system serving 1,200+ concurrent users.",
-        "Engineered sub-100ms signaling via NATS JetStream and reduced infrastructure costs by 78% using intelligent HLS fallbacks."
+        "Architected live WebRTC delivery for 5,000+ concurrent users.",
+        "Engineered low-latency signaling via NATS JetStream and supported HLS playback for material available hours after the live session—not as a live fallback."
       ]
     },
     "2": {
       "title": "Head of Software & AI Development",
       "company": "Capitalino",
       "duration": "(Oct 2023 - Jun 2025)",
-      "tech": "Docker Swarm, Python (AI), Node.js, Odoo ERP",
+      "tech": "Node.js, Kafka, PostgreSQL, Docker Swarm, Python (AI)",
       "description": [
-        "Led a 4-person team in building a $2M/month crypto-to-fiat gateway.",
+        "Led a 4-person team in building and deploying a crypto-to-fiat payment gateway.",
         "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
         "Directed ERP customization and internal network security."
       ]
@@ -115,9 +237,9 @@
       "title": "Senior Backend Engineer",
       "company": "Avin Avisa",
       "duration": "(Apr 2021 - Sep 2023)",
-      "tech": "Greedy Algorithms, Web3.js, PostgreSQL, Redis",
+      "tech": "Node.js, Web3.js, PostgreSQL, Redis, Go",
       "description": [
-        "Designed a sub-100ms P2P matching engine using Greedy Knapsack algorithms.",
+        "Designed a sub-100ms P2P order-matching engine with idempotent ledger semantics.",
         "Implemented ACID-compliant ledgers for high-frequency trading."
       ]
     },
@@ -127,8 +249,8 @@
       "duration": "(Sep 2019 - Mar 2021)",
       "tech": "Yocto, C++, Linux Kernel",
       "description": [
-        "Concurrent with M.Sc. studies.",
-        "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices."
+        "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices.",
+        "Built Yocto-based custom Linux images with PREEMPT_RT patches for hard real-time sensor processing."
       ]
     },
     "5": {
@@ -140,79 +262,6 @@
         "Developed native C++ modules for GPS sensor fusion.",
         "Engineered offline-first state synchronization engines."
       ]
-    }
-  },
-  "projects": {
-    "title": "Projects",
-    "myRole": "My Role:",
-    "tools": "Tools:",
-    "viewCode": "View Code",
-    "viewDemo": "View Demo",
-    "codeNotAvailable": "Code not available",
-    "demoNotAvailable": "Demo not available",
-    "1": {
-      "name": "Award-Winning AI Hologram Project",
-      "description": "Spearheaded the design and development of an innovative AI-powered hologram installation. The project was a major success, combining complex backend logic with an interactive user experience, resulting in the company winning the prestigious Best Booth at ITEX 2024.",
-      "role": "Technical & AI Team Lead",
-      "tools": ["Python", "AI/ML Libraries", "FastAPI", "WebSocket", "Docker"],
-      "code": "",
-      "demo": ""
-    },
-    "2": {
-      "name": "Digital Investment Management Dashboard",
-      "description": "Architected and coded the heavy computational logic for a data-intensive investor dashboard, providing real-time analytics and portfolio management features for Capitalino's clients.",
-      "role": "Lead Backend Architect",
-      "tools": ["Node.js", "TypeScript", "REST APIs", "MongoDB", "Data Visualization", "Docker"],
-      "code": "",
-      "demo": ""
-    },
-    "3": {
-      "name": "Crypto-to-Fiat Payment Gateway",
-      "description": "Designed and implemented a secure, high-performance gateway to bridge cryptocurrency transactions with traditional fiat payment systems. This mission-critical project enabled seamless and reliable currency exchange for users of the platform.",
-      "role": "Technical Architect",
-      "tools": ["Node.js", "REST APIs", "Database Security", "Payment Processing APIs", "Nginx"],
-      "code": "",
-      "demo": ""
-    },
-    "4": {
-      "name": "Financial Trading Gamification Platform",
-      "description": "Engineered and launched a competitive gamification platform for financial trading simulations. The platform debuted at the Shiraz ITEX 2023 international exhibition to drive user engagement and demonstrate real-time data handling capabilities.",
-      "role": "Senior Software Engineer",
-      "tools": ["Node.js", "React", "Next.js", "WebSocket", "Tailwind CSS"],
-      "code": "",
-      "demo": ""
-    },
-    "5": {
-      "name": "Secure Over-the-Air (OTA) Update System",
-      "description": "Led the end-to-end engineering of a secure software delivery pipeline for embedded Linux devices. This involved creating the package generation process, server-side infrastructure, and client-side update application, alongside performing deep, low-level kernel optimizations.",
-      "role": "Systems Engineer",
-      "tools": ["Linux", "C", "Bash", "Python", "Jenkins", "CI/CD", "Network Security"],
-      "code": "",
-      "demo": ""
-    },
-    "6": {
-      "name": "GreedyLearner: Gamified Algorithm Tutor",
-      "description": "Developed as my Master's thesis, 'GreedyLearner' is an Android application that gamifies complex computer science algorithms to improve student motivation and learning outcomes through a guided discovery approach. The app was successfully published on app stores.",
-      "role": "Solo Developer & Researcher",
-      "tools": ["Java", "Android SDK", "Android Studio", "Gamification", "NoSQL"],
-      "code": "https://github.com/yourusername/greedylearner",
-      "demo": ""
-    },
-    "7": {
-      "name": "P2P Cryptocurrency Trading Platform",
-      "description": "Architected and built a complete Peer-to-Peer cryptocurrency trading platform from the ground up. A key feature was the implementation of atomic transactions in MongoDB to guarantee financial data integrity, along with secure integration with the Ethereum blockchain via Web3.js.",
-      "role": "Lead Backend Developer",
-      "tools": ["Node.js", "TypeScript", "MongoDB", "Web3.js", "Ethereum", "REST APIs", "Docker"],
-      "code": "",
-      "demo": ""
-    },
-    "8": {
-      "name": "Blockchain-Based Virtual Coin System",
-      "description": "As a member of the university's Blockchain Committee, I developed a proof-of-concept virtual coin and reward system. The project utilized Hyperledger Sawtooth and Node.js to enable users to earn blockchain-based tokens from real-world transactions.",
-      "role": "Researcher & Developer",
-      "tools": ["Hyperledger Sawtooth", "Node.js", "Blockchain", "REST APIs"],
-      "code": "",
-      "demo": ""
     }
   },
   "testimonials": {
@@ -231,7 +280,6 @@
   },
   "metadata": {
     "title": "Yousef Kakhki | System Architect & Infrastructure Lead",
-    "description": "Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in System Design. Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps."
+    "description": "Senior backend engineer and tech lead with 10 years of experience in WebRTC, Node.js, Go, Python, and distributed systems. M.Sc. in Computer Science."
   }
 }
-

@@ -33,7 +33,7 @@ function Experience() {
                       {exp.company}
                     </p>
                   </div>
-                  <span className="text-sm text-slate-500 font-mono whitespace-nowrap">
+                  <span className="text-sm text-slate-400 font-mono whitespace-nowrap">
                     {exp.duration}
                   </span>
                 </div>
@@ -41,7 +41,7 @@ function Experience() {
                 {/* Tech Stack */}
                 {exp.tech && (
                   <div className="mb-4">
-                    <span className="text-xs font-mono text-slate-500 bg-slate-700/50 px-2 py-1 rounded">
+                    <span className="text-xs font-mono text-slate-400 bg-slate-700/50 px-2 py-1 rounded">
                       {exp.tech}
                     </span>
                   </div>

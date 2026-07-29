@@ -97,25 +97,12 @@ export function validateMessage(message) {
 }
 
 export function getClientIP(request) {
-  // Try various headers (for proxies, load balancers, etc.)
-  const forwarded = request.headers.get('x-forwarded-for');
+  // Nginx is the only public entry point and overwrites X-Real-IP.
   const realIp = request.headers.get('x-real-ip');
   const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  
-  if (forwarded) {
-    // x-forwarded-for can contain multiple IPs, take the first one
-    return forwarded.split(',')[0].trim();
-  }
-  
-  if (realIp) {
-    return realIp.trim();
-  }
-  
-  if (cfConnectingIp) {
-    return cfConnectingIp.trim();
-  }
-  
-  // Fallback (may not work in all environments)
-  return request.ip || 'unknown';
+  const forwarded = request.headers.get('x-forwarded-for');
+  const candidate = realIp || cfConnectingIp || forwarded?.split(',')[0] || request.ip;
+  if (typeof candidate !== 'string') return 'unknown';
+  return candidate.trim().slice(0, 64) || 'unknown';
 }
 

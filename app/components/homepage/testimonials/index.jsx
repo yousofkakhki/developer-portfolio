@@ -41,7 +41,7 @@ function Testimonials() {
               
               <div className="mb-4">
                 <p className="font-medium text-slate-200">{testimonial.name}</p>
-                <p className="text-sm text-slate-500">{testimonial.title}</p>
+                <p className="text-sm text-slate-400">{testimonial.title}</p>
               </div>
               
               <Link

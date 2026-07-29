@@ -35,7 +35,7 @@ function Education() {
                       {institution}
                     </p>
                   </div>
-                  <span className="text-sm text-slate-500 font-mono whitespace-nowrap">
+                  <span className="text-sm text-slate-400 font-mono whitespace-nowrap">
                     {education.duration}
                   </span>
                 </div>

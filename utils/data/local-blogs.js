@@ -1,44 +1,60 @@
-// Local blog posts data
 import fs from 'fs';
 import path from 'path';
+import blogLocaleHelpers from './blog-locales.cjs';
 
-// Import blog posts statically for build-time
-import portfolioBlog from '@/content/blogs/building-bilingual-portfolio.json';
-import hybridRoomBlog from '@/content/blogs/hybrid-room-scalability-blog.json';
+const { availableBlogLocales, hasCompleteTranslation } = blogLocaleHelpers;
 
-const localBlogs = [hybridRoomBlog, portfolioBlog];
+const BLOG_DIR = path.join(process.cwd(), 'content/blogs');
 
-export function getLocalBlogs(locale = 'en') {
-  return localBlogs.map(blog => ({
-    id: blog.slug,
-    slug: blog.slug,
-    title: blog.title[locale] || blog.title.en,
-    description: blog.description[locale] || blog.description.en,
-    cover_image: blog.coverImage,
-    tag_list: blog.tags,
-    published_at: blog.publishedAt,
-    reading_time_minutes: blog.reading_time_minutes || 5,
-    // Full content for detail page
-    content: blog.content[locale] || blog.content.en,
-    isLocal: true
-  }));
+function loadAll() {
+  if (!fs.existsSync(BLOG_DIR)) return [];
+  return fs.readdirSync(BLOG_DIR)
+    .filter(f => f.endsWith('.json'))
+    .map(f => {
+      try { return JSON.parse(fs.readFileSync(path.join(BLOG_DIR, f), 'utf8')); }
+      catch { return null; }
+    })
+    .filter(b => b && b.publishedAt && !b.draft && b.published !== false)
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 }
 
-export function getLocalBlogBySlug(slug, locale = 'en') {
-  const blog = localBlogs.find(b => b.slug === slug);
-  if (!blog) return null;
-  
+function localized(value, locale, fallback = '') {
+  if (typeof value === 'string') return value;
+  return value?.[locale] || value?.en || fallback;
+}
+
+function normalize(blog, locale = 'en') {
+  const title = localized(blog.title, locale);
+  const description = localized(blog.description, locale);
   return {
     id: blog.slug,
     slug: blog.slug,
-    title: blog.title[locale] || blog.title.en,
-    description: blog.description[locale] || blog.description.en,
+    title,
+    description,
+    seo_title: localized(blog.seoTitle, locale, title),
+    seo_description: localized(blog.seoDescription, locale, description),
     cover_image: blog.coverImage,
-    tag_list: blog.tags,
+    tag_list: blog.tags || [],
     published_at: blog.publishedAt,
-    reading_time_minutes: blog.reading_time_minutes || 5,
-    content: blog.content[locale] || blog.content.en,
-    isLocal: true
+    updated_at: blog.updatedAt || blog.publishedAt,
+    reading_time_minutes: blog.reading_time_minutes || blog.readingTimeMinutes || 5,
+    content: localized(blog.content, locale),
+    isLocal: true,
   };
 }
 
+export function getLocalBlogs(locale = 'en') {
+  return loadAll()
+    .filter(blog => hasCompleteTranslation(blog, locale))
+    .map(blog => normalize(blog, locale));
+}
+
+export function getLocalBlogBySlug(slug, locale = 'en') {
+  const blog = loadAll().find(b => b.slug === slug);
+  return blog && hasCompleteTranslation(blog, locale) ? normalize(blog, locale) : null;
+}
+
+export function getAvailableBlogLocales(slug) {
+  const blog = loadAll().find(candidate => candidate.slug === slug);
+  return blog ? availableBlogLocales(blog, ['en', 'fa']) : [];
+}

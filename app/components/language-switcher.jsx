@@ -27,7 +27,7 @@ export default function LanguageSwitcher() {
             : 'text-slate-400 hover:text-slate-200'
         }`}
         disabled={isPending}
-        aria-label="English"
+        aria-label="EN — English"
       >
         EN
       </button>
@@ -39,7 +39,7 @@ export default function LanguageSwitcher() {
             : 'text-slate-400 hover:text-slate-200'
         }`}
         disabled={isPending}
-        aria-label="فارسی"
+        aria-label="FA — فارسی"
       >
         FA
       </button>

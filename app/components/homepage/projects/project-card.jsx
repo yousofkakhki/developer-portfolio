@@ -40,7 +40,7 @@ function ProjectCard({ project }) {
         
         {project.role && (
           <div className="text-sm mb-4">
-            <span className="text-slate-500">Role:</span>
+            <span className="text-slate-400">Role:</span>
             <span className="text-slate-300 ml-2">{project.role}</span>
           </div>
         )}

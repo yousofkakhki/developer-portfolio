@@ -24,11 +24,41 @@ services:
     container_name: developer-portfolio
     environment:
       - NODE_ENV=production
-    ports:
-      - "3000:3000"
+      - NODE_EXTRA_CA_CERTS=/app/certs/mailcow.pem
     env_file:
       - .env
+    volumes:
+      - ./content:/app/content:ro
+      - ./public/blog:/app/public/blog:ro
+      - ./data/analytics:/app/data/analytics
+      - /opt/mailcow-dockerized/data/assets/ssl/cert.pem:/app/certs/mailcow.pem:ro
+    ports:
+      - "127.0.0.1:3000:3000"
+    read_only: true
+    tmpfs:
+      - /tmp:uid=1000,gid=1000,mode=1777
+      - /app/.next/cache:uid=1000,gid=1000,mode=0755
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 100
+    mem_limit: 512m
+    cpus: "1.0"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped
+    networks:
+      - default
+      - mailcow
+
+networks:
+  mailcow:
+    external: true
+    name: mailcowdockerized_mailcow-network
 
 volumes:
   node_modules:

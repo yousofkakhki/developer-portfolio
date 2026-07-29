@@ -13,13 +13,14 @@ export function securityHeaders(request, response = null) {
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
   
-  // Content Security Policy
-  // Note: 'unsafe-eval' may be required by Next.js for some features (HMR, dynamic imports).
-  // All setTimeout/setInterval calls in our code use function callbacks (not strings), so they're safe.
-  // This warning is from security scanners and is a known limitation of Next.js CSP configuration.
+  // Next.js emits inline hydration data, so nonce-based CSP is a separate migration.
+  // Production never permits eval; development retains it only for local tooling.
+  const scriptSource = "script-src 'self' 'unsafe-inline'" +
+    (process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '') +
+    ' https://www.googletagmanager.com https://www.google.com https://static.cloudflareinsights.com';
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google.com https://static.cloudflareinsights.com",
+    scriptSource,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: https: blob:",

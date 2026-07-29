@@ -3,19 +3,19 @@
 
 import { personalData } from '@/utils/data/personal-data';
 import { isValidEmail } from '@/utils/check-email';
-import axios from "axios";
 import Link from 'next/link';
 import { useState, memo } from 'react';
 import { useTranslations } from 'next-intl';
+import { ConversionLink, trackConversion } from '../../analytics/conversion-link';
 import { BiLogoLinkedin } from "react-icons/bi";
 import { IoLogoGithub } from "react-icons/io";
 import { MdAlternateEmail } from "react-icons/md";
-import { toast } from "react-toastify";
 
 function ContactForm() {
   const t = useTranslations('contact');
   const [error, setError] = useState({ email: false, required: false });
   const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState({ type: '', message: '' });
   const [userInput, setUserInput] = useState({
     name: "",
     email: "",
@@ -42,11 +42,19 @@ function ContactForm() {
 
     try {
       setIsLoading(true);
-      await axios.post('/api/contact', userInput);
-      toast.success(t('messageSentSuccess'));
+      setStatus({ type: '', message: '' });
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userInput),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message || t('messageSendFailed'));
+      setStatus({ type: 'success', message: t('messageSentSuccess') });
+      trackConversion('contact_submit', { source: 'homepage_contact' });
       setUserInput({ name: "", email: "", message: "" });
     } catch (error) {
-      toast.error(error?.response?.data?.message || t('messageSendFailed'));
+      setStatus({ type: 'error', message: error.message || t('messageSendFailed') });
     } finally {
       setIsLoading(false);
     }
@@ -123,6 +131,11 @@ function ContactForm() {
       >
         {isLoading ? t('sendingMessage') : t('sendMessage')}
       </button>
+      {status.message && (
+        <p role="status" aria-live="polite" className={`text-sm mt-3 ${status.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+          {status.message}
+        </p>
+      )}
     </form>
   );
 }
@@ -147,46 +160,56 @@ function ContactSection() {
           {/* Contact Info */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-mono text-slate-500 mb-3 uppercase tracking-wide">
+              <h3 className="text-sm font-mono text-slate-400 mb-3 uppercase tracking-wide">
                 Direct Contact
               </h3>
-              <a 
+              <ConversionLink
+                eventName="contact_email_click"
+                source="homepage_contact"
                 href={`mailto:${personalData.email}`}
                 className="flex items-center gap-3 text-slate-400 hover:text-slate-200 transition-colors"
               >
                 <MdAlternateEmail size={20} />
                 <span>{personalData.email}</span>
-              </a>
+              </ConversionLink>
             </div>
 
             <div>
-              <h3 className="text-sm font-mono text-slate-500 mb-3 uppercase tracking-wide">
+              <h3 className="text-sm font-mono text-slate-400 mb-3 uppercase tracking-wide">
                 Profiles
               </h3>
               <div className="flex items-center gap-4">
                 {personalData.github && (
-                  <Link 
-                    target="_blank" 
+                  <ConversionLink
+                    eventName="github_click"
+                    source="homepage_contact"
+                    target="_blank"
                     href={personalData.github}
                     className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="GitHub profile"
+                    rel="noopener noreferrer"
                   >
                     <IoLogoGithub size={24} />
-                  </Link>
+                  </ConversionLink>
                 )}
                 {personalData.linkedIn && (
-                  <Link 
-                    target="_blank" 
+                  <ConversionLink
+                    eventName="linkedin_click"
+                    source="homepage_contact"
+                    target="_blank"
                     href={personalData.linkedIn}
                     className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="LinkedIn profile"
+                    rel="noopener noreferrer"
                   >
                     <BiLogoLinkedin size={24} />
-                  </Link>
+                  </ConversionLink>
                 )}
               </div>
             </div>
 
             <div>
-              <h3 className="text-sm font-mono text-slate-500 mb-3 uppercase tracking-wide">
+              <h3 className="text-sm font-mono text-slate-400 mb-3 uppercase tracking-wide">
                 Location
               </h3>
               <p className="text-slate-400">{personalData.address}</p>

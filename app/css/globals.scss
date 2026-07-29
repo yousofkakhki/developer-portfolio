@@ -116,3 +116,92 @@ html[dir="rtl"] {
     border-radius: 4px;
   }
 }
+
+/* Semantic article typography (the project does not load Tailwind Typography). */
+.blog-content {
+  color: var(--color-slate-200);
+  font-size: 1rem;
+  line-height: 1.8;
+
+  p {
+    margin: 0 0 1.25rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--color-slate-50);
+    font-weight: 700;
+    line-height: 1.3;
+    scroll-margin-top: 6rem;
+  }
+
+  h1 {
+    margin: 2.75rem 0 1rem;
+    font-size: 2rem;
+  }
+
+  h2 {
+    margin: 2.5rem 0 0.875rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-slate-700);
+    font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  }
+
+  h3 {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  ul,
+  ol {
+    margin: 0.25rem 0 1.5rem;
+    padding-inline-start: 1.6rem;
+  }
+
+  ul { list-style: disc outside; }
+  ol { list-style: decimal outside; }
+
+  li {
+    display: list-item;
+    margin: 0.35rem 0;
+    padding-inline-start: 0.25rem;
+  }
+
+  li::marker {
+    color: #22d3ee;
+    font-weight: 600;
+  }
+
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 0.25rem 0 0.25rem 1rem;
+    border-inline-start: 3px solid #22d3ee;
+    color: var(--color-slate-300);
+  }
+
+  pre {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--color-slate-700);
+    border-radius: 0.5rem;
+    background: #020617;
+  }
+
+  code {
+    font-size: 0.9em;
+    color: #a5f3fc;
+  }
+
+  a {
+    color: #67e8f9;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+html[dir="rtl"] .blog-content blockquote {
+  padding-right: 1rem;
+  padding-left: 0;
+}

@@ -20,5 +20,5 @@ I believe in creating environments where engineers can do their best work. I am 
   stackOverflow: 'asdf',
   leetcode: "asdf",
   devUsername: "josef",
-  resume: "/Yousef-Kakhki-Resume.pdf"
+  resume: "/files/yousef-kakhki-resume-2026-06.pdf"
 };

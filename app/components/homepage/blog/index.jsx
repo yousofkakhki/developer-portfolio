@@ -36,7 +36,7 @@ function Blog({ blogs }) {
             </div>
           </>
         ) : (
-          <p className="text-slate-500">No posts yet.</p>
+          <p className="text-slate-400">No posts yet.</p>
         )}
       </div>
     </section>

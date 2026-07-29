@@ -104,7 +104,7 @@ function Navbar() {
         <Link
           href={`/${locale}`}
           className="text-slate-200 text-xl font-semibold hover:text-slate-50 transition-colors"
-          aria-label="Home"
+          aria-label="YK — Home"
         >
           YK
         </Link>
@@ -116,6 +116,12 @@ function Navbar() {
           <NavLink href={`/${locale}#skills`} section="skills">{t('skills')}</NavLink>
           <NavLink href={`/${locale}#projects`} section="projects">{t('projects')}</NavLink>
           <NavLink href={`/${locale}#education`} section="education">{t('education')}</NavLink>
+          <Link
+            href={`/${locale}/work-with-me`}
+            className="block py-2 px-3 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
+          >
+            {locale === 'fa' ? 'همکاری' : 'Work with me'}
+          </Link>
           <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
           <div className="ml-4">
             <LanguageSwitcher />
@@ -151,6 +157,13 @@ function Navbar() {
             <MobileNavLink href={`/${locale}#skills`} section="skills">{t('skills')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#projects`} section="projects">{t('projects')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#education`} section="education">{t('education')}</MobileNavLink>
+            <Link
+              href={`/${locale}/work-with-me`}
+              onClick={() => setIsOpen(false)}
+              className="block py-3 px-4 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
+            >
+              {locale === 'fa' ? 'همکاری' : 'Work with me'}
+            </Link>
             <MobileNavLink href={`/${locale}#contact`} section="contact">{t('contact')}</MobileNavLink>
           </div>
         </div>

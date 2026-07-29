@@ -1,14 +1,10 @@
-# robots.txt for kakhki.ir
+# robots.txt for kakhki.me
 
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /_next/
 Disallow: /admin/
 
 # Sitemap
-Sitemap: https://kakhki.ir/sitemap.xml
-
-# Crawl-delay (optional)
-Crawl-delay: 1
+Sitemap: https://kakhki.me/sitemap.xml
 

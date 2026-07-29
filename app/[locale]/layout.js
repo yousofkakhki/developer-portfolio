@@ -2,10 +2,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
-import { GoogleTagManager } from "@next/third-parties/google";
-import { Inter } from "next/font/google";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Script from 'next/script';
+import { Inter, Vazirmatn } from "next/font/google";
+
 import Footer from "../components/footer";
 import ScrollToTop from "../components/helper/scroll-to-top";
 import Navbar from "../components/navbar";
@@ -20,6 +19,13 @@ const inter = Inter({
   variable: '--font-inter'
 });
 
+const vazirmatn = Vazirmatn({
+  subsets: ['arabic'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-vazirmatn',
+});
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -30,8 +36,8 @@ export async function generateMetadata({ params: { locale } }) {
   const personal = messages.personal || {};
   
   const title = metadata.title || 'Yousef Kakhki | System Architect & Infrastructure Lead';
-  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in System Design. Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.';
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir';
+  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in Computer Science (System Design). Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.';
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   
   // Generate locale-specific URLs
   const currentUrl = `${siteUrl}/${locale}`;
@@ -46,7 +52,7 @@ export async function generateMetadata({ params: { locale } }) {
   return {
     title: {
       default: title,
-      template: '%s | Yousef Kakhki – System Architect'
+      template: '%s | Yousef Kakhki'
     },
     description,
     keywords: [
@@ -91,7 +97,7 @@ export async function generateMetadata({ params: { locale } }) {
       description,
       images: [
         {
-          url: `${siteUrl}/avatar.png`,
+          url: `${siteUrl}/og-default.png`,
           width: 1200,
           height: 630,
           alt: ogImageAlt,
@@ -106,7 +112,7 @@ export async function generateMetadata({ params: { locale } }) {
       title,
       description,
       images: [{
-        url: `${siteUrl}/avatar.png`,
+        url: `${siteUrl}/og-default.png`,
         alt: ogImageAlt
       }],
       creator: '@yousefkakhki',
@@ -124,12 +130,21 @@ export async function generateMetadata({ params: { locale } }) {
       }
     },
     verification: {
-      // Add your verification codes here if needed
+      ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION && {
+        google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+      }),
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION && {
+        other: {
+          'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+        },
+      }),
     }
   };
 }
 
 export default async function LocaleLayout({ children, params: { locale } }) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM;
+  const hasGtm = /^GTM-[A-Z0-9]+$/.test(gtmId || '');
   // Validate locale
   if (!locales.includes(locale)) {
     notFound();
@@ -147,41 +162,10 @@ export default async function LocaleLayout({ children, params: { locale } }) {
     <html lang={lang} dir={dir}>
       <head>
         <StructuredData locale={locale} messages={messages} />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/${locale}`} />
-        {/* Hreflang tags for proper bilingual indexing */}
-        <link rel="alternate" hreflang="en" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/en`} />
-        <link rel="alternate" hreflang="fa" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/fa`} />
-        <link rel="alternate" hreflang="x-default" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir'}/en`} />
         <meta name="theme-color" content="#0f172a" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        {/* Additional SEO meta tags */}
-        <meta name="geo.region" content="IR-07" />
-        <meta name="geo.placename" content="Tehran" />
-        <meta name="geo.position" content="35.6892;51.3890" />
-        <meta name="ICBM" content="35.6892, 51.3890" />
-        {locale === 'fa' && (
-          <>
-            {/* Preconnect to Google Fonts for faster loading - required before font loading */}
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            {/* Load Vazirmatn with optimized display strategy */}
-            <link 
-              href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap&preconnect" 
-              rel="stylesheet" 
-            />
-            {/* Font optimization styles */}
-            <style dangerouslySetInnerHTML={{ __html: `
-              @font-face {
-                font-family: 'Vazirmatn';
-                font-display: swap;
-                font-weight: 400;
-              }
-              /* Vazirmatn font loaded for Persian locale with optimized loading */
-            ` }} />
-          </>
-        )}
       </head>
-      <body className={`${inter.className} overflow-x-hidden`}>
+      <body className={`${locale === 'fa' ? vazirmatn.className : inter.className} overflow-x-hidden`}>
         <NextIntlClientProvider messages={messages}>
           {/* Skip to main content link for accessibility */}
           <a 
@@ -191,7 +175,7 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           >
             {locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content'}
           </a>
-          <ToastContainer />
+
           <main 
             id="main-content" 
             className="min-h-screen relative mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] text-white overflow-x-hidden"
@@ -205,8 +189,17 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           <Footer />
         </NextIntlClientProvider>
       </body>
-      {process.env.NEXT_PUBLIC_GTM && (
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM} />
+      {hasGtm && (
+        <>
+          <Script id="gtm-init" strategy="afterInteractive">
+            {`window.dataLayer=window.dataLayer||[];window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});`}
+          </Script>
+          <Script
+            id="gtm-loader"
+            strategy="afterInteractive"
+            src={`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`}
+          />
+        </>
       )}
     </html>
   );

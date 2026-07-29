@@ -19,8 +19,8 @@ function AboutSection() {
         {/* Profile content */}
         <div className="space-y-6 text-base leading-relaxed text-slate-400">
           <p>
-            Head of Software & System Architect with an M.Sc. in System Design from Amirkabir 
-            University of Technology (Tehran Polytechnic – Iran&apos;s #1 ranked university in Computer Science). 
+            Head of Software & System Architect with an M.Sc. in Computer Science (System Design) from Amirkabir
+            University of Technology (Tehran Polytechnic).
             Expert in bridging hardware-level efficiency with cloud-scale architecture.
           </p>
           <p>
