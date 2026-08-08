@@ -10,7 +10,7 @@ const MODEL_URL = '/avatar/kakhki-robot.vrm';
 const FACE_MESH_NAMES = new Set(['HEAD', 'EYES', 'EYES.001']);
 const HIDDEN_FACE_MATERIALS = new Set(['SPINE']);
 const FACE_CLIP_PATH =
-  'polygon(0 0, 100% 0, 100% 70%, 83% 70%, 73% 78%, 50% 83%, 25% 78%, 18% 70%, 0 70%)';
+  'polygon(0 0, 100% 0, 100% 58%, 98% 67%, 94% 74%, 87% 81%, 77% 87%, 64% 91%, 50% 93%, 36% 91%, 23% 87%, 13% 81%, 6% 74%, 2% 67%, 0 58%)';
 
 export default function AvatarFaceCanvas({ onReady }) {
   const canvasRef = useRef(null);

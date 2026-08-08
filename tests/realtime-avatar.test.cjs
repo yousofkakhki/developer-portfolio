@@ -43,7 +43,7 @@ test('uses the installed V5 VAD API and self-hosted runtime assets', async () =>
 test('mounts voice independently of humanoid readiness and renders no microphone button', () => {
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
 
-  assert.match(overlay, /import\(['"]\.\/avatar-voice-session['"]\)/);
+  assert.match(overlay, /const voiceSessionImport = import\(['"]\.\/avatar-voice-session['"]\)/);
   assert.match(overlay, /useEffect\(\(\) => \{\s*loadVoiceSession\(\);/);
   assert.match(overlay, /const handleAvatarReady = useCallback\(\(\) => \{\s*setStage\(['"]ready['"]\);\s*\}/);
   assert.match(overlay, /AvatarVoiceSession/);
@@ -66,7 +66,10 @@ test('hands-free session preserves the guest websocket contract and strict turn 
   assert.match(session, /awaitingResponseRef\.current/);
   assert.match(session, /turnCompletedRef\.current/);
   assert.match(session, /playbackQueue\.isBusy\(\)/);
-  assert.match(session, /startOnLoad:\s*true/);
+  assert.match(session, /startOnLoad:\s*false/);
+  assert.match(session, /visibilitychange/);
+  assert.match(session, /pagehide/);
+  assert.match(session, /pageVisibleRef/);
   assert.doesNotMatch(session, /connectionStateRef\.current !== ['"]connected['"]/);
   assert.doesNotMatch(session, /<button|toggleListening/);
 });

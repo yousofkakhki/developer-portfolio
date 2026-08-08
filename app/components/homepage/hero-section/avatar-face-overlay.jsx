@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+const voiceSessionImport = import('./avatar-voice-session');
 
 export function AvatarFaceOverlay() {
   const [AvatarFaceCanvas, setAvatarFaceCanvas] = useState(null);
@@ -17,7 +18,7 @@ export function AvatarFaceOverlay() {
     }
 
     voiceLoadStartedRef.current = true;
-    import('./avatar-voice-session')
+    voiceSessionImport
       .then(({ AvatarVoiceSession: Session, default: DefaultSession }) => {
         setAvatarVoiceSession(() => Session || DefaultSession);
       })
