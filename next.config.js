@@ -63,6 +63,14 @@ module.exports = withNextIntl({
           cacheGroups: {
             default: false,
             vendors: false,
+            // Keep the heavy 3D runtime out of the initial shared vendor bundle.
+            avatarVrm: {
+              name: 'avatar-vrm',
+              chunks: 'async',
+              test: /[\\/]node_modules[\\/](three|@pixiv)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
             // Vendor chunk for large libraries
             vendor: {
               name: 'vendor',

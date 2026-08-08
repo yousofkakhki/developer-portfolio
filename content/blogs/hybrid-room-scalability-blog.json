@@ -14,6 +14,15 @@
   },
   "coverImage": "/blog/hybrid-architecture.svg",
   "reading_time_minutes": 15,
-  "tags": ["livekit", "nats", "webrtc", "nodejs", "react", "scalability"],
-  "publishedAt": "2025-12-17"
+  "tags": [
+    "livekit",
+    "nats",
+    "webrtc",
+    "nodejs",
+    "react",
+    "scalability"
+  ],
+  "publishedAt": "2025-12-17",
+  "published": false,
+  "updatedAt": "2026-07-28"
 }

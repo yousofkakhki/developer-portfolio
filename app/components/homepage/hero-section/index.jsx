@@ -5,6 +5,7 @@ import Image from "next/image";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 import { personalData } from "@/utils/data/personal-data";
 import { ConversionLink } from "../../analytics/conversion-link";
+import { AvatarFaceOverlay } from './avatar-face-overlay';
 
 async function HeroSection() {
   const t = await getTranslations();
@@ -132,6 +133,7 @@ async function HeroSection() {
                 className="object-cover w-full h-full"
                 priority
               />
+              <AvatarFaceOverlay />
             </div>
           </div>
         </div>

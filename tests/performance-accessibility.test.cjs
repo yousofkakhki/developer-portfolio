@@ -14,6 +14,54 @@ test('LCP avatar is server rendered, right-sized, and high priority', () => {
   assert.match(source, /avatar-512\.webp/);
 });
 
+test('3D avatar face progressively enhances the portrait after page load', () => {
+  const hero = read('app/components/homepage/hero-section/index.jsx');
+  const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
+  const canvas = read('app/components/homepage/hero-section/avatar-face-canvas.jsx');
+  const securityHeaders = read('middleware-security.js');
+
+  assert.match(hero, /AvatarFaceOverlay/);
+  assert.match(hero, /avatar-512\.webp/);
+  assert.match(overlay, /window\.addEventListener\(['"]load['"]/);
+  assert.match(overlay, /requestIdleCallback/);
+  assert.match(overlay, /hardFallbackTimer/);
+  assert.match(overlay, /data-avatar-stage/);
+  assert.match(overlay, /prefers-reduced-motion: reduce/);
+  assert.match(overlay, /saveData/);
+  assert.match(overlay, /import\(['"]\.\/avatar-face-canvas['"]\)/);
+  assert.match(canvas, /FACE_MESH_NAMES/);
+  assert.match(canvas, /HIDDEN_FACE_MATERIALS/);
+  assert.match(canvas, /SPINE/);
+  assert.match(canvas, /HEAD/);
+  assert.match(canvas, /EYES\.001/);
+  assert.doesNotMatch(canvas, /FACE_MESH_NAMES[^\n]*NECK/);
+  assert.doesNotMatch(overlay, /bg-slate-900/);
+  assert.doesNotMatch(overlay, /indicatorState\.dotClass/);
+  assert.match(overlay, /data-voice-state/);
+  assert.match(canvas, /scaleX\(1\.28\)/);
+  assert.match(canvas, /polygon\(0 0, 100% 0, 100% 70%/);
+  assert.match(canvas, /parser\.associations\.get\(object\)/);
+  assert.match(canvas, /object\.visible = faceMeshIndexes\.has\(meshIndex\)/);
+  assert.match(overlay, /top-\[3\.5%\]/);
+  assert.match(canvas, /headPosition\.y \+ 0\.05/);
+  assert.match(canvas, /headPosition\.y \+ 0\.04/);
+  assert.match(canvas, /headPosition\.z \+ 0\.72/);
+  assert.match(canvas, /kakhki-robot\.vrm/);
+  assert.match(canvas, /ResizeObserver/);
+  assert.match(canvas, /readPixels/);
+  assert.match(canvas, /VRMUtils\.deepDispose/);
+  assert.doesNotMatch(canvas, /VRMUtils\.(removeUnnecessaryVertices|combineSkeletons)/);
+  assert.match(securityHeaders, /connect-src[^"\n]*blob:/);
+  assert.ok(fs.existsSync(path.join(root, 'public/avatar/kakhki-robot.vrm')));
+});
+
+test('Three.js and VRM code stay in a post-load async chunk', () => {
+  const nextConfig = read('next.config.js');
+  assert.match(nextConfig, /name: ['"]avatar-vrm['"]/);
+  assert.match(nextConfig, /chunks: ['"]async['"]/);
+  assert.match(nextConfig, /three\|@pixiv/);
+});
+
 test('global layout does not ship Toastify', () => {
   const source = read('app/[locale]/layout.js');
   assert.doesNotMatch(source, /react-toastify|ToastContainer/);
