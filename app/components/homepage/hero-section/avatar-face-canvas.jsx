@@ -9,6 +9,7 @@ import { voiceAnalyserRef } from '@/app/utils/avatarVoiceAudio';
 const MODEL_URL = '/avatar/kakhki-robot.vrm';
 const FACE_MESH_NAMES = new Set(['HEAD', 'EYES', 'EYES.001']);
 const HIDDEN_FACE_MATERIALS = new Set(['SPINE']);
+const FACE_TRANSLATE_Y = 3;
 const FACE_CLIP_PATH =
   'polygon(0 0, 100% 0, 100% 58%, 98% 67%, 94% 74%, 87% 81%, 77% 87%, 64% 91%, 50% 93%, 36% 91%, 23% 87%, 13% 81%, 6% 74%, 2% 67%, 0 58%)';
 
@@ -236,7 +237,7 @@ export default function AvatarFaceCanvas({ onReady }) {
       className="relative h-full w-full [filter:drop-shadow(0_3px_3px_rgba(2,6,23,0.38))]"
       style={{
         clipPath: FACE_CLIP_PATH,
-        transform: 'scaleX(1.28)',
+        transform: `translateY(${FACE_TRANSLATE_Y}px) scaleX(1.28)`,
         transformOrigin: '50% 50%',
       }}
     />
