@@ -9,7 +9,10 @@ import { voiceAnalyserRef } from '@/app/utils/avatarVoiceAudio';
 const MODEL_URL = '/avatar/kakhki-robot.vrm';
 const FACE_MESH_NAMES = new Set(['HEAD', 'EYES', 'EYES.001']);
 const HIDDEN_FACE_MATERIALS = new Set(['SPINE']);
-const FACE_TRANSLATE_Y = 3;
+const FACE_TRANSLATE_X = -5.5;
+const FACE_TRANSLATE_Y = 10.5;
+const FACE_SUPERSAMPLE = 1.5;
+const FACE_MAX_PIXEL_RATIO = 3;
 const FACE_CLIP_PATH =
   'polygon(0 0, 100% 0, 100% 58%, 98% 67%, 94% 74%, 87% 81%, 77% 87%, 64% 91%, 50% 93%, 36% 91%, 23% 87%, 13% 81%, 6% 74%, 2% 67%, 0 58%)';
 
@@ -45,7 +48,7 @@ export default function AvatarFaceCanvas({ onReady }) {
         alpha: true,
         antialias: true,
         canvas,
-        powerPreference: 'low-power',
+        powerPreference: 'high-performance',
       });
     } catch {
       return undefined;
@@ -53,7 +56,9 @@ export default function AvatarFaceCanvas({ onReady }) {
 
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(
+      Math.min((window.devicePixelRatio || 1) * FACE_SUPERSAMPLE, FACE_MAX_PIXEL_RATIO),
+    );
 
     const keyLight = new THREE.DirectionalLight(0xfff1e6, 0.56);
     keyLight.position.set(1.2, 1.8, 2.4);
@@ -237,7 +242,7 @@ export default function AvatarFaceCanvas({ onReady }) {
       className="relative h-full w-full [filter:drop-shadow(0_3px_3px_rgba(2,6,23,0.38))]"
       style={{
         clipPath: FACE_CLIP_PATH,
-        transform: `translateY(${FACE_TRANSLATE_Y}px) scaleX(1.28)`,
+        transform: `translate(${FACE_TRANSLATE_X}px, ${FACE_TRANSLATE_Y}px) scaleX(1.28)`,
         transformOrigin: '50% 50%',
       }}
     />

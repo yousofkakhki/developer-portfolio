@@ -38,7 +38,19 @@ test('3D avatar face progressively enhances the portrait after page load', () =>
   assert.doesNotMatch(overlay, /bg-slate-900/);
   assert.doesNotMatch(overlay, /indicatorState\.dotClass/);
   assert.match(overlay, /data-voice-state/);
-  assert.match(canvas, /scaleX\(1\.28\)/);
+  assert.match(canvas, /const FACE_TRANSLATE_X = -5\.5;/);
+  assert.match(canvas, /const FACE_TRANSLATE_Y = 10\.5;/);
+  assert.match(
+    canvas,
+    /translate\(\$\{FACE_TRANSLATE_X\}px, \$\{FACE_TRANSLATE_Y\}px\) scaleX\(1\.28\)/,
+  );
+  assert.match(canvas, /powerPreference: 'high-performance'/);
+  assert.match(canvas, /const FACE_SUPERSAMPLE = 1\.5;/);
+  assert.match(canvas, /const FACE_MAX_PIXEL_RATIO = 3;/);
+  assert.match(
+    canvas,
+    /Math\.min\(\(window\.devicePixelRatio \|\| 1\) \* FACE_SUPERSAMPLE, FACE_MAX_PIXEL_RATIO\)/,
+  );
   assert.match(canvas, /polygon\(0 0, 100% 0, 100% 58%/);
   assert.match(canvas, /parser\.associations\.get\(object\)/);
   assert.match(canvas, /object\.visible = faceMeshIndexes\.has\(meshIndex\)/);
