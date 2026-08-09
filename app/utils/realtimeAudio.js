@@ -12,6 +12,66 @@ export const REALTIME_VAD_OPTIONS = Object.freeze({
   minSpeechMs: 160,
 });
 
+export function canCommitAudioStart({
+  generation,
+  currentGeneration,
+  mounted,
+  autoSession,
+  pageVisible,
+}) {
+  return (
+    generation === currentGeneration &&
+    mounted &&
+    autoSession &&
+    pageVisible
+  );
+}
+
+function audioContextBlockedError(message) {
+  const error = new Error(message);
+  error.name = 'NotAllowedError';
+  return error;
+}
+
+export async function ensureAudioContextRunning(
+  context,
+  { timeoutMs = 2500 } = {},
+) {
+  if (!context || typeof context.state !== 'string') {
+    throw new TypeError('A valid audio context is required');
+  }
+  if (context.state === 'running') {
+    return context;
+  }
+  if (context.state === 'closed') {
+    throw new Error('Audio context is closed');
+  }
+  if (typeof context.resume !== 'function') {
+    throw audioContextBlockedError('Audio context cannot be resumed');
+  }
+
+  let timeoutId;
+  try {
+    await Promise.race([
+      Promise.resolve().then(() => context.resume()),
+      new Promise((_, reject) => {
+        timeoutId = globalThis.setTimeout(() => {
+          reject(audioContextBlockedError('Audio context resume timed out'));
+        }, timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeoutId !== undefined) {
+      globalThis.clearTimeout(timeoutId);
+    }
+  }
+
+  if (context.state !== 'running') {
+    throw audioContextBlockedError('Audio context is not running');
+  }
+  return context;
+}
+
 function resampleLinear(samples, inputRate, outputRate) {
   if (!(samples instanceof Float32Array)) {
     throw new TypeError('samples must be a Float32Array');
@@ -133,6 +193,7 @@ export function createAudioChunkQueue({
         if (isRecoverableError(error)) {
           chunks.unshift(audio);
           playbackPaused = true;
+          playbackStarted = false;
         } else {
           chunks = [];
           completionReceived = false;

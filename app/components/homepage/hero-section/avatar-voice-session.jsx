@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useMicVAD } from '@ricky0123/vad-react';
 import {
+  canCommitAudioStart,
   createAudioChunkQueue,
+  ensureAudioContextRunning,
   REALTIME_VAD_OPTIONS,
   speechToPcm16,
 } from '@/app/utils/realtimeAudio';
@@ -15,6 +17,7 @@ import {
 
 const SOCKET_URL = 'wss://ai.kakhki.me/ai?guest=true';
 const RESPONSE_TIMEOUT_MS = 45000;
+const AUDIO_CONTEXT_RESUME_TIMEOUT_MS = 2500;
 
 function decodeBase64(base64Audio) {
   const binary = window.atob(base64Audio);
@@ -27,6 +30,19 @@ function decodeBase64(base64Audio) {
 
 function isAutoplayError(error) {
   return error?.name === 'NotAllowedError' || error?.name === 'SecurityError';
+}
+
+async function prepareAudioOutput(contextRef) {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    throw new Error('Web Audio API is unavailable');
+  }
+  if (!contextRef.current || contextRef.current.state === 'closed') {
+    contextRef.current = new AudioContextClass();
+  }
+  return ensureAudioContextRunning(contextRef.current, {
+    timeoutMs: AUDIO_CONTEXT_RESUME_TIMEOUT_MS,
+  });
 }
 
 function createPlayback(audioBase64, contextRef) {
@@ -62,18 +78,7 @@ function createPlayback(audioBase64, contextRef) {
 
   (async () => {
     try {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) {
-        throw new Error('Web Audio API is unavailable');
-      }
-
-      if (!contextRef.current || contextRef.current.state === 'closed') {
-        contextRef.current = new AudioContextClass();
-      }
-      const context = contextRef.current;
-      if (context.state === 'suspended') {
-        await context.resume();
-      }
+      const context = await prepareAudioOutput(contextRef);
       if (cancelled) {
         return;
       }
@@ -185,6 +190,7 @@ export function AvatarVoiceSession({ onStateChange }) {
     }
 
     const generation = ++startGenerationRef.current;
+    let microphoneStarted = false;
     setVoiceState('requestingMic');
     try {
       await vadPausePromiseRef.current;
@@ -197,6 +203,7 @@ export function AvatarVoiceSession({ onStateChange }) {
         return;
       }
       await controls.start();
+      microphoneStarted = true;
       if (
         generation !== startGenerationRef.current ||
         !mountedRef.current ||
@@ -206,13 +213,36 @@ export function AvatarVoiceSession({ onStateChange }) {
         await controls.pause?.();
         return;
       }
+      await prepareAudioOutput(audioContextRef);
+      if (!canCommitAudioStart({
+        generation,
+        currentGeneration: startGenerationRef.current,
+        mounted: mountedRef.current,
+        autoSession: autoSessionRef.current,
+        pageVisible: pageVisibleRef.current,
+      })) {
+        await controls.pause?.();
+        return;
+      }
       vadListeningRef.current = true;
       setVoiceState('listening');
     } catch (error) {
+      if (microphoneStarted) {
+        try {
+          await controls.pause?.();
+        } catch {
+          // The VAD stream may already be stopped.
+        }
+      }
       if (generation !== startGenerationRef.current || !mountedRef.current) {
         return;
       }
-      console.error('Failed to start microphone VAD:', error);
+      vadListeningRef.current = false;
+      awaitingResponseRef.current = false;
+      turnCompletedRef.current = true;
+      playbackQueueRef.current?.reset();
+      console.error('Failed to start hands-free voice session:', error);
+      playbackBlockedRef.current = isAutoplayError(error);
       setVoiceState(isAutoplayError(error) ? 'blocked' : 'error');
       autoSessionRef.current = isAutoplayError(error) ? false : true;
     }
@@ -222,14 +252,14 @@ export function AvatarVoiceSession({ onStateChange }) {
     if (!mountedRef.current) {
       return;
     }
-    clearResponseTimeout();
-    awaitingResponseRef.current = false;
     if (isAutoplayError(error)) {
       playbackBlockedRef.current = true;
       autoSessionRef.current = false;
       setVoiceState('blocked');
       return;
     }
+    clearResponseTimeout();
+    awaitingResponseRef.current = false;
     console.error('AI audio playback failed:', error);
     setVoiceState('error');
     window.setTimeout(() => {
@@ -292,6 +322,7 @@ export function AvatarVoiceSession({ onStateChange }) {
       if (
         !mountedRef.current ||
         !pageVisibleRef.current ||
+        !vadListeningRef.current ||
         awaitingResponseRef.current
       ) {
         return;
@@ -299,7 +330,6 @@ export function AvatarVoiceSession({ onStateChange }) {
       clearResponseTimeout();
       turnCompletedRef.current = false;
       playbackBlockedRef.current = false;
-      vadListeningRef.current = true;
       playbackQueueRef.current?.startTurn();
       setVoiceState('speaking');
     },
@@ -313,6 +343,9 @@ export function AvatarVoiceSession({ onStateChange }) {
     },
     onSpeechEnd: async (speech) => {
       const socket = socketRef.current;
+      if (!vadListeningRef.current) {
+        return;
+      }
       vadListeningRef.current = false;
       if (!pageVisibleRef.current) {
         stopVad();
@@ -426,7 +459,6 @@ export function AvatarVoiceSession({ onStateChange }) {
       playbackBlockedRef.current = false;
       autoSessionRef.current = true;
       playbackQueue.resumePlayback();
-      void audioContextRef.current?.resume?.();
       void startListening();
     };
     const events = ['pointerdown', 'touchstart', 'keydown'];

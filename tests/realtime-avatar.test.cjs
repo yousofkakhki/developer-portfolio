@@ -124,9 +124,10 @@ test('playback reset aborts active media and prevents stale completion', async (
   assert.equal(completed, 0);
 });
 
-test('a gesture-blocked chunk stays queued and resumes exactly once', async () => {
+test('a gesture-blocked chunk stays queued, re-announces playback, and resumes exactly once', async () => {
   const { createAudioChunkQueue } = await loadRealtimeAudio();
   let attempts = 0;
+  let starts = 0;
   let completed = 0;
   const blocked = Object.assign(new Error('gesture required'), { name: 'NotAllowedError' });
   const queue = createAudioChunkQueue({
@@ -138,6 +139,9 @@ test('a gesture-blocked chunk stays queued and resumes exactly once', async () =
       return { finished: Promise.resolve(), abort: () => {} };
     },
     isRecoverableError: (error) => error?.name === 'NotAllowedError',
+    onPlaybackStart: () => {
+      starts += 1;
+    },
     onPlaybackComplete: () => {
       completed += 1;
     },
@@ -155,6 +159,75 @@ test('a gesture-blocked chunk stays queued and resumes exactly once', async () =
   await new Promise((resolve) => setImmediate(resolve));
 
   assert.equal(attempts, 2);
+  assert.equal(starts, 2);
   assert.equal(completed, 1);
   assert.equal(queue.isBusy(), false);
+});
+
+test('stale VAD startup cannot commit after lifecycle invalidation', async () => {
+  const { canCommitAudioStart } = await loadRealtimeAudio();
+
+  assert.equal(canCommitAudioStart({
+    generation: 4,
+    currentGeneration: 4,
+    mounted: true,
+    autoSession: true,
+    pageVisible: true,
+  }), true);
+  assert.equal(canCommitAudioStart({
+    generation: 4,
+    currentGeneration: 5,
+    mounted: true,
+    autoSession: true,
+    pageVisible: true,
+  }), false);
+  assert.equal(canCommitAudioStart({
+    generation: 4,
+    currentGeneration: 4,
+    mounted: true,
+    autoSession: false,
+    pageVisible: true,
+  }), false);
+  assert.equal(canCommitAudioStart({
+    generation: 4,
+    currentGeneration: 4,
+    mounted: true,
+    autoSession: true,
+    pageVisible: false,
+  }), false);
+});
+
+test('audio context startup fails fast instead of leaving playback and VAD stuck forever', async () => {
+  const { ensureAudioContextRunning } = await loadRealtimeAudio();
+  const context = {
+    state: 'suspended',
+    resume: () => new Promise(() => {}),
+  };
+
+  await assert.rejects(
+    ensureAudioContextRunning(context, { timeoutMs: 5 }),
+    (error) => error?.name === 'NotAllowedError' && /audio context/i.test(error.message),
+  );
+});
+
+test('audio output is unlocked while microphone capture is active', () => {
+  const session = read('app/components/homepage/hero-section/avatar-voice-session.jsx');
+
+  assert.match(
+    session,
+    /await controls\.start\(\);[\s\S]*?await prepareAudioOutput\(audioContextRef\);[\s\S]*?setVoiceState\(['"]listening['"]\)/,
+  );
+});
+
+test('recoverable playback blocking preserves the active response turn', () => {
+  const session = read('app/components/homepage/hero-section/avatar-voice-session.jsx');
+  const handler = session.match(
+    /const handlePlaybackError = useCallback\(\(error\) => \{[\s\S]*?\n  \}, \[clearResponseTimeout/,
+  )?.[0];
+
+  assert.ok(handler, 'playback error handler should be present');
+  assert.match(
+    handler,
+    /if \(isAutoplayError\(error\)\) \{(?:(?!awaitingResponseRef\.current = false)[\s\S])*?setVoiceState\(['"]blocked['"]\);[\s\S]*?return;\s*\}\s*clearResponseTimeout\(\);\s*awaitingResponseRef\.current = false;/,
+  );
 });

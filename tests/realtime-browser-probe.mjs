@@ -7,6 +7,8 @@ const assertAvatar = process.argv.includes('--assert-avatar');
 const audioFixture = process.env.REALTIME_AUDIO_FIXTURE;
 const waitMs = Number(process.env.PROBE_WAIT_MS || 12000);
 const headless = process.env.PROBE_HEADLESS !== 'false';
+const simulateBlockedAudio = process.env.PROBE_SIMULATE_BLOCKED_AUDIO === 'true';
+const blockedAudioPhase = process.env.PROBE_BLOCK_AUDIO_PHASE || 'startup';
 
 const browser = await puppeteer.launch({
   headless,
@@ -38,8 +40,69 @@ try {
     events.push({ type: 'websocket-frame', opcode: response.opcode, bytes: response.payloadData?.length || 0 });
   });
 
-  await page.evaluateOnNewDocument(() => {
+  await page.evaluateOnNewDocument((blockAudioOutput, blockPhase) => {
     window.__micProbe = { calls: 0, constraints: [], errors: [] };
+    window.__blockedAudioProbe = {
+      enabled: blockAudioOutput,
+      phase: blockPhase,
+      armed: blockAudioOutput && blockPhase === 'startup',
+      consumed: blockAudioOutput && blockPhase === 'startup',
+      outputContextCreated: false,
+      resumeCalls: 0,
+      released: false,
+    };
+
+    if (blockAudioOutput) {
+      const NativeAudioContext = window.AudioContext || window.webkitAudioContext;
+      let contextCount = 0;
+      let blocked = blockPhase === 'startup';
+      let consumed = blockPhase === 'startup';
+      const resumeWaiters = [];
+
+      class ProbeAudioContext extends NativeAudioContext {
+        constructor(...args) {
+          super(...args);
+          contextCount += 1;
+          this.__probeOutputContext = contextCount === 2;
+          if (this.__probeOutputContext) {
+            window.__blockedAudioProbe.outputContextCreated = true;
+          }
+        }
+
+        get state() {
+          if (this.__probeOutputContext && blocked) {
+            return 'suspended';
+          }
+          return super.state;
+        }
+
+        resume() {
+          if (this.__probeOutputContext && blocked) {
+            window.__blockedAudioProbe.resumeCalls += 1;
+            return new Promise((resolve) => resumeWaiters.push(resolve));
+          }
+          return super.resume();
+        }
+      }
+
+      const releaseAudioOutput = () => {
+        if (!blocked) return;
+        blocked = false;
+        window.__blockedAudioProbe.released = true;
+        resumeWaiters.splice(0).forEach((resolve) => resolve());
+      };
+      window.__armBlockedAudioProbe = () => {
+        if (consumed) return;
+        consumed = true;
+        blocked = true;
+        window.__blockedAudioProbe.armed = true;
+        window.__blockedAudioProbe.consumed = true;
+      };
+      window.addEventListener('pointerdown', releaseAudioOutput, { capture: true });
+      window.AudioContext = ProbeAudioContext;
+      window.webkitAudioContext = ProbeAudioContext;
+    }
+
     const mediaDevices = navigator.mediaDevices;
     if (!mediaDevices?.getUserMedia) return;
     const original = mediaDevices.getUserMedia.bind(mediaDevices);
@@ -53,7 +116,7 @@ try {
         throw error;
       }
     };
-  });
+  }, simulateBlockedAudio, blockedAudioPhase);
 
   if (blockAvatar) {
     await page.setRequestInterception(true);
@@ -85,6 +148,7 @@ try {
   await page.setCacheEnabled(false);
   await page.goto(`${target}${target.includes('?') ? '&' : '?'}probe=${Date.now()}`, { waitUntil: 'networkidle2', timeout: 60000 });
   const stateHistory = [];
+  let recoveryClicked = false;
   const startedAt = Date.now();
   while (Date.now() - startedAt < waitMs) {
     const state = await page.evaluate(() => {
@@ -93,6 +157,13 @@ try {
     });
     if (state && stateHistory.at(-1)?.state !== state) {
       stateHistory.push({ elapsedMs: Date.now() - startedAt, state });
+    }
+    if (simulateBlockedAudio && blockedAudioPhase === 'playback' && state?.includes('processing')) {
+      await page.evaluate(() => window.__armBlockedAudioProbe?.());
+    }
+    if (simulateBlockedAudio && !recoveryClicked && state?.includes('blocked')) {
+      recoveryClicked = true;
+      await page.mouse.click(10, 10);
     }
     await new Promise((resolve) => setTimeout(resolve, 200));
   }
@@ -108,6 +179,7 @@ try {
       secureContext: window.isSecureContext,
       permission,
       mic: window.__micProbe,
+      blockedAudio: window.__blockedAudioProbe,
       avatarStage: overlay?.getAttribute('data-avatar-stage') || null,
       voiceState: overlay?.innerText?.trim() || null,
       canvasCount: overlay?.querySelectorAll('canvas').length || 0,
@@ -129,6 +201,21 @@ try {
       const states = stateHistory.map((entry) => entry.state).join(' | ');
       for (const expected of ['speaking', 'processing', 'playing', 'listening']) {
         if (!states.includes(expected)) failures.push(`missing visible ${expected} state`);
+      }
+      if (simulateBlockedAudio) {
+        const blockedIndex = stateHistory.findIndex((entry) => entry.state?.includes('blocked'));
+        const playingAfterBlocked = stateHistory.findIndex(
+          (entry, index) => index > blockedIndex && entry.state?.includes('playing'),
+        );
+        const listeningAfterPlayback = stateHistory.findIndex(
+          (entry, index) => index > playingAfterBlocked && entry.state?.includes('listening'),
+        );
+        if (blockedIndex < 0) failures.push('stalled audio context never reached blocked recovery state');
+        if (!result.blockedAudio?.outputContextCreated) failures.push('probe did not intercept the output audio context');
+        if (!result.blockedAudio?.armed || result.blockedAudio?.resumeCalls < 1) failures.push('probe did not suspend audio output');
+        if (!recoveryClicked || !result.blockedAudio?.released) failures.push('pointer gesture did not release blocked audio');
+        if (playingAfterBlocked < 0) failures.push('audio did not play after blocked-context recovery');
+        if (listeningAfterPlayback < 0) failures.push('VAD did not re-arm after recovered playback');
       }
     }
     if (failures.length) {
