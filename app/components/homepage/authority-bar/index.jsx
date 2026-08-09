@@ -9,7 +9,7 @@ function AuthorityBar() {
     <section className="py-8">
       <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 p-6 rounded bg-slate-800/50 border border-slate-700">
         <div className="flex items-center gap-3">
-          <FaTrophy className="text-yellow-500 text-2xl md:text-3xl" />
+          <FaTrophy className="text-cyan-400 text-2xl md:text-3xl" />
           <div className="text-center md:text-left">
             <span className="text-white font-semibold text-sm md:text-base">
               Best Booth Award – ITEX 2024

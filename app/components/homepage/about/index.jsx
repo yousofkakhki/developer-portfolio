@@ -40,7 +40,7 @@ function AboutSection() {
         {/* ITEX Award Callout */}
         <div className="mt-8 border-l-4 border-burgundy bg-slate-800 p-6 rounded-r">
           <div className="flex items-start gap-3">
-            <span className="text-burgundy text-xl">🏆</span>
+            <span className="text-cyan-400 text-xl">🏆</span>
             <div>
               <p className="text-slate-200 font-medium">Best Booth Award – ITEX 2024</p>
               <p className="text-slate-400 text-sm mt-1">

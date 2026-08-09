@@ -1,0 +1,46 @@
+{
+  "brand": "Yousef Kakhki",
+  "positioning": "System Architect & Technical Lead",
+  "concept": "Systems Backbone",
+  "colors": {
+    "deep_navy": "#071018",
+    "surface": "#101B27",
+    "teal": "#16F2B3",
+    "teal_deep": "#0A7B68",
+    "silver_light": "#F3F6F8",
+    "silver_mid": "#A7ADB5",
+    "silver_dark": "#4C5560",
+    "white": "#FFFFFF",
+    "black": "#0A0D10"
+  },
+  "typography": {
+    "display": [
+      "Sora",
+      "Manrope",
+      "Inter",
+      "sans-serif"
+    ],
+    "body": [
+      "Inter",
+      "Arial",
+      "sans-serif"
+    ],
+    "mono": [
+      "IBM Plex Mono",
+      "monospace"
+    ],
+    "persian": [
+      "Vazirmatn",
+      "sans-serif"
+    ]
+  },
+  "minimum_size_px": {
+    "lockup": 320,
+    "symbol": 64,
+    "micro": 16
+  },
+  "motion": {
+    "recommended_duration_seconds": 1.5,
+    "loop": false
+  }
+}

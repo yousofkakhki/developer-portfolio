@@ -1,0 +1,14 @@
+:root {
+  --yk-deep-navy: #071018;
+  --yk-surface: #101B27;
+  --yk-teal: #16F2B3;
+  --yk-teal-deep: #0A7B68;
+  --yk-silver-light: #F3F6F8;
+  --yk-silver-mid: #A7ADB5;
+  --yk-silver-dark: #4C5560;
+  --yk-white: #FFFFFF;
+  --yk-black: #0A0D10;
+  --yk-font-display: "Sora", "Manrope", "Inter", sans-serif;
+  --yk-font-body: "Inter", Arial, sans-serif;
+  --yk-font-mono: "IBM Plex Mono", monospace;
+}

@@ -93,7 +93,7 @@ test('icon controls and visible abbreviations have accessible names', () => {
   const nav = read('app/components/navbar.jsx');
   const switcher = read('app/components/language-switcher.jsx');
   assert.match(scroll, /aria-label="Scroll to top"/);
-  assert.match(nav, /aria-label="YK — Home"/);
+  assert.match(nav, /aria-label="Yousef Kakhki — Home"/);
   assert.match(switcher, /aria-label="EN — English"/);
   assert.match(switcher, /aria-label="FA — فارسی"/);
 });
@@ -108,6 +108,33 @@ test('layout self-hosts fonts without render-blocking Google CSS', () => {
   const layout = read('app/[locale]/layout.js');
   assert.doesNotMatch(layout, /fonts\.googleapis\.com/);
   assert.match(layout, /Vazirmatn/);
+});
+
+test('official Systems Backbone brand assets and metadata are wired into the site', () => {
+  const layout = read('app/[locale]/layout.js');
+  const globals = read('app/css/globals.scss');
+  const manifest = read('app/manifest.js');
+  const navbar = read('app/components/navbar.jsx');
+
+  assert.match(globals, /--color-deep-navy:\s*#071018/);
+  assert.match(globals, /--color-teal:\s*#16f2b3/);
+  assert.match(layout, /Sora/);
+  assert.match(layout, /IBM_Plex_Mono/);
+  assert.match(layout, /\/brand\/favicon\.svg/);
+  assert.match(manifest, /#071018/);
+  assert.match(navbar, /\/brand\/yk-micro-icon\.svg/);
+  assert.match(read('app/components/homepage/hero-section/index.jsx'), /\/brand\/yk-horizontal-lockup\.svg/);
+  for (const asset of [
+    'public/brand/yk-horizontal-lockup.svg',
+    'public/brand/yk-micro-icon.svg',
+    'public/brand/app-icon.svg',
+    'public/brand/favicon.svg',
+    'app/icon.png',
+    'app/apple-icon.png',
+    'public/og-default.png',
+  ]) {
+    assert.equal(fs.existsSync(path.join(root, asset)), true, `missing ${asset}`);
+  }
 });
 
 test('homepage secondary text meets contrast requirements', () => {

@@ -2,6 +2,7 @@
 import { getTranslations } from 'next-intl/server';
 import { personalData } from '@/utils/data/personal-data';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BsGithub, BsLinkedin } from 'react-icons/bs';
 
 export default async function Footer() {
@@ -9,9 +10,16 @@ export default async function Footer() {
   const tPersonal = await getTranslations('personal');
 
   return (
-    <footer className="relative border-t bg-slate-900 border-slate-700 text-white z-10">
-      <div className="mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] py-6 lg:py-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer className="relative z-10 border-t border-slate-700/70 bg-slate-900 text-white">
+      <div className="mx-auto px-6 py-8 sm:px-12 lg:max-w-[70rem] lg:py-10 xl:max-w-[76rem] 2xl:max-w-[92rem]">
+        <div className="mb-6 flex items-center gap-3 border-b border-slate-700/60 pb-5">
+          <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} className="h-8 w-8" />
+          <div>
+            <p className="font-display text-xs font-medium uppercase tracking-[0.18em] text-slate-100">Yousef Kakhki</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">Architecting solutions. Leading transformation.</p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-slate-400">
             © {new Date().getFullYear()} {tPersonal('name')}. {tCommon('allRightsReserved')}.
           </p>

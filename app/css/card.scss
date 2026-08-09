@@ -1,18 +1,19 @@
-/* Card styles - clean slate design */
+/* Systems Backbone card surfaces */
 .glow-container {
   width: 100%;
 }
 
 .glow-card {
   position: relative;
-  border: 1px solid #334155;
-  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--color-silver-dark);
+  background: color-mix(in srgb, var(--color-surface) 68%, transparent);
   border-radius: 0.5rem;
-  transition: border-color 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .glow-card:is(:hover, :focus-visible) {
-  border-color: #475569;
+  border-color: var(--color-teal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-teal) 22%, transparent);
 }
 
 .glows {

@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { useTranslations, useLocale } from 'next-intl';
 import LanguageSwitcher from './language-switcher';
@@ -103,10 +104,16 @@ function Navbar() {
         {/* Logo */}
         <Link
           href={`/${locale}`}
-          className="text-slate-200 text-xl font-semibold hover:text-slate-50 transition-colors"
-          aria-label="YK — Home"
+          className="group flex items-center gap-3 text-slate-200 transition-colors"
+          aria-label="Yousef Kakhki — Home"
         >
-          YK
+          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded border border-slate-600 bg-slate-950/60 p-1 transition-colors group-hover:border-cyan-400">
+            <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} className="h-full w-full object-contain" />
+          </span>
+          <span className="hidden sm:block">
+            <span className="block font-display text-sm font-medium uppercase tracking-[0.16em] text-slate-100">Yousef Kakhki</span>
+            <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">Systems Backbone</span>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}

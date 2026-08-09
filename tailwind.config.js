@@ -19,16 +19,46 @@ module.exports = {
         '4xl': ['2.25rem', { lineHeight: '1.222' }],    // 36px
         '5xl': ['3rem', { lineHeight: '1.167' }],       // 48px
       },
-      // Infrastructure Blue Color Palette
+      // Systems Backbone brand palette; existing utility names remain stable.
       colors: {
-        'burgundy': {
-          DEFAULT: '#800020',
-          dark: '#5c0017',
+        slate: {
+          50: '#F3F6F8',
+          100: '#F3F6F8',
+          200: '#E6E8F0',
+          300: '#A7ADB5',
+          400: '#A7ADB5',
+          500: '#A7ADB5',
+          600: '#4C5560',
+          700: '#4C5560',
+          800: '#101B27',
+          900: '#071018',
+          950: '#071018',
+        },
+        cyan: {
+          300: '#16F2B3',
+          400: '#16F2B3',
+          500: '#16F2B3',
+          600: '#0A7B68',
+          700: '#0A7B68',
+          800: '#0A7B68',
+          900: '#071018',
+          950: '#071018',
+        },
+        blue: {
+          400: '#16F2B3',
+          500: '#16F2B3',
+          600: '#0A7B68',
+          700: '#0A7B68',
+        },
+        burgundy: {
+          DEFAULT: '#0A7B68',
+          dark: '#071018',
         },
       },
       fontFamily: {
-        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+        sans: ['var(--font-body)', 'Inter', 'Arial', 'sans-serif'],
+        display: ['var(--font-display)', 'Sora', 'Manrope', 'Inter', 'sans-serif'],
+        mono: ['var(--font-mono)', 'IBM Plex Mono', 'monospace'],
       },
       container: {
         center: true,

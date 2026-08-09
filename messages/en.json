@@ -206,7 +206,7 @@
   },
   "personal": {
     "name": "Yousef Kakhki",
-    "designation": "System Architect & Infrastructure Lead",
+    "designation": "System Architect & Technical Lead",
     "title": "Bridging hardware-level efficiency with cloud-scale distributed systems",
     "description": "System Architect & Technical Lead with an M.Sc. in Computer Science (System Design) from Amirkabir University of Technology (Tehran Polytechnic). Specializing in WebRTC/LiveKit live media, delayed HLS playback, high-frequency trading engines, embedded Linux, and DevOps.",
     "about": "Ten years of backend and systems work, mostly on problems where the failure modes are expensive: a deployed crypto-to-fiat gateway, a WebRTC platform serving 5,000 concurrent users with delayed HLS playback, and a Linux OTA pipeline for IoT devices.\n\nI move between abstraction layers. One week I am tuning NATS JetStream for low-latency signaling; the next I am writing kernel patches or working through reconciliation logic with the finance team. I have led engineering teams while continuing to contribute directly to the codebase.\n\nCurrently targeting Senior Backend, Staff Engineer, or Tech Lead roles in the EU (Germany Blue Card / Netherlands HSM). M.Sc. in Computer Science (System Design) from Amirkabir University. IELTS 7.5."
@@ -279,7 +279,7 @@
     }
   },
   "metadata": {
-    "title": "Yousef Kakhki | System Architect & Infrastructure Lead",
+    "title": "Yousef Kakhki | System Architect & Technical Lead",
     "description": "Senior backend engineer and tech lead with 10 years of experience in WebRTC, Node.js, Go, Python, and distributed systems. M.Sc. in Computer Science."
   }
 }

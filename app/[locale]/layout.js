@@ -3,7 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import Script from 'next/script';
-import { Inter, Vazirmatn } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Sora, Vazirmatn } from "next/font/google";
 
 import Footer from "../components/footer";
 import ScrollToTop from "../components/helper/scroll-to-top";
@@ -17,6 +17,21 @@ const inter = Inter({
   display: 'swap',
   preload: true,
   variable: '--font-inter'
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  variable: '--font-sora'
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  display: 'swap',
+  preload: false,
+  variable: '--font-ibm-plex-mono',
+  weight: ['400', '500', '600']
 });
 
 const vazirmatn = Vazirmatn({
@@ -35,7 +50,7 @@ export async function generateMetadata({ params: { locale } }) {
   const metadata = messages.metadata || {};
   const personal = messages.personal || {};
   
-  const title = metadata.title || 'Yousef Kakhki | System Architect & Infrastructure Lead';
+  const title = metadata.title || 'Yousef Kakhki | System Architect & Technical Lead';
   const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in Computer Science (System Design). Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.';
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   
@@ -46,8 +61,8 @@ export async function generateMetadata({ params: { locale } }) {
   
   // Locale-specific OG image alt text
   const ogImageAlt = locale === 'fa' 
-    ? 'یوسف کاخکی - معمار سیستم و مدیر نرم‌افزار'
-    : 'Yousef Kakhki – System Architect & Infrastructure Lead';
+    ? 'یوسف کاخکی - معمار سیستم و رهبر فنی'
+    : 'Yousef Kakhki – System Architect & Technical Lead';
 
   return {
     title: {
@@ -58,7 +73,7 @@ export async function generateMetadata({ params: { locale } }) {
     keywords: [
       'Yousef Kakhki',
       'System Architect',
-      'Infrastructure Lead',
+      'Technical Lead',
       'LiveKit Expert',
       'NATS JetStream',
       'Fintech Lead',
@@ -162,10 +177,12 @@ export default async function LocaleLayout({ children, params: { locale } }) {
     <html lang={lang} dir={dir}>
       <head>
         <StructuredData locale={locale} messages={messages} />
-        <meta name="theme-color" content="#0f172a" />
+        <meta name="theme-color" content="#071018" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/brand/app-icon.svg" />
       </head>
-      <body className={`${locale === 'fa' ? vazirmatn.className : inter.className} overflow-x-hidden`}>
+      <body className={`${sora.variable} ${plexMono.variable} ${locale === 'fa' ? vazirmatn.className : inter.className} overflow-x-hidden`}>
         <NextIntlClientProvider messages={messages}>
           {/* Skip to main content link for accessibility */}
           <a 

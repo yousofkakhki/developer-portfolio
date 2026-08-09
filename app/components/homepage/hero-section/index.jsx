@@ -18,17 +18,38 @@ async function HeroSection() {
           
           {/* Text column */}
           <div className="flex-1">
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-50 mb-2">
-              {t('personal.name')}
-            </h1>
-            
-            <h2 className="text-xl md:text-2xl font-medium text-slate-300 mb-4">
-              {t('personal.designation')}
-            </h2>
-            
-            <p className="text-lg text-slate-400 mb-8 max-w-xl">
+            <div className="mb-5 flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.24em] text-cyan-400">
+              <span className="h-px w-10 bg-cyan-400" aria-hidden="true" />
+              <span>Systems Backbone / 01</span>
+            </div>
+            {locale === 'en' ? (
+              <div className="mb-6 max-w-[560px]" data-brand-lockup>
+                <Image
+                  src="/brand/yk-horizontal-lockup.svg"
+                  alt="Yousef Kakhki — System Architect & Technical Lead"
+                  width={900}
+                  height={300}
+                  className="h-auto w-full object-contain object-left"
+                />
+                <h1 className="sr-only">{t('personal.name')}</h1>
+                <h2 className="sr-only">{t('personal.designation')}</h2>
+              </div>
+            ) : (
+              <>
+                <h1 className="font-display text-4xl font-medium tracking-[0.08em] text-slate-50 md:text-5xl">
+                  {t('personal.name')}
+                </h1>
+                <h2 className="mt-3 text-xl font-medium tracking-[0.12em] text-cyan-400 md:text-2xl">
+                  {t('personal.designation')}
+                </h2>
+              </>
+            )}
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-300">
               {t('personal.title')}
             </p>
+            <div className="mt-5 hidden max-w-2xl border-t border-slate-700/70 pt-4 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400 sm:block">
+              Distributed Systems <span className="text-cyan-400">•</span> Real-Time Platforms <span className="text-cyan-400">•</span> AI Systems <span className="text-cyan-400">•</span> Infrastructure
+            </div>
             
             {/* Key Metrics Strip */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
