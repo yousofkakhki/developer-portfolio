@@ -18,12 +18,56 @@ export function canCommitAudioStart({
   mounted,
   autoSession,
   pageVisible,
+  transportConnected = true,
+  awaitingResponse = false,
+  playbackBusy = false,
 }) {
   return (
     generation === currentGeneration &&
     mounted &&
     autoSession &&
-    pageVisible
+    pageVisible &&
+    transportConnected &&
+    !awaitingResponse &&
+    !playbackBusy
+  );
+}
+
+export function canProcessVadCallback({
+  mounted,
+  pageVisible,
+  documentVisible,
+  vadListening,
+  awaitingResponse,
+}) {
+  return (
+    mounted &&
+    pageVisible &&
+    documentVisible &&
+    vadListening &&
+    !awaitingResponse
+  );
+}
+
+export function canEmitVadAudio({
+  mounted,
+  pageVisible,
+  documentVisible,
+  vadListening,
+  awaitingResponse,
+  transportConnected,
+  speechLength,
+}) {
+  return (
+    canProcessVadCallback({
+      mounted,
+      pageVisible,
+      documentVisible,
+      vadListening,
+      awaitingResponse,
+    }) &&
+    transportConnected &&
+    speechLength > 0
   );
 }
 

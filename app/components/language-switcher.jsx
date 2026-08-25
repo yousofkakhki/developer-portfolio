@@ -18,10 +18,13 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2 ml-4">
+    <div
+      className="brand-language flex items-center"
+      aria-label={locale === 'fa' ? 'تغییر زبان' : 'Change language'}
+    >
       <button
         onClick={() => switchLocale('en')}
-        className={`px-2 py-1 text-sm rounded transition-colors ${
+        className={`brand-language__option inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-xs font-mono transition-colors ${
           locale === 'en'
             ? 'text-slate-100 bg-slate-700'
             : 'text-slate-400 hover:text-slate-200'
@@ -33,7 +36,7 @@ export default function LanguageSwitcher() {
       </button>
       <button
         onClick={() => switchLocale('fa')}
-        className={`px-2 py-1 text-sm rounded transition-colors ${
+        className={`brand-language__option inline-flex min-h-[44px] min-w-[44px] items-center justify-center px-2 text-xs font-sans transition-colors ${
           locale === 'fa'
             ? 'text-slate-100 bg-slate-700'
             : 'text-slate-400 hover:text-slate-200'
@@ -41,9 +44,8 @@ export default function LanguageSwitcher() {
         disabled={isPending}
         aria-label="FA — فارسی"
       >
-        FA
+        فارسی
       </button>
     </div>
   );
 }
-

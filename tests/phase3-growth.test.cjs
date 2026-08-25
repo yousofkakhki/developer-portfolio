@@ -31,7 +31,7 @@ test('conversion actions emit first-party measurement events', () => {
 test('work-with-me route is bilingual, canonical, and included in sitemap', () => {
   const page = read('app/[locale]/work-with-me/page.js');
   assert.match(page, /generateMetadata/);
-  assert.match(page, /Open to senior backend/);
+  assert.match(page, /senior individual-contributor/i);
   assert.match(page, /فرصت‌های مهندسی/);
   assert.match(page, /ProfilePage/);
   assert.match(read('app/sitemap.js'), /work-with-me/);
@@ -65,6 +65,8 @@ test('local Markdown renders semantic headings and grouped lists', () => {
   assert.match(html, /<ul>\s*<li>WebRTC for participants<\/li>\s*<li>HLS for viewers<\/li>\s*<\/ul>/);
   assert.match(html, /<ol>\s*<li>authorize<\/li>\s*<li>connect<\/li>\s*<\/ol>/);
   assert.doesNotMatch(html, /<br\s*\/?>/);
+  const persianList = renderMarkdown('۱. اول\n۲. دوم');
+  assert.match(persianList, /<ol>\s*<li>اول<\/li>\s*<li>دوم<\/li>\s*<\/ol>/);
   assert.match(read('app/[locale]/blog/[slug]/page.js'), /className="blog-content"/);
   assert.match(read('app/css/globals.scss'), /\.blog-content[\s\S]*list-style: disc outside/);
 });

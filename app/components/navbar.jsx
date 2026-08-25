@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { useTranslations, useLocale } from 'next-intl';
 import LanguageSwitcher from './language-switcher';
+import { careerFacts } from '@/utils/data/career-facts';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ function Navbar() {
   const t = useTranslations('nav');
   const locale = useLocale();
 
-  const sections = useMemo(() => ['about', 'experience', 'skills', 'projects', 'education', 'contact'], []);
+  const sections = useMemo(() => ['projects', 'experience', 'blog', 'about', 'contact'], []);
 
   useEffect(() => {
     let ticking = false;
@@ -46,8 +47,16 @@ function Navbar() {
   }, [sections]);
 
   const handleNavClick = useCallback((e, href) => {
+    const targetUrl = new URL(href, window.location.origin);
+
+    // Let Next.js navigate normally when a section lives on another route.
+    if (targetUrl.pathname !== window.location.pathname) {
+      setIsOpen(false);
+      return;
+    }
+
     e.preventDefault();
-    const targetId = href.split('#')[1];
+    const targetId = targetUrl.hash.slice(1);
     const element = document.getElementById(targetId);
     
     if (element) {
@@ -59,6 +68,7 @@ function Navbar() {
         top: offsetPosition,
         behavior: 'smooth'
       });
+      window.history.replaceState(null, '', targetUrl.hash);
     }
     
     setIsOpen(false);
@@ -71,7 +81,7 @@ function Navbar() {
       <Link 
         href={href} 
         onClick={(e) => handleNavClick(e, href)}
-        className={`block py-2 px-3 text-sm transition-colors ${
+        className={`brand-nav__link px-3 text-sm transition-colors ${
           isActive ? "text-slate-50" : "text-slate-400 hover:text-slate-200"
         }`}
         aria-current={isActive ? 'page' : undefined}
@@ -88,7 +98,7 @@ function Navbar() {
       <Link 
         href={href} 
         onClick={(e) => handleNavClick(e, href)}
-        className={`block py-3 px-4 text-sm transition-colors ${
+        className={`brand-nav__link block py-3 px-4 text-sm transition-colors ${
           isActive ? "text-slate-50 bg-slate-800" : "text-slate-400 hover:text-slate-200"
         }`}
         aria-current={isActive ? 'page' : undefined}
@@ -99,50 +109,58 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-4 flex items-center justify-between py-4">
+    <nav className="brand-nav">
+      <div className="brand-nav__inner flex items-center justify-between">
         {/* Logo */}
         <Link
           href={`/${locale}`}
           className="group flex items-center gap-3 text-slate-200 transition-colors"
-          aria-label="Yousef Kakhki — Home"
+          aria-label={t('home')}
         >
-          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded border border-slate-600 bg-slate-950/60 p-1 transition-colors group-hover:border-cyan-400">
-            <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} className="h-full w-full object-contain" />
+          <span className="brand-nav__mark relative flex h-10 w-10 items-center justify-center overflow-hidden border p-1.5 transition-colors group-hover:border-cyan-400">
+            <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} unoptimized className="h-full w-full object-contain" />
           </span>
           <span className="hidden sm:block">
             <span className="block font-display text-sm font-medium uppercase tracking-[0.16em] text-slate-100">Yousef Kakhki</span>
-            <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">Systems Backbone</span>
+            <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">{t('brandTagline')}</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:gap-1">
-          <NavLink href={`/${locale}#about`} section="about">{t('about')}</NavLink>
+        <div className="hidden lg:flex lg:items-center lg:gap-1">
+          <NavLink href={`/${locale}/projects`} section="projects">{t('work')}</NavLink>
           <NavLink href={`/${locale}#experience`} section="experience">{t('experience')}</NavLink>
-          <NavLink href={`/${locale}#skills`} section="skills">{t('skills')}</NavLink>
-          <NavLink href={`/${locale}#projects`} section="projects">{t('projects')}</NavLink>
-          <NavLink href={`/${locale}#education`} section="education">{t('education')}</NavLink>
+          <NavLink href={`/${locale}/blog`} section="blog">{t('writing')}</NavLink>
+          <NavLink href={`/${locale}#about`} section="about">{t('about')}</NavLink>
+          <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
           <Link
             href={`/${locale}/work-with-me`}
-            className="block py-2 px-3 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
+            className="brand-nav__link px-3 text-sm font-medium text-cyan-300 hover:text-cyan-100 transition-colors"
           >
-            {locale === 'fa' ? 'همکاری' : 'Work with me'}
+            {t('discussRole')}
           </Link>
-          <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
-          <div className="ml-4">
+          <Link
+            href={careerFacts.resume.publicUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="brand-nav__link px-3 text-sm text-slate-400 hover:text-slate-100 transition-colors"
+          >
+            {t('resume')}
+          </Link>
+          <div className="ms-4">
             <LanguageSwitcher />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-3">
+        <div className="flex items-center gap-3 lg:hidden">
           <LanguageSwitcher />
           <button
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close Menu" : "Open Menu"}
+            aria-label={isOpen ? t('closeMenu') : t('openMenu')}
             aria-expanded={isOpen}
-            className="text-slate-400 hover:text-slate-200 p-2"
+            aria-controls="mobile-navigation"
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {isOpen ? (
@@ -157,21 +175,29 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900">
+        <div id="mobile-navigation" className="brand-nav__mobile border-t lg:hidden">
           <div className="py-2">
-            <MobileNavLink href={`/${locale}#about`} section="about">{t('about')}</MobileNavLink>
+            <MobileNavLink href={`/${locale}/projects`} section="projects">{t('work')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#experience`} section="experience">{t('experience')}</MobileNavLink>
-            <MobileNavLink href={`/${locale}#skills`} section="skills">{t('skills')}</MobileNavLink>
-            <MobileNavLink href={`/${locale}#projects`} section="projects">{t('projects')}</MobileNavLink>
-            <MobileNavLink href={`/${locale}#education`} section="education">{t('education')}</MobileNavLink>
+            <MobileNavLink href={`/${locale}/blog`} section="blog">{t('writing')}</MobileNavLink>
+            <MobileNavLink href={`/${locale}#about`} section="about">{t('about')}</MobileNavLink>
+            <MobileNavLink href={`/${locale}#contact`} section="contact">{t('contact')}</MobileNavLink>
             <Link
               href={`/${locale}/work-with-me`}
               onClick={() => setIsOpen(false)}
-              className="block py-3 px-4 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
+              className="brand-nav__link block py-3 px-4 text-sm font-medium text-cyan-300 hover:text-cyan-100 transition-colors"
             >
-              {locale === 'fa' ? 'همکاری' : 'Work with me'}
+              {t('discussRole')}
             </Link>
-            <MobileNavLink href={`/${locale}#contact`} section="contact">{t('contact')}</MobileNavLink>
+            <Link
+              href={careerFacts.resume.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)}
+              className="brand-nav__link block py-3 px-4 text-sm text-slate-400 hover:text-slate-100 transition-colors"
+            >
+              {t('resume')}
+            </Link>
           </div>
         </div>
       )}

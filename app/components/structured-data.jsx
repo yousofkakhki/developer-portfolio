@@ -1,8 +1,8 @@
 import { personalData } from '@/utils/data/personal-data';
+import { careerFacts, localized } from '@/utils/data/career-facts';
 
-export default function StructuredData({ locale, messages }) {
+export default function StructuredData({ locale }) {
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
-  const t = (key) => key.split('.').reduce((value, part) => value?.[part], messages) || key;
   const personId = `${siteUrl}/#person`;
   const websiteId = `${siteUrl}/#website`;
   const graph = {
@@ -11,16 +11,16 @@ export default function StructuredData({ locale, messages }) {
       {
         '@type': 'Person',
         '@id': personId,
-        name: 'Yousef Kakhki',
-        alternateName: t('personal.name'),
-        jobTitle: t('personal.designation'),
-        description: t('personal.description'),
+        name: careerFacts.identity.name,
+        alternateName: localized(careerFacts.identity.localizedName, locale),
+        jobTitle: localized(careerFacts.identity.primaryTitle, locale),
+        description: localized(careerFacts.identity.description, locale),
         url: siteUrl,
         image: {
           '@type': 'ImageObject',
           '@id': `${siteUrl}/#profile-image`,
-          url: `${siteUrl}/avatar.png`,
-          contentUrl: `${siteUrl}/avatar.png`,
+          url: `${siteUrl}/avatar-page-background.webp`,
+          contentUrl: `${siteUrl}/avatar-page-background.webp`,
         },
         sameAs: [personalData.github, personalData.linkedIn].filter(Boolean),
         alumniOf: {
@@ -39,7 +39,7 @@ export default function StructuredData({ locale, messages }) {
         '@id': websiteId,
         name: 'Yousef Kakhki — Engineering Portfolio',
         url: siteUrl,
-        description: t('personal.description'),
+        description: localized(careerFacts.identity.description, locale),
         inLanguage: ['en', 'fa'],
         author: { '@id': personId },
         publisher: { '@id': personId },

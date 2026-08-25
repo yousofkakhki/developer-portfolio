@@ -1,48 +1,59 @@
 // @flow strict
 "use client";
+
 import { useTranslations } from 'next-intl';
+import { memo, useMemo, useState } from 'react';
+import { projectCatalog } from '@/utils/data/project-catalog';
 import ProjectCard from './project-card';
-import { memo } from 'react';
+
+const featuredProjectCount = 3;
 
 const Projects = () => {
-  const t = useTranslations();
+  const t = useTranslations('projects');
+  const [expanded, setExpanded] = useState(false);
+  const projects = useMemo(
+    () => projectCatalog.map((project) => {
+      const localizedProject = t.raw(String(project.id));
+      return localizedProject
+        ? { ...localizedProject, ...project, tools: localizedProject.tools || [] }
+        : null;
+    }).filter(Boolean),
+    [t],
+  );
+  const visibleProjects = expanded ? projects : projects.slice(0, featuredProjectCount);
 
   return (
-    <section id='projects' className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold text-slate-100 mb-12">
-          {t('projects.title')}
-        </h2>
-
-        <div className="space-y-8">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((id) => {
-            const project = t.raw(`projects.${id}`);
-            if (!project) return null;
-            return (
-              <ProjectCard 
-                key={id} 
-                project={{ ...project, id, images: getProjectImages(id), tools: project.tools || [] }} 
-              />
-            );
-          })}
+    <section id="projects" className="brand-section" aria-labelledby="projects-heading">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 max-w-2xl">
+          <h2 id="projects-heading" className="brand-section__title mb-3 text-3xl font-semibold text-slate-100">
+            {t('title')}
+          </h2>
+          <p className="leading-relaxed text-slate-400">{t('featuredIntro')}</p>
         </div>
+
+        <div id="project-list" className="space-y-8">
+          {visibleProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+
+        {projects.length > featuredProjectCount && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              aria-expanded={expanded}
+              aria-controls="project-list"
+              onClick={() => setExpanded(value => !value)}
+              className="brand-button min-h-[44px]"
+            >
+              {expanded ? t('showFewerProjects') : t('viewAllProjects')}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
 };
-
-function getProjectImages(id) {
-  const imageMap = {
-    1: ['/ai-1.jpg', '/ai-2.jpg', '/ai-3.jpg'],
-    2: ['/capitalino-1.jpg', '/capitalino-2.jpg', '/capitalino-3.jpg'],
-    3: ['/png/placeholder.png'],
-    4: ['/game-1.jpg'],
-    5: ['/ota-1.jpg', '/ota-2.jpg', '/ota-3.jpg'],
-    6: ['/png/placeholder.png'],
-    7: ['/png/placeholder.png'],
-    8: ['/png/placeholder.png']
-  };
-  return imageMap[id] || [];
-}
 
 export default memo(Projects);

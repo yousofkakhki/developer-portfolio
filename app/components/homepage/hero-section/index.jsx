@@ -1,161 +1,167 @@
 // @flow strict
 import { getLocale, getTranslations } from 'next-intl/server';
-import Link from "next/link";
-import Image from "next/image";
-import { BsGithub, BsLinkedin } from "react-icons/bs";
-import { personalData } from "@/utils/data/personal-data";
-import { ConversionLink } from "../../analytics/conversion-link";
+import Image from 'next/image';
+import { BsGithub, BsLinkedin } from 'react-icons/bs';
+import { personalData } from '@/utils/data/personal-data';
+import { careerFacts, getPublishableMetric, localized } from '@/utils/data/career-facts';
+import { ConversionLink } from '../../analytics/conversion-link';
 import { AvatarFaceOverlay } from './avatar-face-overlay';
 
 async function HeroSection() {
   const t = await getTranslations();
   const locale = await getLocale();
+  const platformConcurrency = careerFacts.metrics.platformConcurrency;
+  const backendExperience = careerFacts.metrics.backendExperience;
+
+  const proofPoints = [
+    {
+      index: '01',
+      value: getPublishableMetric(platformConcurrency, 'homepage') ? localized(platformConcurrency.localizedValue, locale) : '—',
+      label: localized(platformConcurrency.label, locale),
+      detail: t('hero.metricConcurrentDetail'),
+    },
+    {
+      index: '02',
+      value: getPublishableMetric(backendExperience, 'homepage') ? localized(backendExperience.localizedValue, locale) : '—',
+      label: localized(backendExperience.label, locale),
+      detail: t('hero.metricBackendDetail'),
+    },
+    {
+      index: '03',
+      value: t('hero.metricDegree'),
+      label: t('hero.metricComputerScience'),
+      detail: t('hero.metricUniversity'),
+    },
+  ];
+  const traceSteps = t.raw('hero.trace');
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center py-16 px-4">
-      <div className="max-w-5xl mx-auto w-full">
-        <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-10">
-          
-          {/* Text column */}
-          <div className="flex-1">
-            <div className="mb-5 flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.24em] text-cyan-400">
+    <section id="hero" className="brand-section hero-shell">
+      <div className="hero-content mx-auto w-full">
+        <div className="hero-layout">
+          <div className="hero-identity min-w-0">
+            <div className="hero-eyebrow flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.24em]">
               <span className="h-px w-10 bg-cyan-400" aria-hidden="true" />
-              <span>Systems Backbone / 01</span>
+              <span>{t('hero.eyebrow')}</span>
             </div>
-            {locale === 'en' ? (
-              <div className="mb-6 max-w-[560px]" data-brand-lockup>
-                <Image
-                  src="/brand/yk-horizontal-lockup.svg"
-                  alt="Yousef Kakhki — System Architect & Technical Lead"
-                  width={900}
-                  height={300}
-                  className="h-auto w-full object-contain object-left"
-                />
-                <h1 className="sr-only">{t('personal.name')}</h1>
-                <h2 className="sr-only">{t('personal.designation')}</h2>
-              </div>
-            ) : (
-              <>
-                <h1 className="font-display text-4xl font-medium tracking-[0.08em] text-slate-50 md:text-5xl">
-                  {t('personal.name')}
-                </h1>
-                <h2 className="mt-3 text-xl font-medium tracking-[0.12em] text-cyan-400 md:text-2xl">
-                  {t('personal.designation')}
-                </h2>
-              </>
-            )}
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-300">
+
+            <div className="hero-title-group">
+              <h1 className="hero-title">{t('personal.name')}</h1>
+              <p className="hero-designation">{localized(careerFacts.identity.primaryTitle, locale)}</p>
+            </div>
+
+            <p className="hero-proposition">
               {t('personal.title')}
             </p>
-            <div className="mt-5 hidden max-w-2xl border-t border-slate-700/70 pt-4 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400 sm:block">
-              Distributed Systems <span className="text-cyan-400">•</span> Real-Time Platforms <span className="text-cyan-400">•</span> AI Systems <span className="text-cyan-400">•</span> Infrastructure
-            </div>
-            
-            {/* Key Metrics Strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">5,000+</div>
-                <div className="text-sm text-slate-400">Concurrent Users</div>
-                <div className="text-xs text-slate-400 font-mono">WebRTC/HLS</div>
-              </div>
-              <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">10+ Years</div>
-                <div className="text-sm text-slate-400">Backend Engineering</div>
-                <div className="text-xs text-slate-400 font-mono">Node.js · Go · Python</div>
-              </div>
-              <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">M.Sc.</div>
-                <div className="text-sm text-slate-400">Computer Science</div>
-                <div className="text-xs text-slate-400 font-mono">Amirkabir University</div>
-              </div>
-            </div>
-            
-            {/* Credentials Strip */}
-            <div className="flex flex-wrap gap-3 mb-8 text-sm text-slate-400">
-              <span>Senior Backend Engineer</span>
-              <span>•</span>
-              <span>WebRTC · LiveKit</span>
-              <span>•</span>
-              <span>NATS · Kafka</span>
-              <span>•</span>
-              <span>PostgreSQL</span>
-            </div>
-            
-            {/* Actions */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <a 
-                href="#experience"
-                className="inline-block px-6 py-3 border border-slate-500 text-slate-100 rounded hover:bg-slate-800 transition-colors"
-              >
-                View architecture work ↓
-              </a>
-              
-              <ConversionLink
-                eventName="work_with_me_view"
-                source="homepage_hero"
-                href={`/${locale}/work-with-me`}
-                className="inline-block px-6 py-3 bg-cyan-700 text-white rounded hover:bg-cyan-600 transition-colors"
-              >
-                {locale === 'fa' ? 'همکاری با من' : 'Work with me'}
-              </ConversionLink>
 
-              <ConversionLink
-                eventName="resume_download"
-                source="homepage_hero"
-                href="/files/yousef-kakhki-resume-2026-06.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-6 py-3 text-slate-400 hover:text-slate-200 transition-colors"
-              >
-                Download Résumé (PDF)
-              </ConversionLink>
-              
-              <div className="flex items-center gap-4">
-                {personalData.github && (
-                  <ConversionLink
-                    eventName="github_click"
-                    source="homepage_hero"
-                    href={personalData.github}
-                    target='_blank'
-                    rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-slate-200 transition-colors"
-                    aria-label="GitHub profile"
-                  >
-                    <BsGithub size={24} />
-                  </ConversionLink>
-                )}
-                {personalData.linkedIn && (
-                  <ConversionLink
-                    eventName="linkedin_click"
-                    source="homepage_hero"
-                    href={personalData.linkedIn}
-                    target='_blank'
-                    rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-slate-200 transition-colors"
-                    aria-label="LinkedIn profile"
-                  >
-                    <BsLinkedin size={24} />
-                  </ConversionLink>
-                )}
+            <p className="hero-relocation">{localized(careerFacts.relocation.statement, locale)}</p>
+          </div>
+
+          <div className="hero-action-row flex flex-wrap items-center">
+            <ConversionLink
+              eventName="work_with_me_view"
+              source="homepage_hero"
+              href={`/${locale}/work-with-me`}
+              className="brand-button brand-button--primary hero-action"
+            >
+              {t('hero.workWithMe')}
+            </ConversionLink>
+
+            <a href={`/${locale}/projects`} className="brand-button hero-action">
+              {t('hero.viewArchitecture')}
+            </a>
+
+            <ConversionLink
+              eventName="resume_download"
+              source="homepage_hero"
+              href={careerFacts.resume.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-action inline-flex min-h-[44px] items-center px-3 py-2 text-sm text-slate-400 transition-colors hover:text-slate-100"
+            >
+              {t('hero.resumePdf')}
+            </ConversionLink>
+
+            <div className="hero-socials flex items-center">
+              {personalData.github && (
+                <ConversionLink
+                  eventName="github_click"
+                  source="homepage_hero"
+                  href={personalData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
+                  aria-label={`${t('hero.githubProfile')} (${t('common.opensInNewTab')})`}
+                >
+                  <BsGithub size={21} />
+                </ConversionLink>
+              )}
+              {personalData.linkedIn && (
+                <ConversionLink
+                  eventName="linkedin_click"
+                  source="homepage_hero"
+                  href={personalData.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
+                  aria-label={`${t('hero.linkedinProfile')} (${t('common.opensInNewTab')})`}
+                >
+                  <BsLinkedin size={21} />
+                </ConversionLink>
+              )}
+            </div>
+          </div>
+
+          <div className="hero-portrait-column flex shrink-0 justify-center">
+            <div className="hero-portrait-frame">
+              <div className="hero-portrait relative overflow-hidden">
+                <Image
+                  src="/avatar-page-background.webp"
+                  alt={t('personal.name')}
+                  width={512}
+                  height={512}
+                  sizes="(max-width: 767px) 272px, (max-width: 1023px) 224px, 344px"
+                  fetchPriority="high"
+                  className="h-full w-full object-cover"
+                  priority
+                />
+                <AvatarFaceOverlay />
+              </div>
+              <div className="hero-portrait-meta" aria-hidden="true">
+                <span>Portrait / 01</span>
+                <span>YK · Systems</span>
               </div>
             </div>
           </div>
-          
-          {/* Profile image column */}
-          <div className="flex-shrink-0 flex justify-center md:justify-end">
-            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-lg overflow-hidden">
-              <Image
-                src="/avatar-512.webp"
-                alt={t('personal.name')}
-                width={256}
-                height={256}
-                sizes="(max-width: 767px) 192px, 256px"
-                fetchPriority="high"
-                className="object-cover w-full h-full"
-                priority
-              />
-              <AvatarFaceOverlay />
-            </div>
+
+          <ol className="hero-trace" aria-label={t('hero.focusAreas')}>
+            {traceSteps.map((step, index) => (
+              <li className="hero-trace__step" key={step}>
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <bdi>{step}</bdi>
+              </li>
+            ))}
+          </ol>
+
+          <div className="hero-proof-grid" aria-label={t('hero.focusAreas')}>
+            {proofPoints.map(point => (
+              <div className="hero-proof" key={point.index}>
+                <span className="hero-proof-index" aria-hidden="true">{point.index}</span>
+                <div className="hero-metric-value font-mono font-semibold">{point.value}</div>
+                <div className="hero-metric-label text-sm">{point.label}</div>
+                <div className="hero-metric-detail text-xs font-mono">{point.detail}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hero-credentials flex flex-wrap text-sm text-slate-400">
+            <span>{localized(careerFacts.identity.primaryTitle, locale)}</span>
+            <span aria-hidden="true">•</span>
+            <span>WebRTC · LiveKit</span>
+            <span aria-hidden="true">•</span>
+            <span>NATS · Kafka</span>
+            <span aria-hidden="true">•</span>
+            <span>PostgreSQL</span>
           </div>
         </div>
       </div>

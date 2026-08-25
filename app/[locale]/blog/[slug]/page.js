@@ -12,15 +12,38 @@ export const revalidate = 60;
 export const dynamicParams = true;
 
 function getArticleImage(blog, siteUrl) {
-  const version = encodeURIComponent(blog.updated_at || blog.published_at || '1');
-  return `${siteUrl}/blog/og/${blog.slug}.png?v=${version}`;
+  if (typeof blog.cover_image === 'string' && blog.cover_image.endsWith('.png')) {
+    const version = encodeURIComponent(blog.updated_at || blog.published_at || '1');
+    return `${siteUrl}${blog.cover_image}?v=${version}`;
+  }
+  return `${siteUrl}/og-default.png`;
+}
+
+function formatArticleDate(value, locale) {
+  return new Date(value).toLocaleDateString(locale === 'fa' ? 'fa-IR' : 'en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 export async function generateMetadata({ params }) {
   const { slug, locale } = await params;
   const blog = getLocalBlogBySlug(slug, locale);
-  if (!blog) return {};
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
+  if (!blog) {
+    const englishBlog = getLocalBlogBySlug(slug, 'en');
+    if (!englishBlog) return {};
+    return {
+      title: englishBlog.seo_title,
+      description: englishBlog.seo_description,
+      alternates: {
+        canonical: `${siteUrl}/en/blog/${slug}`,
+        languages: { en: `${siteUrl}/en/blog/${slug}`, 'x-default': `${siteUrl}/en/blog/${slug}` },
+      },
+      robots: { index: false, follow: true },
+    };
+  }
   const articleUrl = `${siteUrl}/${locale}/blog/${slug}`;
   const languages = {};
   if (getLocalBlogBySlug(slug, 'en')) languages.en = `${siteUrl}/en/blog/${slug}`;
@@ -73,6 +96,19 @@ export default async function BlogPost({ params }) {
   const t = await getTranslations('blog');
 
   if (!blog) {
+    const englishBlog = getLocalBlogBySlug(slug, 'en');
+    if (englishBlog && locale === 'fa') {
+      return (
+        <div className="brand-route brand-route--reading brand-translation-notice" role="status">
+          <p className="brand-route__eyebrow">{t('translationNoticeEyebrow')}</p>
+          <h1>{t('translationNoticeTitle')}</h1>
+          <p>{t('translationNoticeDescription')}</p>
+          <Link href={`/en/blog/${slug}`} className="brand-button brand-button--primary">
+            {t('readEnglishArticle')}
+          </Link>
+        </div>
+      );
+    }
     notFound();
   }
 
@@ -112,126 +148,95 @@ export default async function BlogPost({ params }) {
   };
 
   return (
-    <div className="py-16 max-w-3xl mx-auto px-4">
+    <div className="brand-route brand-route--reading brand-article">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-      <Link
-        href={`/${locale}/blog`}
-        className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 mb-8 transition-colors"
-      >
-        <span className="rtl:rotate-180">←</span>
+
+      <Link href={`/${locale}/blog`} className="brand-route__back">
+        <span aria-hidden="true">←</span>
         <span>{t('backToBlogs') || 'Back to Blogs'}</span>
       </Link>
 
-      <article className="border border-slate-700 bg-slate-800/50 rounded overflow-hidden">
+      <article>
+        <header className="brand-article__header">
+          <p className="brand-route__eyebrow">{t('articleEyebrow')}</p>
+          <h1>{blog.title}</h1>
+          <div className="brand-article__meta">
+            <time dateTime={blog.published_at}>
+              {formatArticleDate(blog.published_at, locale)}
+            </time>
+            <span aria-hidden="true">/</span>
+            <span>{blog.reading_time_minutes || 0} {t('minRead') || 'min'}</span>
+            {blog.tag_list?.length > 0 && (
+              <ul className="brand-article__tags" aria-label={t('tags')}>
+                {blog.tag_list.map(tag => <li className="brand-article__tag" key={tag}><bdi>{tag}</bdi></li>)}
+              </ul>
+            )}
+          </div>
+        </header>
+
         {blog.cover_image && (
-          <div className="w-full h-64 md:h-80 relative">
+          <figure className="brand-article__cover">
             <Image
               src={blog.cover_image}
               alt={blog.title}
               fill
+              sizes="(max-width: 768px) 100vw, 1024px"
+              unoptimized={blog.cover_image.endsWith('.svg')}
               className="object-cover"
               priority
             />
-          </div>
+          </figure>
         )}
 
-        <div className="p-6 md:p-8">
-          <h1 className="text-3xl font-semibold text-slate-100 mb-4">
-            {blog.title}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-4 text-slate-500 text-sm mb-8">
-            <span>{new Date(blog.published_at).toLocaleDateString(locale === 'fa' ? 'fa-IR' : 'en-US')}</span>
-            <span>•</span>
-            <span>{blog.reading_time_minutes || 0} {t('minRead') || 'min'}</span>
-            {blog.tag_list?.length > 0 && (
-              <>
-                <span>•</span>
-                <div className="flex flex-wrap gap-2">
-                  {blog.tag_list.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 text-xs bg-slate-700 text-slate-300 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-
-          <div 
-            className="prose prose-invert prose-slate max-w-none
-              prose-headings:text-slate-100 prose-headings:font-semibold
-              prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
-              prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
-              prose-p:text-slate-400 prose-p:leading-relaxed
-              prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-slate-200
-              prose-code:text-slate-300 prose-code:bg-slate-700 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-              prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700
-              prose-ul:text-slate-400 prose-ol:text-slate-400
-              prose-li:marker:text-slate-500"
-          >
-            <BlogContent content={blog.content} />
-          </div>
+        <div className="brand-article__body">
+          <BlogContent content={blog.content} />
         </div>
       </article>
 
       {pillarSlug && locale === 'en' && (
-        <div className="mt-8 rounded border border-slate-700 bg-slate-800/40 p-4">
-          <span className="text-xs uppercase tracking-wider text-slate-400">Topic guide</span>
-          <Link href={`/en/blog/pillar/${pillarSlug}`} className="mt-1 block font-medium text-slate-200 hover:text-white">
-            {PILLARS[pillarSlug].title} →
+        <aside className="brand-article__topic">
+          <span>{t('topicGuide')}</span>
+          <Link href={`/en/blog/pillar/${pillarSlug}`}>
+            {PILLARS[pillarSlug].title} <span aria-hidden="true">→</span>
           </Link>
-        </div>
+        </aside>
       )}
 
-      <aside className="mt-8 rounded border border-cyan-800/60 bg-cyan-950/20 p-5" aria-label={locale === 'fa' ? 'همکاری' : 'Work with me'}>
-        <h2 className="text-lg font-medium text-slate-100 mb-2">
-          {locale === 'fa' ? 'روی یک مسئلهٔ مهندسی پیچیده کار می‌کنید؟' : 'Working on a difficult backend or real-time systems problem?'}
-        </h2>
-        <p className="text-sm leading-relaxed text-slate-400 mb-4">
-          {locale === 'fa'
-            ? 'تجربه و روش همکاری من را ببینید و دربارهٔ موقعیت یا پروژه گفتگو کنید.'
-            : 'See where my architecture and implementation experience fits your team.'}
-        </p>
+      <aside className="brand-route__cta brand-article__cta" aria-label={t('workCta')}>
+        <p className="brand-route__eyebrow">{t('workCta')}</p>
+        <h2>{t('workPrompt')}</h2>
+        <p>{t('workDescription')}</p>
         <ConversionLink
           eventName="article_work_with_me"
           source={`article_${blog.slug}`}
           href={`/${locale}/work-with-me`}
-          className="inline-flex text-sm font-medium text-cyan-300 hover:text-cyan-100 transition-colors"
+          className="brand-button brand-button--primary"
         >
-          {locale === 'fa' ? 'همکاری با من ←' : 'Work with me →'}
+          {t('workCta')} <span aria-hidden="true">→</span>
         </ConversionLink>
       </aside>
 
       {related.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">Related posts</h2>
-          <ul className="space-y-3">
-            {related.map(post => (
+        <section className="brand-article__related">
+          <h2>{t('relatedPosts')}</h2>
+          <ul>
+            {related.map((post, index) => (
               <li key={post.slug}>
-                <Link
-                  href={`/${locale}/blog/${post.slug}`}
-                  className="flex items-start gap-3 p-4 border border-slate-700 rounded hover:border-slate-500 transition-colors group"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-slate-200 group-hover:text-white text-sm font-medium truncate transition-colors">
-                      {post.title}
-                    </p>
-                    <p className="text-slate-500 text-xs mt-0.5">
-                      {new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                      {' · '}{post.reading_time_minutes} min read
-                    </p>
-                  </div>
-                  <span className="text-slate-600 group-hover:text-slate-400 transition-colors text-sm mt-0.5">→</span>
+                <Link href={`/${locale}/blog/${post.slug}`}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{post.title}</strong>
+                  <small>
+                    {formatArticleDate(post.published_at, locale)}
+                    {' · '}{post.reading_time_minutes} {t('minRead')}
+                  </small>
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </section>
       )}
     </div>
   );

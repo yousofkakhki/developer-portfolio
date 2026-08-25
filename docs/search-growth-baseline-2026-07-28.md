@@ -37,7 +37,7 @@ Target queries below are hypotheses for measurement, not ranking claims or guara
 | `/fa/work-with-me` | Persian hiring evaluation | استخدام مهندس ارشد بک‌اند اروپا؛ مهندس رسانه بلادرنگ | Localized role fit; contact |
 | `/en/blog` | Technical discovery hub | WebRTC backend architecture blog; LiveKit engineering articles | Routes readers into English pillars and case study |
 | `/fa/blog` | Persian technical discovery hub | Next.js چندزبانه؛ پشتیبانی RTL در Next.js | Routes readers to the genuine Persian article |
-| `/en/blog/pillar/real-time-media` | Topic exploration | WebRTC architecture; LiveKit scaling; SFU architecture; HLS fallback | Cluster hub for three architecture articles plus case study |
+| `/en/blog/pillar/real-time-media` | Topic exploration | WebRTC architecture; LiveKit scaling; SFU architecture; delayed HLS playback | Cluster hub for three architecture articles plus case study |
 | `/en/blog/pillar/pwa-product` | Topic exploration | bilingual Next.js architecture; RTL Next.js | Cluster hub backed by the bilingual portfolio article |
 | `/en/blog/honar-amoozesh-5000-concurrent-webrtc-case-study` | Evidence-led architecture research | WebRTC HLS hybrid architecture; LiveKit 5000 concurrent users; WebRTC case study | Verified experience; article-to-contact CTA |
 | `/en/blog/ai-enhanced-sfu-for-low-latency-streaming` | Conceptual technical research | AI SFU control plane; WebRTC QoE automation; LiveKit observability | Cited conceptual analysis; article-to-pillar/CTA |

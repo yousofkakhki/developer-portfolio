@@ -2,7 +2,10 @@
   "common": {
     "contactMe": "Contact me",
     "getResume": "Get Resume",
-    "allRightsReserved": "All Rights Reserved"
+    "allRightsReserved": "All Rights Reserved",
+    "systemsBackbone": "Systems Documentation",
+    "opensInNewTab": "opens in a new tab",
+    "scrollToTop": "Scroll to top"
   },
   "nav": {
     "about": "About",
@@ -13,33 +16,124 @@
     "blogs": "Blog",
     "viewMore": "View More",
     "allBlogs": "All Blogs",
-    "contact": "Contact"
+    "contact": "Contact",
+    "work": "Work",
+    "writing": "Writing",
+    "discussRole": "Discuss a role",
+    "resume": "Résumé",
+    "home": "Yousef Kakhki — Home",
+    "brandTagline": "Systems, in the field.",
+    "workWithMe": "Work with me",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "erp": "ERP"
   },
   "blog": {
     "title": "Architectural Case Studies",
     "minRead": "min",
-    "backToBlogs": "Back to Blogs",
+    "backToBlogs": "All articles",
+    "tags": "Article tags",
     "readMore": "Read article",
     "allBlogs": "All Blog Posts",
     "searchPlaceholder": "Search articles...",
     "allTags": "All",
     "noResults": "No articles found",
     "noResultsDescription": "Try adjusting your search or filter to find what you're looking for.",
-    "clearFilters": "Clear filters"
+    "clearFilters": "Clear filters",
+    "viewAllPosts": "View all posts",
+    "noPostsYet": "No posts published yet.",
+    "postImageAlt": "Article cover image",
+    "indexEyebrow": "Engineering notes / Index",
+    "topics": "Topic guides",
+    "clearSearch": "Clear search",
+    "resultsFound": "{count} articles found",
+    "articleEyebrow": "Engineering field note",
+    "topicGuide": "Topic guide",
+    "relatedPosts": "Related field notes",
+    "workPrompt": "Working on a difficult backend or real-time systems problem?",
+    "workDescription": "See where my architecture and implementation experience fits your team.",
+    "workCta": "Work with me",
+    "translationNoticeEyebrow": "Language availability",
+    "translationNoticeTitle": "This article is available in English",
+    "translationNoticeDescription": "A Persian translation is not published for this article yet. The English version is the canonical source.",
+    "readEnglishArticle": "Read the English article"
   },
   "hero": {
     "hello": "Hello, I'm",
-    "a": "a"
+    "a": "a",
+    "eyebrow": "Systems Documentation / 01",
+    "focusAreas": "Distributed Systems • Real-Time Media • Platform Engineering • Linux",
+    "metricConcurrentUsers": "Platform Concurrency",
+    "metricExperienceValue": "10+ Years",
+    "metricBackendEngineering": "Backend Engineering",
+    "metricComputerScience": "Computer Science",
+    "metricUniversity": "Amirkabir University",
+    "credentialRole": "Senior Backend Engineer",
+    "viewArchitecture": "View systems case studies →",
+    "workWithMe": "Discuss a role or project",
+    "resumePdf": "Download résumé (PDF)",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile",
+    "metricConcurrentValue": "5,000+",
+    "metricConcurrentDetail": "Platform-level · WebRTC / LiveKit",
+    "metricBackendDetail": "Node.js · Go · Python",
+    "metricDegree": "M.Sc.",
+    "credentialRealtime": "Real-Time Platforms",
+    "credentialInfrastructure": "Cloud Infrastructure",
+    "trace": ["Business need", "Service", "Signal", "Runtime", "Operations"]
   },
   "about": {
     "title": "About",
-    "sidebar": "ABOUT ME"
+    "sidebar": "ABOUT ME",
+    "paragraph1": "I am a hands-on senior backend engineer and technical lead with an M.Sc. in Computer Science from Amirkabir University of Technology. My work spans distributed backend systems, real-time media, platform engineering, and Linux.",
+    "paragraph2": "The strongest part of my work sits where architecture and implementation meet: defining service boundaries, making trade-offs explicit, and designing for failure before systems scale. I have led small engineering teams while continuing to contribute directly to production code.",
+    "paragraph3": "I am currently focused on senior backend, platform, and technical-lead roles in the EU, with employer-supported relocation to Germany or the Netherlands and selected remote engineering or architecture engagements.",
+    "awardTitle": "Best Booth Award – ITEX 2024",
+    "awardDescription": "AI Hologram Project Lead – Capitalino"
   },
   "experience": {
-    "title": "Experience"
+    "title": "Experience",
+    "featuredIntro": "Selected recent roles first. Earlier embedded and Android systems experience remains available in the résumé.",
+    "technologyLabel": "Technologies used in this role",
+    "viewEarlierRoles": "View earlier experience",
+    "showFewerRoles": "Show fewer roles"
+  },
+  "erpExpertise": {
+    "eyebrow": "Enterprise systems delivery",
+    "title": "ERP & Odoo Expertise",
+    "deliveryBadge": "3-month focused delivery · Holoo Corp",
+    "intro": "At Holoo Corp, delivered a production-grade, self-hosted Odoo Enterprise platform and business-specific localization during a focused three-month engagement.",
+    "capabilities": {
+      "selfHostedOdoo": {
+        "title": "Self-hosted Odoo Enterprise",
+        "description": "Deployed and customized Odoo Enterprise for private, self-hosted operation and production use."
+      },
+      "calendarLocalization": {
+        "title": "Persian and Hijri calendars",
+        "description": "Developed Persian/Jalali and Hijri calendar support for localized Odoo Enterprise workflows."
+      },
+      "crmAddon": {
+        "title": "Odoo CRM addon engineering",
+        "description": "Further developed and customized Odoo Enterprise CRM addons for the Odoo CRM team at Holoo Corp."
+      }
+    }
   },
   "skills": {
-    "title": "Skills"
+    "title": "Skills",
+    "categories": {
+      "languages": "Languages & Frameworks",
+      "systems": "Systems & Architecture",
+      "cloud": "Cloud & DevOps",
+      "realTime": "Real-Time & Media",
+      "databases": "Databases & Storage",
+      "management": "Leadership & Management",
+      "languagesRuntimes": "Languages & Runtimes",
+      "databasesMessaging": "Databases & Messaging",
+      "infrastructureDevops": "Infrastructure & DevOps",
+      "streamingRealtime": "Streaming & Real-Time",
+      "systemsEmbedded": "Systems & Embedded",
+      "erpBusinessSystems": "ERP & Business Systems"
+    }
   },
   "projects": {
     "title": "Projects",
@@ -164,6 +258,42 @@
       ],
       "code": "",
       "demo": ""
+    },
+    "role": "Role:",
+    "indexTitle": "Systems case studies",
+    "indexIntro": "A crawlable index of public work, with architecture, ownership, trade-offs, and evidence boundaries where the record supports them.",
+    "evidenceCaption": "Delivery or architecture evidence",
+    "relatedWriting": "Related writing",
+    "sectionContext": "Context",
+    "sectionProblem": "Problem",
+    "sectionConstraints": "Constraints",
+    "sectionOwnership": "My role and ownership",
+    "sectionArchitecture": "Architecture",
+    "sectionTradeoffs": "Key decisions and trade-offs",
+    "sectionSafeguards": "Failure modes and safeguards",
+    "sectionOutcomes": "Outcomes",
+    "featuredIntro": "Three selected systems first. Expand the list to review the complete portfolio.",
+    "viewAllProjects": "View all 8 projects",
+    "showFewerProjects": "Show fewer projects",
+    "caseStudy": "Read project note",
+    "architectureBrief": "Architecture brief",
+    "projectFacts": "Project facts",
+    "technology": "Technology",
+    "confidentialityTitle": "What I can share",
+    "evidenceScope": "Evidence / Scope",
+    "nextConversation": "Next / Conversation",
+    "confidentialityNote": "This public project note is intentionally limited to the role, technology, and outcomes I can responsibly describe. Client information, source code, and security-sensitive implementation details remain confidential.",
+    "backToProjects": "Back to projects",
+    "discussSimilarWork": "Discuss a similar engineering problem",
+    "visualKinds": {
+      "ai": "AI systems",
+      "analytics": "Investor analytics",
+      "payments": "Payment systems",
+      "realtime": "Real-time platforms",
+      "embedded": "Embedded delivery",
+      "learning": "Learning software",
+      "ledger": "Financial ledgers",
+      "blockchain": "Permissioned rewards"
     }
   },
   "education": {
@@ -186,7 +316,7 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests.",
+    "description": "Tell me about the role, system problem, or project scope. I am considering senior backend and technical-lead roles, plus selected architecture and backend consulting engagements.",
     "yourName": "Your Name:",
     "yourEmail": "Your Email:",
     "yourMessage": "Your Message:",
@@ -196,7 +326,19 @@
     "sendingMessage": "Sending Message...",
     "messageSentSuccess": "Message sent successfully!",
     "messageSendFailed": "Failed to send message. Please try again later.",
-    "sidebar": "CONTACT"
+    "privacyNote": "Your details are used only to respond to this enquiry and are not added to a mailing list.",
+    "sidebar": "CONTACT",
+    "directContact": "Direct contact",
+    "profiles": "Profiles",
+    "location": "Location",
+    "locationValue": "Tehran, Iran",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile",
+    "nameRequired": "Enter your name.",
+    "emailRequired": "Enter your email address.",
+    "emailInvalid": "Enter a valid email address.",
+    "messageRequired": "Enter a message.",
+    "formHasErrors": "Check the highlighted fields and try again."
   },
   "notFound": {
     "title": "404",
@@ -206,20 +348,20 @@
   },
   "personal": {
     "name": "Yousef Kakhki",
-    "designation": "System Architect & Technical Lead",
-    "title": "Bridging hardware-level efficiency with cloud-scale distributed systems",
-    "description": "System Architect & Technical Lead with an M.Sc. in Computer Science (System Design) from Amirkabir University of Technology (Tehran Polytechnic). Specializing in WebRTC/LiveKit live media, delayed HLS playback, high-frequency trading engines, embedded Linux, and DevOps.",
-    "about": "Ten years of backend and systems work, mostly on problems where the failure modes are expensive: a deployed crypto-to-fiat gateway, a WebRTC platform serving 5,000 concurrent users with delayed HLS playback, and a Linux OTA pipeline for IoT devices.\n\nI move between abstraction layers. One week I am tuning NATS JetStream for low-latency signaling; the next I am writing kernel patches or working through reconciliation logic with the finance team. I have led engineering teams while continuing to contribute directly to the codebase.\n\nCurrently targeting Senior Backend, Staff Engineer, or Tech Lead roles in the EU (Germany Blue Card / Netherlands HSM). M.Sc. in Computer Science (System Design) from Amirkabir University. IELTS 7.5."
+    "designation": "Senior Backend Engineer & Technical Lead",
+    "title": "Distributed systems, real-time media, and backend platforms.",
+    "description": "Senior backend engineer and technical lead working across distributed systems, real-time media, platform engineering, and Linux.",
+    "about": "I am a hands-on senior backend engineer and technical lead with 10+ years across distributed systems, real-time media, fintech, and embedded Linux. I work with Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC, LiveKit, and Linux.\n\nMy strongest work sits where architecture and implementation meet: defining ownership, failure modes, consistency requirements, and operational constraints before scaling the system. I have led engineering teams while continuing to contribute directly to production code.\n\nI am currently targeting senior backend, platform, and technical-lead roles in the EU, with employer-supported relocation to Germany or the Netherlands and selected remote engineering or architecture engagements."
   },
   "experiences": {
     "1": {
       "title": "Solutions Architect",
       "company": "HonarAmoozesh (Remote/Contract)",
-      "duration": "(Jul 2025 - Nov 2025)",
+      "duration": "(2025 · project contract)",
       "tech": "WebRTC (LiveKit), delayed HLS playback, NATS JetStream, Go",
       "description": [
-        "Architected live WebRTC delivery for 5,000+ concurrent users.",
-        "Engineered low-latency signaling via NATS JetStream and supported HLS playback for material available hours after the live session—not as a live fallback."
+        "Architected live WebRTC delivery for 5,000+ concurrent users at platform level.",
+        "Used NATS JetStream and Go for application coordination; delayed HLS playback was available hours after the live session, not as a current-session fallback."
       ]
     },
     "2": {
@@ -230,7 +372,7 @@
       "description": [
         "Led a 4-person team in building and deploying a crypto-to-fiat payment gateway.",
         "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
-        "Directed ERP customization and internal network security."
+        "Directed internal network security."
       ]
     },
     "3": {
@@ -239,7 +381,7 @@
       "duration": "(Apr 2021 - Sep 2023)",
       "tech": "Node.js, Web3.js, PostgreSQL, Redis, Go",
       "description": [
-        "Designed a sub-100ms P2P order-matching engine with idempotent ledger semantics.",
+        "Worked on P2P order matching and idempotent ledger semantics.",
         "Implemented ACID-compliant ledgers for high-frequency trading."
       ]
     },
@@ -249,7 +391,7 @@
       "duration": "(Sep 2019 - Mar 2021)",
       "tech": "Yocto, C++, Linux Kernel",
       "description": [
-        "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices.",
+        "Designed atomic OTA update pipelines for an IoT device fleet.",
         "Built Yocto-based custom Linux images with PREEMPT_RT patches for hard real-time sensor processing."
       ]
     },
@@ -279,7 +421,29 @@
     }
   },
   "metadata": {
-    "title": "Yousef Kakhki | System Architect & Technical Lead",
-    "description": "Senior backend engineer and tech lead with 10 years of experience in WebRTC, Node.js, Go, Python, and distributed systems. M.Sc. in Computer Science."
+    "title": "Yousef Kakhki | Senior Backend Engineer & Technical Lead",
+    "description": "Senior backend engineer and technical lead with 10+ years across distributed systems, WebRTC, Node.js, Go, PostgreSQL, Kafka/NATS, Linux, and real-time platforms."
+  },
+  "footer": {
+    "tagline": "Distributed systems, real-time media, and backend platforms.",
+    "resumePdf": "Résumé (PDF)",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile"
+  },
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "voiceState": "Voice state: {state}",
+    "voiceStates": {
+      "connecting": "connecting",
+      "requestingMic": "requesting microphone access",
+      "listening": "listening",
+      "processing": "processing",
+      "playing": "playing response audio",
+      "speaking": "speaking",
+      "paused": "paused",
+      "ready": "ready",
+      "blocked": "microphone unavailable",
+      "error": "unavailable"
+    }
   }
 }

@@ -11,17 +11,17 @@ test('LCP avatar is server rendered, right-sized, and high priority', () => {
   assert.match(source, /getTranslations/);
   assert.match(source, /fetchPriority="high"/);
   assert.match(source, /sizes=/);
-  assert.match(source, /avatar-512\.webp/);
+  assert.match(source, /avatar-page-background\.webp/);
 });
 
-test('3D avatar face progressively enhances the portrait after page load', () => {
+test('3D avatar remains available as a gated post-load enhancement', () => {
   const hero = read('app/components/homepage/hero-section/index.jsx');
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
   const canvas = read('app/components/homepage/hero-section/avatar-face-canvas.jsx');
   const securityHeaders = read('middleware-security.js');
 
   assert.match(hero, /AvatarFaceOverlay/);
-  assert.match(hero, /avatar-512\.webp/);
+  assert.match(hero, /avatar-page-background\.webp/);
   assert.match(overlay, /window\.addEventListener\(['"]load['"]/);
   assert.match(overlay, /requestIdleCallback/);
   assert.match(overlay, /hardFallbackTimer/);
@@ -38,14 +38,14 @@ test('3D avatar face progressively enhances the portrait after page load', () =>
   assert.doesNotMatch(overlay, /bg-slate-900/);
   assert.doesNotMatch(overlay, /indicatorState\.dotClass/);
   assert.match(overlay, /data-voice-state/);
-  assert.match(canvas, /const FACE_TRANSLATE_X = -5\.5;/);
-  assert.match(canvas, /const FACE_TRANSLATE_Y = 10\.5;/);
+  assert.match(canvas, /const FACE_TRANSLATE_X = -3\.5;/);
+  assert.match(canvas, /const FACE_TRANSLATE_Y = 16\.5;/);
   assert.match(
     canvas,
     /translate\(\$\{FACE_TRANSLATE_X\}px, \$\{FACE_TRANSLATE_Y\}px\) scaleX\(1\.28\)/,
   );
   assert.match(canvas, /powerPreference: 'high-performance'/);
-  assert.match(canvas, /const FACE_SUPERSAMPLE = 1\.5;/);
+  assert.match(canvas, /const FACE_SUPERSAMPLE = 2;/);
   assert.match(canvas, /const FACE_MAX_PIXEL_RATIO = 3;/);
   assert.match(
     canvas,
@@ -54,7 +54,10 @@ test('3D avatar face progressively enhances the portrait after page load', () =>
   assert.match(canvas, /polygon\(0 0, 100% 0, 100% 58%/);
   assert.match(canvas, /parser\.associations\.get\(object\)/);
   assert.match(canvas, /object\.visible = faceMeshIndexes\.has\(meshIndex\)/);
-  assert.match(overlay, /top-\[3\.5%\]/);
+  assert.match(overlay, /left-\[27%\]/);
+  assert.match(overlay, /top-\[7\.5%\]/);
+  assert.match(overlay, /h-\[58%\]/);
+  assert.match(overlay, /w-\[46%\]/);
   assert.match(canvas, /headPosition\.y \+ 0\.05/);
   assert.match(canvas, /headPosition\.y \+ 0\.04/);
   assert.match(canvas, /headPosition\.z \+ 0\.72/);
@@ -84,16 +87,16 @@ test('contact uses native fetch and accessible inline status', () => {
   assert.doesNotMatch(source, /axios|react-toastify|toast\./);
   assert.match(source, /fetch\(['"]\/api\/contact/);
   assert.match(source, /role="status"/);
-  assert.match(source, /aria-label="GitHub profile"/);
-  assert.match(source, /aria-label="LinkedIn profile"/);
+  assert.match(source, /aria-label=\{`\$\{t\('githubProfile'\)\}/);
+  assert.match(source, /aria-label=\{`\$\{t\('linkedinProfile'\)\}/);
 });
 
 test('icon controls and visible abbreviations have accessible names', () => {
   const scroll = read('app/components/helper/scroll-to-top.jsx');
   const nav = read('app/components/navbar.jsx');
   const switcher = read('app/components/language-switcher.jsx');
-  assert.match(scroll, /aria-label="Scroll to top"/);
-  assert.match(nav, /aria-label="Yousef Kakhki — Home"/);
+  assert.match(scroll, /aria-label=\{t\('scrollToTop'\)\}/);
+  assert.match(nav, /aria-label=\{t\('home'\)\}/);
   assert.match(switcher, /aria-label="EN — English"/);
   assert.match(switcher, /aria-label="FA — فارسی"/);
 });
@@ -110,20 +113,22 @@ test('layout self-hosts fonts without render-blocking Google CSS', () => {
   assert.match(layout, /Vazirmatn/);
 });
 
-test('official Systems Backbone brand assets and metadata are wired into the site', () => {
+test('official Field Systems brand assets and metadata are wired into the site', () => {
   const layout = read('app/[locale]/layout.js');
   const globals = read('app/css/globals.scss');
   const manifest = read('app/manifest.js');
   const navbar = read('app/components/navbar.jsx');
 
-  assert.match(globals, /--color-deep-navy:\s*#071018/);
-  assert.match(globals, /--color-teal:\s*#16f2b3/);
-  assert.match(layout, /Sora/);
+  assert.match(globals, /--field-paper:\s*#08111f/i);
+  assert.match(globals, /--deep-petrol:\s*#22d3ee/i);
+  assert.match(globals, /--signal-copper:\s*#f59e0b/i);
+  assert.match(layout, /Manrope/);
   assert.match(layout, /IBM_Plex_Mono/);
   assert.match(layout, /\/brand\/favicon\.svg/);
-  assert.match(manifest, /#071018/);
+  assert.match(manifest, /#08111f/i);
   assert.match(navbar, /\/brand\/yk-micro-icon\.svg/);
-  assert.match(read('app/components/homepage/hero-section/index.jsx'), /\/brand\/yk-horizontal-lockup\.svg/);
+  assert.match(read('app/components/homepage/hero-section/index.jsx'), /hero-title/);
+  assert.doesNotMatch(read('app/components/homepage/hero-section/index.jsx'), /\/brand\/yk-horizontal-lockup\.svg/);
   for (const asset of [
     'public/brand/yk-horizontal-lockup.svg',
     'public/brand/yk-micro-icon.svg',

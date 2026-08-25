@@ -45,7 +45,7 @@ test('mounts voice independently of humanoid readiness and renders no microphone
 
   assert.match(overlay, /const voiceSessionImport = import\(['"]\.\/avatar-voice-session['"]\)/);
   assert.match(overlay, /useEffect\(\(\) => \{\s*loadVoiceSession\(\);/);
-  assert.match(overlay, /const handleAvatarReady = useCallback\(\(\) => \{\s*setStage\(['"]ready['"]\);\s*\}/);
+  assert.match(overlay, /const handleAvatarReady = useCallback\(\(\) => \{[\s\S]*?setStage\(['"]ready['"]\);[\s\S]*?\}, \[beginReveal\]\);/);
   assert.match(overlay, /AvatarVoiceSession/);
   assert.doesNotMatch(overlay, /useMicVAD|socket\.io-client|onnxruntime-web/);
   assert.doesNotMatch(overlay, /<button|FaMicrophone|toggleListening/);
@@ -197,6 +197,81 @@ test('stale VAD startup cannot commit after lifecycle invalidation', async () =>
   }), false);
 });
 
+test('VAD startup requires visible transport ownership and an idle turn', async () => {
+  const { canCommitAudioStart } = await loadRealtimeAudio();
+  const eligible = {
+    generation: 7,
+    currentGeneration: 7,
+    mounted: true,
+    autoSession: true,
+    pageVisible: true,
+    transportConnected: true,
+    awaitingResponse: false,
+    playbackBusy: false,
+  };
+
+  assert.equal(canCommitAudioStart(eligible), true);
+  assert.equal(canCommitAudioStart({ ...eligible, transportConnected: false }), false);
+  assert.equal(canCommitAudioStart({ ...eligible, awaitingResponse: true }), false);
+  assert.equal(canCommitAudioStart({ ...eligible, playbackBusy: true }), false);
+});
+
+test('queued VAD callbacks are rejected after the page becomes hidden', async () => {
+  const { canProcessVadCallback, canEmitVadAudio } = await loadRealtimeAudio();
+
+  assert.equal(canProcessVadCallback({
+    mounted: true,
+    pageVisible: true,
+    documentVisible: true,
+    vadListening: true,
+    awaitingResponse: false,
+  }), true);
+  assert.equal(canProcessVadCallback({
+    mounted: true,
+    pageVisible: false,
+    documentVisible: false,
+    vadListening: true,
+    awaitingResponse: false,
+  }), false);
+  assert.equal(canProcessVadCallback({
+    mounted: true,
+    pageVisible: true,
+    documentVisible: false,
+    vadListening: true,
+    awaitingResponse: false,
+  }), false);
+
+  const emitEligible = {
+    mounted: true,
+    pageVisible: true,
+    documentVisible: true,
+    vadListening: true,
+    awaitingResponse: false,
+    transportConnected: true,
+    speechLength: 16,
+  };
+  assert.equal(canEmitVadAudio(emitEligible), true);
+  assert.equal(canEmitVadAudio({ ...emitEligible, pageVisible: false, documentVisible: false }), false);
+  assert.equal(canEmitVadAudio({ ...emitEligible, transportConnected: false }), false);
+  assert.equal(canEmitVadAudio({ ...emitEligible, awaitingResponse: true }), false);
+  assert.equal(canEmitVadAudio({ ...emitEligible, speechLength: 0 }), false);
+});
+
+test('voice session serializes VAD startup and checks visibility after awaited stages', () => {
+  const session = read('app/components/homepage/hero-section/avatar-voice-session.jsx');
+
+  assert.match(session, /const vadStartingRef = useRef\(false\)/);
+  assert.match(session, /vadStartingRef\.current\s*\|\|/);
+  assert.match(session, /const canCommitStart = \(\) => canCommitAudioStart/);
+  assert.match(session, /await vadPausePromiseRef\.current;[\s\S]*?if \(!canCommitStart\(\)\)/);
+  assert.match(session, /await controls\.start\(\);[\s\S]*?if \(!canCommitStart\(\)\)/);
+  assert.match(session, /await prepareAudioOutput\(audioContextRef\);[\s\S]*?if \(!canCommitStart\(\)\)/);
+  assert.match(session, /document\.visibilityState === ['"]visible['"]/);
+  assert.match(session, /canProcessVadCallback/);
+  assert.match(session, /canEmitVadAudio/);
+  assert.match(session, /canEmitVadAudio\(\{[\s\S]*?transportConnected: Boolean\(socket\?\.connected\)/);
+});
+
 test('audio context startup fails fast instead of leaving playback and VAD stuck forever', async () => {
   const { ensureAudioContextRunning } = await loadRealtimeAudio();
   const context = {
@@ -228,6 +303,6 @@ test('recoverable playback blocking preserves the active response turn', () => {
   assert.ok(handler, 'playback error handler should be present');
   assert.match(
     handler,
-    /if \(isAutoplayError\(error\)\) \{(?:(?!awaitingResponseRef\.current = false)[\s\S])*?setVoiceState\(['"]blocked['"]\);[\s\S]*?return;\s*\}\s*clearResponseTimeout\(\);\s*awaitingResponseRef\.current = false;/,
+    /if \(isRecoverableAudioAccessError\(error\)\) \{(?:(?!awaitingResponseRef\.current = false)[\s\S])*?setVoiceState\(['"]blocked['"]\);[\s\S]*?return;\s*\}\s*clearResponseTimeout\(\);\s*awaitingResponseRef\.current = false;/,
   );
 });

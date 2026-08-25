@@ -12,20 +12,22 @@ function BlogCard({ blog, index = 0 }) {
   
   const blogSlug = blog?.slug || blog?.id || Math.random().toString(36).substring(7);
   const blogUrl = `/${locale}/blog/${blogSlug}`;
+  const isSvgCover = typeof blog?.cover_image === 'string' && blog.cover_image.endsWith('.svg');
 
   return (
     <Link 
       href={blogUrl}
       className="group block"
     >
-      <article className="border border-slate-700 bg-slate-800/50 rounded overflow-hidden hover:border-slate-600 transition-colors">
+      <article className="brand-panel brand-panel--interactive overflow-hidden">
         {/* Image */}
         <div className="relative h-40 overflow-hidden">
           <Image
             src={blog?.cover_image}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt={blog?.title || "Blog post"}
+            unoptimized={isSvgCover}
+            alt={blog?.title || t('postImageAlt')}
             className="object-cover"
           />
         </div>

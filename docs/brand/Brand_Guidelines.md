@@ -2,7 +2,7 @@
 
 ## Brand idea
 
-**Systems Backbone**
+**Systems Documentation**
 
 The monogram combines the initials **Y** and **K** through one shared architectural spine. The spine quietly suggests the numeral **1**, representing focus, ownership, reliability, and technical leadership. The teal node marks the decision point where architecture is defined and systems connect. A single signal line represents controlled information flow.
 
@@ -10,11 +10,11 @@ The monogram combines the initials **Y** and **K** through one shared architectu
 
 **Yousef Kakhki**
 
-**System Architect & Technical Lead**
+**Senior Backend Engineer & Technical Lead**
 
 Primary expertise line:
 
-`Distributed Systems • Real-Time Platforms • AI Systems • Infrastructure`
+`Distributed systems • Real-time media • Backend platforms • Embedded Linux`
 
 ## Logo hierarchy
 
@@ -35,20 +35,20 @@ Keep clear space equal to the width of the central spine around all sides of the
 
 ## Color palette
 
-- Deep Navy — `#071018`
-- Surface Navy — `#101B27`
-- Active Teal — `#16F2B3`
-- Deep Teal — `#0A7B68`
-- Silver Light — `#F3F6F8`
-- Silver Mid — `#A7ADB5`
-- Silver Dark — `#4C5560`
-- Pure White — `#FFFFFF`
+- Page background — `#08111F`
+- Primary surface — `#0D1A2B`
+- Elevated surface — `#13243A`
+- Primary text — `#F3F7FB`
+- Secondary text — `#A7B4C5`
+- Primary cyan — `#22D3EE`
+- Secondary mint — `#16F2B3`
+- Diagram amber — `#F59E0B`
 
 ## Typography
 
 Recommended:
 
-- Headings and name: **Sora** or **Manrope**
+- Headings and name: **Manrope**
 - Interface and body copy: **Inter**
 - Technical annotations: **IBM Plex Mono**
 - Persian: **Vazirmatn**

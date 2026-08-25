@@ -1,21 +1,21 @@
 {
   "brand": "Yousef Kakhki",
-  "positioning": "System Architect & Technical Lead",
-  "concept": "Systems Backbone",
+  "positioning": "Senior Backend Engineer & Technical Lead",
+  "concept": "Systems Documentation",
   "colors": {
-    "deep_navy": "#071018",
-    "surface": "#101B27",
-    "teal": "#16F2B3",
-    "teal_deep": "#0A7B68",
-    "silver_light": "#F3F6F8",
-    "silver_mid": "#A7ADB5",
-    "silver_dark": "#4C5560",
-    "white": "#FFFFFF",
-    "black": "#0A0D10"
+    "page_background": "#08111F",
+    "surface": "#0D1A2B",
+    "elevated_surface": "#13243A",
+    "primary_text": "#F3F7FB",
+    "secondary_text": "#A7B4C5",
+    "cyan": "#22D3EE",
+    "mint": "#16F2B3",
+    "amber": "#F59E0B",
+    "error": "#FB7185",
+    "border": "rgba(148, 163, 184, 0.18)"
   },
   "typography": {
     "display": [
-      "Sora",
       "Manrope",
       "Inter",
       "sans-serif"

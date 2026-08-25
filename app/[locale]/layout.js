@@ -3,13 +3,13 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import Script from 'next/script';
-import { IBM_Plex_Mono, Inter, Sora, Vazirmatn } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Manrope, Vazirmatn } from "next/font/google";
 
 import Footer from "../components/footer";
 import ScrollToTop from "../components/helper/scroll-to-top";
 import Navbar from "../components/navbar";
 import StructuredData from "../components/structured-data";
-import "../css/card.scss";
+import { careerFacts, localized } from '@/utils/data/career-facts';
 import "../css/globals.scss";
 
 const inter = Inter({ 
@@ -19,11 +19,11 @@ const inter = Inter({
   variable: '--font-inter'
 });
 
-const sora = Sora({
+const manrope = Manrope({
   subsets: ["latin"],
   display: 'swap',
   preload: true,
-  variable: '--font-sora'
+  variable: '--font-manrope'
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -48,10 +48,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params: { locale } }) {
   const messages = await getMessages({ locale });
   const metadata = messages.metadata || {};
-  const personal = messages.personal || {};
-  
-  const title = metadata.title || 'Yousef Kakhki | System Architect & Technical Lead';
-  const description = metadata.description || personal.description || 'Portfolio of Yousef Kakhki – System Architect & Technical Lead. M.Sc. in Computer Science (System Design). Specializing in WebRTC/HLS streaming, high-frequency trading engines, embedded Linux, and DevOps.';
+  const primaryTitle = localized(careerFacts.identity.primaryTitle, locale);
+  const title = `${careerFacts.identity.name} | ${primaryTitle}`;
+  const description = metadata.description || localized(careerFacts.identity.description, locale);
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   
   // Generate locale-specific URLs
@@ -60,9 +59,8 @@ export async function generateMetadata({ params: { locale } }) {
   const faUrl = `${siteUrl}/fa`;
   
   // Locale-specific OG image alt text
-  const ogImageAlt = locale === 'fa' 
-    ? 'یوسف کاخکی - معمار سیستم و رهبر فنی'
-    : 'Yousef Kakhki – System Architect & Technical Lead';
+  const ogImageAlt = `${localized(careerFacts.identity.localizedName, locale)} – ${primaryTitle}`;
+  const ogImagePath = locale === 'fa' ? '/og-fa.png' : '/og-en.png';
 
   return {
     title: {
@@ -72,8 +70,7 @@ export async function generateMetadata({ params: { locale } }) {
     description,
     keywords: [
       'Yousef Kakhki',
-      'System Architect',
-      'Technical Lead',
+      primaryTitle,
       'LiveKit Expert',
       'NATS JetStream',
       'Fintech Lead',
@@ -112,7 +109,7 @@ export async function generateMetadata({ params: { locale } }) {
       description,
       images: [
         {
-          url: `${siteUrl}/og-default.png`,
+          url: `${siteUrl}${ogImagePath}`,
           width: 1200,
           height: 630,
           alt: ogImageAlt,
@@ -127,7 +124,7 @@ export async function generateMetadata({ params: { locale } }) {
       title,
       description,
       images: [{
-        url: `${siteUrl}/og-default.png`,
+        url: `${siteUrl}${ogImagePath}`,
         alt: ogImageAlt
       }],
       creator: '@yousefkakhki',
@@ -168,6 +165,8 @@ export default async function LocaleLayout({ children, params: { locale } }) {
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
+  const accessibility = messages.accessibility || {};
+  const skipToMain = accessibility.skipToMain || (locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content');
 
   // Determine text direction based on locale
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
@@ -176,30 +175,31 @@ export default async function LocaleLayout({ children, params: { locale } }) {
   return (
     <html lang={lang} dir={dir}>
       <head>
-        <StructuredData locale={locale} messages={messages} />
-        <meta name="theme-color" content="#071018" />
+        <StructuredData locale={locale} />
+        <meta name="theme-color" content="#08111F" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/brand/app-icon.svg" />
       </head>
-      <body className={`${sora.variable} ${plexMono.variable} ${locale === 'fa' ? vazirmatn.className : inter.className} overflow-x-hidden`}>
+      <body className={`${inter.variable} ${manrope.variable} ${plexMono.variable} ${vazirmatn.variable} ${locale === 'fa' ? vazirmatn.className : inter.className} site-body overflow-x-hidden`}>
         <NextIntlClientProvider messages={messages}>
           {/* Skip to main content link for accessibility */}
           <a 
             href="#main-content" 
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-slate-800 focus:text-slate-100 focus:rounded focus:border focus:border-slate-600"
-            aria-label="Skip to main content"
+            aria-label={skipToMain}
           >
-            {locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content'}
+            {skipToMain}
           </a>
 
+          <Navbar />
           <main 
             id="main-content" 
-            className="min-h-screen relative mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] text-white overflow-x-hidden"
+            className="site-main relative min-h-screen overflow-x-hidden"
             role="main"
             aria-label={locale === 'fa' ? 'محتوای اصلی' : 'Main content'}
+            tabIndex={-1}
           >
-            <Navbar />
             {children}
             <ScrollToTop />
           </main>
@@ -221,4 +221,3 @@ export default async function LocaleLayout({ children, params: { locale } }) {
     </html>
   );
 }
-

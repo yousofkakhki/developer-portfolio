@@ -12,9 +12,9 @@ function Blog({ blogs }) {
   const validBlogs = blogs?.filter(blog => blog?.cover_image) || [];
 
   return (
-    <section id='blogs' className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold text-slate-100 mb-8">
+    <section id='blogs' className="brand-section">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="brand-section__title text-3xl font-semibold text-slate-100 mb-8">
           {t('blog.title')}
         </h2>
 
@@ -29,14 +29,14 @@ function Blog({ blogs }) {
             <div className="mt-8">
               <Link
                 href={`/${locale}/blog`}
-                className="text-slate-400 hover:text-slate-200 transition-colors text-sm"
+                className="brand-button"
               >
-                View all posts →
+                {t('blog.viewAllPosts')} →
               </Link>
             </div>
           </>
         ) : (
-          <p className="text-slate-400">No posts yet.</p>
+          <p className="text-slate-400">{t('blog.noPostsYet')}</p>
         )}
       </div>
     </section>

@@ -8,9 +8,9 @@ function Education() {
   const t = useTranslations();
 
   return (
-    <section id="education" className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold text-slate-100 mb-12">
+    <section id="education" className="brand-section">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="brand-section__title text-3xl font-semibold text-slate-100 mb-12">
           {t('education.title')}
         </h2>
 
@@ -24,7 +24,7 @@ function Education() {
             return (
               <article 
                 key={education.id} 
-                className="border border-slate-700 bg-slate-800/50 rounded p-6"
+                className="brand-panel p-6"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                   <div>

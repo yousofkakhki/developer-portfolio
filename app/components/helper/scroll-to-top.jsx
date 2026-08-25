@@ -2,32 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa6";
+import { useTranslations } from 'next-intl';
 
 const DEFAULT_BTN_CLS =
-  "fixed bottom-8 end-6 z-[100] flex items-center rounded-full bg-slate-700 border border-slate-600 p-4 text-slate-200 hover:bg-slate-600 transition-colors";
-const SCROLL_THRESHOLD = 50;
+  "brand-scroll-top fixed bottom-5 end-4 z-[100] flex min-h-[44px] min-w-[44px] items-center justify-center border p-0 transition-colors sm:bottom-8 sm:end-6";
+const SCROLL_THRESHOLD = 480;
 
 const ScrollToTop = () => {
-  const [btnCls, setBtnCls] = useState(DEFAULT_BTN_CLS);
+  const t = useTranslations('common');
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > SCROLL_THRESHOLD) {
-        setBtnCls(DEFAULT_BTN_CLS.replace(" hidden", ""));
-      } else {
-        setBtnCls(DEFAULT_BTN_CLS + " hidden");
-      }
+      setIsVisible(window.scrollY > Math.max(SCROLL_THRESHOLD, window.innerHeight * 0.75));
     };
+
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", handleScroll, { passive: true });
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
   const onClickBtn = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <button className={btnCls} onClick={onClickBtn} aria-label="Scroll to top">
+    <button
+      className={`${DEFAULT_BTN_CLS} ${isVisible ? '' : 'hidden'}`}
+      onClick={onClickBtn}
+      aria-label={t('scrollToTop')}
+    >
       <FaArrowUp />
     </button>
   );

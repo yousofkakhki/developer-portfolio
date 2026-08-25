@@ -1,16 +1,115 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+const AVATAR_VISUAL_ENABLED = process.env.NEXT_PUBLIC_ENABLE_VRM_AVATAR !== 'false';
+const AVATAR_TRANSITION_DELAY_MS = 3200;
+const AVATAR_TRANSITION_DURATION_MS = 900;
 const voiceSessionImport = import('./avatar-voice-session');
 
+const VOICE_STATUS_STYLES = {
+  connecting: {
+    dotClass: 'bg-amber-300',
+    ringClass: 'border-amber-300/40 bg-slate-950/80 text-amber-100',
+  },
+  requestingMic: {
+    dotClass: 'bg-amber-300 animate-pulse',
+    ringClass: 'border-amber-300/40 bg-slate-950/80 text-amber-100',
+  },
+  ready: {
+    dotClass: 'bg-cyan-300',
+    ringClass: 'border-cyan-300/40 bg-slate-950/80 text-cyan-100',
+  },
+  listening: {
+    dotClass: 'bg-emerald-400 animate-pulse',
+    ringClass: 'border-emerald-300/45 bg-slate-950/80 text-emerald-100',
+  },
+  speaking: {
+    dotClass: 'bg-rose-400 animate-pulse',
+    ringClass: 'border-rose-300/45 bg-slate-950/80 text-rose-100',
+  },
+  processing: {
+    dotClass: 'bg-violet-300 animate-pulse',
+    ringClass: 'border-violet-300/45 bg-slate-950/80 text-violet-100',
+  },
+  playing: {
+    dotClass: 'bg-cyan-300 animate-pulse',
+    ringClass: 'border-cyan-300/45 bg-slate-950/80 text-cyan-100',
+  },
+  paused: {
+    dotClass: 'bg-slate-400',
+    ringClass: 'border-slate-500 bg-slate-950/80 text-slate-200',
+  },
+  blocked: {
+    dotClass: 'bg-amber-300',
+    ringClass: 'border-amber-300/45 bg-slate-950/80 text-amber-100',
+  },
+  error: {
+    dotClass: 'bg-rose-400',
+    ringClass: 'border-rose-300/45 bg-slate-950/80 text-rose-100',
+  },
+};
+
 export function AvatarFaceOverlay() {
+  const t = useTranslations('accessibility');
   const [AvatarFaceCanvas, setAvatarFaceCanvas] = useState(null);
   const [AvatarVoiceSession, setAvatarVoiceSession] = useState(null);
   const [stage, setStage] = useState('waiting');
+  const [visualState, setVisualState] = useState('portrait');
   const [voiceState, setVoiceState] = useState('connecting');
   const voiceLoadStartedRef = useRef(false);
+  const stageReadyRef = useRef(false);
+  const delayElapsedRef = useRef(false);
+  const visualStateRef = useRef('portrait');
+  const transitionDelayRef = useRef(null);
+  const transitionCompleteRef = useRef(null);
+  const voiceStatus = VOICE_STATUS_STYLES[voiceState] || VOICE_STATUS_STYLES.error;
+  const voiceLabel = t(`voiceStates.${voiceState}`);
+
+  useEffect(() => {
+    visualStateRef.current = visualState;
+  }, [visualState]);
+
+  const clearVisualTimers = useCallback(() => {
+    if (transitionDelayRef.current !== null) {
+      window.clearTimeout(transitionDelayRef.current);
+      transitionDelayRef.current = null;
+    }
+    if (transitionCompleteRef.current !== null) {
+      window.clearTimeout(transitionCompleteRef.current);
+      transitionCompleteRef.current = null;
+    }
+  }, []);
+
+  const enterFallback = useCallback(() => {
+    clearVisualTimers();
+    stageReadyRef.current = false;
+    delayElapsedRef.current = false;
+    setStage('fallback');
+    setVisualState('fallback');
+  }, [clearVisualTimers]);
+
+  const beginReveal = useCallback(() => {
+    if (!stageReadyRef.current || document.visibilityState !== 'visible') {
+      return;
+    }
+
+    if (transitionCompleteRef.current !== null) {
+      window.clearTimeout(transitionCompleteRef.current);
+    }
+    setVisualState('transitioning');
+    transitionCompleteRef.current = window.setTimeout(() => {
+      transitionCompleteRef.current = null;
+      if (document.visibilityState === 'visible') {
+        setVisualState('avatar');
+      } else {
+        delayElapsedRef.current = false;
+        setVisualState('portrait');
+      }
+    }, AVATAR_TRANSITION_DURATION_MS);
+  }, []);
 
   const loadVoiceSession = useCallback(() => {
     if (voiceLoadStartedRef.current) {
@@ -28,8 +127,12 @@ export function AvatarFaceOverlay() {
   }, []);
 
   const handleAvatarReady = useCallback(() => {
+    stageReadyRef.current = true;
     setStage('ready');
-  }, []);
+    if (delayElapsedRef.current && document.visibilityState === 'visible') {
+      beginReveal();
+    }
+  }, [beginReveal]);
 
   useEffect(() => {
     loadVoiceSession();
@@ -39,8 +142,8 @@ export function AvatarFaceOverlay() {
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
     const saveData = navigator.connection?.saveData === true;
 
-    if (reducedMotion || saveData) {
-      setStage('fallback');
+    if (!AVATAR_VISUAL_ENABLED || reducedMotion || saveData) {
+      enterFallback();
       return undefined;
     }
 
@@ -68,7 +171,7 @@ export function AvatarFaceOverlay() {
         })
         .catch(() => {
           if (!cancelled) {
-            setStage('fallback');
+            enterFallback();
           }
         });
     };
@@ -98,21 +201,120 @@ export function AvatarFaceOverlay() {
         window.clearTimeout(hardFallbackTimer);
       }
     };
-  }, []);
+  }, [enterFallback]);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+    const saveData = navigator.connection?.saveData === true;
+
+    if (!AVATAR_VISUAL_ENABLED || reducedMotion || saveData) {
+      return undefined;
+    }
+
+    const markDelayElapsed = () => {
+      transitionDelayRef.current = null;
+      if (
+        document.visibilityState !== 'visible' ||
+        visualStateRef.current === 'avatar' ||
+        visualStateRef.current === 'fallback'
+      ) {
+        return;
+      }
+
+      delayElapsedRef.current = true;
+      if (stageReadyRef.current) {
+        beginReveal();
+      } else {
+        setVisualState('preparing');
+      }
+    };
+
+    const scheduleTransition = () => {
+      if (
+        document.visibilityState !== 'visible' ||
+        visualStateRef.current === 'avatar' ||
+        visualStateRef.current === 'fallback'
+      ) {
+        return;
+      }
+
+      clearVisualTimers();
+      delayElapsedRef.current = false;
+      setVisualState('portrait');
+      transitionDelayRef.current = window.setTimeout(markDelayElapsed, AVATAR_TRANSITION_DELAY_MS);
+    };
+
+    const updateVisibility = () => {
+      const visible = document.visibilityState === 'visible';
+      if (!visible) {
+        if (
+          visualStateRef.current !== 'avatar' &&
+          visualStateRef.current !== 'fallback'
+        ) {
+          clearVisualTimers();
+          delayElapsedRef.current = false;
+          setVisualState('portrait');
+        }
+        return;
+      }
+      scheduleTransition();
+    };
+
+    const handlePageHide = () => {
+      if (
+        visualStateRef.current !== 'avatar' &&
+        visualStateRef.current !== 'fallback'
+      ) {
+        clearVisualTimers();
+        delayElapsedRef.current = false;
+        setVisualState('portrait');
+      }
+    };
+    const handlePageShow = () => scheduleTransition();
+    const handleLoad = () => scheduleTransition();
+
+    document.addEventListener('visibilitychange', updateVisibility);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('pageshow', handlePageShow);
+    if (document.readyState === 'complete') {
+      scheduleTransition();
+    } else {
+      window.addEventListener('load', handleLoad, { once: true });
+    }
+
+    return () => {
+      clearVisualTimers();
+      document.removeEventListener('visibilitychange', updateVisibility);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('pageshow', handlePageShow);
+      window.removeEventListener('load', handleLoad);
+    };
+  }, [beginReveal, clearVisualTimers]);
 
   return (
-    <div
-      data-avatar-stage={stage}
-      data-voice-state={voiceState}
-      className={`absolute left-[30.5%] top-[3.5%] h-[43%] w-[39%] overflow-hidden rounded-[48%_48%_43%_43%] transition-opacity duration-700 ${
-        stage === 'ready' ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
-      <div className="absolute inset-0">
-        <span className="sr-only" aria-live="polite">Voice state: {voiceState}</span>
+    <div className="pointer-events-none absolute inset-0" data-voice-state={voiceState}>
+      <div
+        aria-hidden="true"
+        data-avatar-stage={stage}
+        data-avatar-visual-state={visualState}
+        className="avatar-face-layer absolute left-[27%] top-[7.5%] h-[58%] w-[46%] overflow-hidden rounded-[48%_48%_43%_43%]"
+      >
+        {AvatarFaceCanvas ? (
+          <AvatarFaceCanvas onReady={handleAvatarReady} onFailure={enterFallback} />
+        ) : null}
+      </div>
 
-        {AvatarFaceCanvas ? <AvatarFaceCanvas onReady={handleAvatarReady} /> : null}
-        {AvatarVoiceSession ? <AvatarVoiceSession onStateChange={setVoiceState} /> : null}
+      {AvatarVoiceSession ? <AvatarVoiceSession onStateChange={setVoiceState} /> : null}
+
+      <div
+        data-vad-indicator
+        role="status"
+        aria-live="polite"
+        aria-label={t('voiceState', { state: voiceLabel })}
+        className={`absolute bottom-2 left-2 inline-flex max-w-[calc(100%-1rem)] items-center gap-1.5 rounded-full border px-2 py-1 text-[8px] font-mono font-medium uppercase tracking-[0.08em] shadow-sm ${voiceStatus.ringClass}`}
+      >
+        <span aria-hidden="true" className={`h-1.5 w-1.5 shrink-0 rounded-full ${voiceStatus.dotClass}`} />
+        <span className="truncate">{voiceLabel}</span>
       </div>
     </div>
   );
@@ -120,4 +322,4 @@ export function AvatarFaceOverlay() {
 
 export default AvatarFaceOverlay;
 
-// The indicator remains intentionally tiny; the avatar is hands-free and has no microphone button.
+// The indicator remains intentionally compact; the avatar stays hands-free and has no microphone button.

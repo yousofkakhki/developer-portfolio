@@ -9,7 +9,7 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 test('blog index snippets match the currently published subject inventory', () => {
   const page = read('app/[locale]/blog/page.js');
   assert.match(page, /WebRTC, LiveKit, distributed backend architecture/);
-  assert.match(page, /Next\.js، بین‌المللی‌سازی/);
+  assert.match(page, /بک‌اند، سیستم‌های توزیع‌شده و WebRTC/);
   assert.doesNotMatch(page, /reliable fintech workflows|درگاه‌های پرداخت کریپتو|بهینه‌سازی کرنل لینوکس/);
 });
 

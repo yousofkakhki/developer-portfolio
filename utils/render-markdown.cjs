@@ -90,7 +90,7 @@ function renderMarkdown(content) {
       continue;
     }
 
-    const ordered = line.match(/^\d+\.\s+(.+)$/);
+    const ordered = line.match(/^[0-9۰-۹]+\.\s+(.+)$/);
     if (ordered) {
       flushParagraph();
       openList('ol');

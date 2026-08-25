@@ -3,29 +3,27 @@
 import { memo } from 'react';
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
+import { careerFacts } from '@/utils/data/career-facts';
 
 function Testimonials() {
   const t = useTranslations('testimonials');
+  const tCommon = useTranslations('common');
 
-  const testimonials = [
-    {
-      name: t('1.name'),
-      title: t('1.title'),
-      quote: t('1.quote'),
-      letterUrl: "/recommendation.pdf"
-    },
-    {
-      name: t('2.name'),
-      title: t('2.title'),
-      quote: t('2.quote'),
-      letterUrl: "/recommendation-sara-mozaffari.jpg"
-    }
-  ];
+  const testimonials = careerFacts.testimonials
+    .filter(testimonial => testimonial.publish)
+    .map(testimonial => ({
+      name: t(`${testimonial.id}.name`),
+      title: t(`${testimonial.id}.title`),
+      quote: t(`${testimonial.id}.quote`),
+      letterUrl: testimonial.asset,
+    }));
+
+  if (testimonials.length === 0) return null;
 
   return (
-    <section id="testimonials" className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold text-slate-100 mb-12">
+    <section id="testimonials" className="brand-section">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="brand-section__title text-3xl font-semibold text-slate-100 mb-12">
           {t('title')}
         </h2>
 
@@ -33,7 +31,7 @@ function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <article 
               key={index} 
-              className="border border-slate-700 bg-slate-800/50 rounded p-6"
+              className="brand-panel p-6"
             >
               <blockquote className="text-slate-400 mb-4 leading-relaxed">
                 &quot;{testimonial.quote}&quot;
@@ -47,7 +45,9 @@ function Testimonials() {
               <Link
                 href={testimonial.letterUrl}
                 target="_blank"
-                className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                aria-label={`${t('readFullLetter')} (${tCommon('opensInNewTab')})`}
               >
                 {t('readFullLetter')}
               </Link>

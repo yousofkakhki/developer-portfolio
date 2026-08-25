@@ -1,5 +1,6 @@
 import { ConversionLink, ConversionView } from '@/app/components/analytics/conversion-link';
 import { personalData } from '@/utils/data/personal-data';
+import { careerFacts, localized } from '@/utils/data/career-facts';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 
@@ -8,44 +9,87 @@ const copy = {
     title: 'Work with Yousef Kakhki',
     description: 'Senior backend, platform, and real-time media engineering for teams building reliable distributed systems.',
     eyebrow: 'For engineering leaders and recruiters',
-    intro: 'Open to senior backend, platform, and real-time media opportunities in Germany and the Netherlands, including roles that support relocation.',
+    intro: '',
+    availability: 'Available for senior individual-contributor and hands-on technical-lead roles.',
+    topCta: 'Discuss a role',
+    downloadResume: 'Download résumé (PDF)',
     evidenceTitle: 'What I bring',
     evidence: [
-      ['Real-time media', 'Architecture experience with LiveKit, WebRTC, HLS, NATS JetStream, and Go on an educational platform serving 5,000+ concurrent users.'],
-      ['Backend and platforms', 'Ten years across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.'],
+      ['Real-time media', 'Architecture experience with LiveKit, WebRTC, delayed HLS playback, NATS JetStream, and Go on an educational platform serving {platformConcurrency} at platform level.'],
+      ['Backend and platforms', '{backendExperience} across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.'],
       ['Technical leadership', 'Hands-on architecture and engineering leadership across backend, infrastructure, embedded Linux, and cross-functional delivery.'],
+      ['ERP and business systems', 'Delivered self-hosted Odoo Enterprise, Persian/Jalali and Hijri calendar localization, and further CRM-addon development and customization for the Odoo CRM team at Holoo Corp.'],
     ],
     rolesTitle: 'Best-fit roles',
-    roles: ['Senior Backend Engineer', 'Staff / Lead Backend Engineer', 'Platform Engineer', 'Real-Time Media Engineer', 'Solutions Architect'],
+    roles: careerFacts.targetRoles,
     approachTitle: 'How I work',
+    methodLabel: 'Method / 01',
     approach: 'I am most useful where architecture and implementation meet: defining boundaries, making trade-offs explicit, diagnosing failure modes, and continuing to contribute directly to production code.',
     cta: 'Discuss a role or engineering problem',
     email: 'Email directly',
+    contactLabel: 'Contact / Direct',
+    consultingTitle: 'Consulting and fractional architecture',
+    consultingIntro: 'Bounded reviews for teams that need a clear architecture decision, risk register, or implementation path.',
   },
   fa: {
     title: 'همکاری با یوسف کاخکی',
     description: 'مهندسی بک‌اند، پلتفرم و رسانهٔ بلادرنگ برای تیم‌هایی که سیستم‌های توزیع‌شدهٔ قابل‌اعتماد می‌سازند.',
     eyebrow: 'برای مدیران مهندسی و استخدام‌کنندگان',
-    intro: 'برای فرصت‌های مهندسی ارشد بک‌اند، پلتفرم و رسانهٔ بلادرنگ در آلمان و هلند، از جمله موقعیت‌های همراه با جابه‌جایی، آمادهٔ گفتگو هستم.',
+    intro: '',
+    availability: 'برای نقش‌های ارشد فردی و رهبری فنیِ همراه با مشارکت عملی آمادهٔ گفتگو هستم.',
+    topCta: 'گفتگو دربارهٔ یک موقعیت',
+    downloadResume: 'دریافت رزومه (PDF)',
     evidenceTitle: 'تجربه‌ای که ارائه می‌کنم',
     evidence: [
-      ['رسانهٔ بلادرنگ', 'تجربهٔ معماری با LiveKit، WebRTC، HLS، NATS JetStream و Go در یک پلتفرم آموزشی با بیش از ۵٬۰۰۰ کاربر همزمان.'],
-      ['بک‌اند و پلتفرم', 'ده سال تجربه با Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.'],
+      ['رسانهٔ بلادرنگ', 'تجربهٔ معماری با LiveKit، WebRTC، بازپخش HLS با تأخیر، NATS JetStream و Go در یک پلتفرم آموزشی با {platformConcurrency} در سطح پلتفرم.'],
+      ['بک‌اند و پلتفرم', '{backendExperience} تجربه با Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.'],
       ['رهبری فنی', 'معماری و رهبری مهندسی همراه با مشارکت عملی در بک‌اند، زیرساخت، لینوکس نهفته و تحویل بین‌تیمی.'],
+      ['ERP و سامانه‌های کسب‌وکار', 'تحویل Odoo Enterprise خودمیزبان، بومی‌سازی تقویم‌های فارسی/جلالی و هجری، و توسعه و سفارشی‌سازی بیشتر افزونه‌های CRM برای تیم Odoo CRM شرکت هلو.'],
     ],
     rolesTitle: 'فرصت‌های مهندسی مناسب',
     roles: ['مهندس ارشد بک‌اند', 'مهندس Staff یا رهبر بک‌اند', 'مهندس پلتفرم', 'مهندس رسانهٔ بلادرنگ', 'معمار راهکار'],
     approachTitle: 'شیوهٔ همکاری من',
+    methodLabel: 'روش همکاری / ۰۱',
     approach: 'بیشترین ارزش را در نقطهٔ اتصال معماری و پیاده‌سازی ایجاد می‌کنم: تعریف مرزها، شفاف‌کردن مصالحه‌ها، تحلیل حالت‌های خرابی و مشارکت مستقیم در کد تولید.',
     cta: 'گفتگو دربارهٔ موقعیت یا مسئلهٔ مهندسی',
     email: 'ارسال ایمیل مستقیم',
+    contactLabel: 'تماس / مستقیم',
+    consultingTitle: 'مشاوره و معماری کسری',
+    consultingIntro: 'بازبینی‌های محدود و مشخص برای تیم‌هایی که به تصمیم معماری، دفتر ثبت ریسک یا مسیر پیاده‌سازی روشن نیاز دارند.',
   },
 };
+
+function getCopy(language) {
+  const base = copy[language];
+  const platformConcurrency = localized(careerFacts.metrics.platformConcurrency.localizedValue, language);
+  const backendExperience = localized(careerFacts.metrics.backendExperience.localizedValue, language);
+  const relocation = localized(careerFacts.relocation.statement, language);
+  const roles = language === 'en'
+    ? careerFacts.targetRoles
+    : base.roles;
+  const consulting = careerFacts.consulting.map(service => ({
+    title: localized(service.title, language),
+    output: localized(service.output, language),
+  }));
+
+  return {
+    ...base,
+    intro: relocation,
+    evidence: base.evidence.map(([title, detail]) => [
+      title,
+      detail
+        .replace('{platformConcurrency}', platformConcurrency)
+        .replace('{backendExperience}', backendExperience),
+    ]),
+    roles,
+    consulting,
+  };
+}
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const language = locale === 'fa' ? 'fa' : 'en';
-  const text = copy[language];
+  const text = getCopy(language);
   const url = `${siteUrl}/${language}/work-with-me`;
   return {
     title: text.title,
@@ -72,7 +116,7 @@ export async function generateMetadata({ params }) {
 export default async function WorkWithMePage({ params }) {
   const { locale } = await params;
   const language = locale === 'fa' ? 'fa' : 'en';
-  const text = copy[language];
+  const text = getCopy(language);
   const url = `${siteUrl}/${language}/work-with-me`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -99,49 +143,96 @@ export default async function WorkWithMePage({ params }) {
   };
 
   return (
-    <div className="py-16 max-w-4xl mx-auto px-4">
+    <div className="brand-route brand-recruiter">
       <ConversionView eventName="work_with_me_view" source="work_with_me_page" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
 
-      <header className="mb-12">
-        <p className="text-sm font-mono uppercase tracking-wider text-cyan-400 mb-3">{text.eyebrow}</p>
-        <h1 className="text-4xl font-semibold text-slate-50 mb-5">{text.title}</h1>
-        <p className="text-lg leading-relaxed text-slate-300 max-w-3xl">{text.intro}</p>
+      <header className="brand-route__header brand-recruiter__header">
+        <div>
+          <p className="brand-route__eyebrow">{text.eyebrow}</p>
+          <h1 className="brand-route__title">{text.title}</h1>
+        </div>
+        <div className="brand-route__intro">
+          <p className="brand-route__lead">{text.intro}</p>
+          <p className="brand-route__availability">{text.availability}</p>
+          <div className="brand-route__actions">
+            <ConversionLink
+              eventName="work_with_me_contact"
+              source="work_with_me_header"
+              href={`/${language}#contact`}
+              className="brand-button brand-button--primary min-h-[44px]"
+            >
+              {text.topCta}
+            </ConversionLink>
+            <ConversionLink
+              eventName="resume_download"
+              source="work_with_me_header"
+              href={careerFacts.resume.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="brand-button min-h-[44px]"
+            >
+              {text.downloadResume}
+            </ConversionLink>
+          </div>
+        </div>
       </header>
 
-      <section className="mb-12" aria-labelledby="evidence-heading">
-        <h2 id="evidence-heading" className="text-2xl font-semibold text-slate-100 mb-6">{text.evidenceTitle}</h2>
-        <div className="grid gap-5 md:grid-cols-3">
-          {text.evidence.map(([title, detail]) => (
-            <article key={title} className="border border-slate-700 bg-slate-800/50 rounded p-5">
-              <h3 className="font-medium text-slate-100 mb-2">{title}</h3>
-              <p className="text-sm leading-relaxed text-slate-400">{detail}</p>
+      <section className="brand-route__section" aria-labelledby="evidence-heading">
+        <h2 id="evidence-heading" className="brand-route__section-title">{text.evidenceTitle}</h2>
+        <div className="brand-evidence-sheet">
+          {text.evidence.map(([title, detail], index) => (
+            <article key={title} className="brand-evidence-sheet__row">
+              <span className="brand-evidence-sheet__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{title}</h3>
+              <p>{detail}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="grid gap-8 md:grid-cols-2 mb-12">
+      <section className="brand-route__section brand-recruiter__split">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-100 mb-4">{text.rolesTitle}</h2>
-          <ul className="space-y-2 text-slate-300">
-            {text.roles.map(role => <li key={role}>— {role}</li>)}
+          <h2 className="brand-route__section-title">{text.rolesTitle}</h2>
+          <ul className="brand-role-list">
+            {text.roles.map((role, index) => (
+              <li key={role}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{role}</li>
+            ))}
           </ul>
         </div>
-        <div>
-          <h2 className="text-2xl font-semibold text-slate-100 mb-4">{text.approachTitle}</h2>
-          <p className="leading-relaxed text-slate-400">{text.approach}</p>
+        <div className="brand-method-note">
+          <p className="brand-route__eyebrow">{text.methodLabel}</p>
+          <h2>{text.approachTitle}</h2>
+          <p>{text.approach}</p>
         </div>
       </section>
 
-      <section className="border border-cyan-800/60 bg-cyan-950/20 rounded p-6">
-        <h2 className="text-xl font-medium text-slate-100 mb-4">{text.cta}</h2>
-        <div className="flex flex-wrap gap-4">
+      <section className="brand-route__section" aria-labelledby="consulting-heading">
+        <div className="brand-route__section-heading">
+          <p className="brand-route__eyebrow">{text.methodLabel}</p>
+          <h2 id="consulting-heading" className="brand-route__section-title">{text.consultingTitle}</h2>
+          <p className="brand-route__lead">{text.consultingIntro}</p>
+        </div>
+        <div className="brand-evidence-sheet">
+          {text.consulting.map((service, index) => (
+            <article key={service.title} className="brand-evidence-sheet__row">
+              <span className="brand-evidence-sheet__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{service.title}</h3>
+              <p><strong>{language === 'fa' ? 'خروجی:' : 'Output:'}</strong> {service.output}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="brand-route__cta" aria-labelledby="recruiter-contact-heading">
+        <p className="brand-route__eyebrow">{text.contactLabel}</p>
+        <h2 id="recruiter-contact-heading">{text.cta}</h2>
+        <div className="brand-route__actions">
           <ConversionLink
             eventName="work_with_me_contact"
             source="work_with_me_page"
             href={`/${language}#contact`}
-            className="inline-flex px-5 py-3 rounded bg-cyan-700 text-white hover:bg-cyan-600 transition-colors"
+            className="brand-button brand-button--primary"
           >
             {text.cta}
           </ConversionLink>
@@ -149,7 +240,7 @@ export default async function WorkWithMePage({ params }) {
             eventName="contact_email_click"
             source="work_with_me_page"
             href={`mailto:${personalData.email}`}
-            className="inline-flex px-5 py-3 rounded border border-slate-600 text-slate-200 hover:border-slate-400 transition-colors"
+            className="brand-button brand-button--inverse"
           >
             {text.email}
           </ConversionLink>

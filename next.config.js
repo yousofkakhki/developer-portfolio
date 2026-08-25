@@ -4,6 +4,18 @@ const createNextIntlPlugin = require('next-intl/plugin');
 const withNextIntl = createNextIntlPlugin('./i18n.js');
 
 module.exports = withNextIntl({
+  async redirects() {
+    return [
+      { source: '/:locale/projects/1', destination: '/:locale/projects/ai-hologram-realtime-backend', permanent: true },
+      { source: '/:locale/projects/2', destination: '/:locale/projects/investment-analytics-platform', permanent: true },
+      { source: '/:locale/projects/3', destination: '/:locale/projects/crypto-fiat-payment-gateway', permanent: true },
+      { source: '/:locale/projects/4', destination: '/:locale/projects/realtime-game-platform', permanent: true },
+      { source: '/:locale/projects/5', destination: '/:locale/projects/embedded-linux-ota', permanent: true },
+      { source: '/:locale/projects/6', destination: '/:locale/projects/learning-platform', permanent: true },
+      { source: '/:locale/projects/7', destination: '/:locale/projects/transaction-ledger-system', permanent: true },
+      { source: '/:locale/projects/8', destination: '/:locale/projects/blockchain-backend-platform', permanent: true },
+    ];
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },

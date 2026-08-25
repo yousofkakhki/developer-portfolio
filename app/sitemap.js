@@ -1,12 +1,13 @@
 import { locales } from '@/i18n';
 import { getAvailableBlogLocales, getLocalBlogs } from '@/utils/data/local-blogs';
 import { getActivePillarSlugs } from '@/utils/data/blog-pillars';
+import { projectCatalog } from '@/utils/data/project-catalog';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 const STATIC_LAST_MODIFIED = new Date('2026-07-28');
 
 export default function sitemap() {
-  const routes = ['', '/blog', '/work-with-me'];
+  const routes = ['', '/blog', '/projects', '/work-with-me'];
   const blogs = getLocalBlogs('en');
   const staticEntries = [];
 
@@ -38,6 +39,21 @@ export default function sitemap() {
     };
   });
 
+  const projectEntries = projectCatalog.flatMap(project => {
+    const languages = locales.reduce((acc, locale) => {
+      acc[locale] = `${siteUrl}/${locale}/projects/${project.slug}`;
+      return acc;
+    }, {});
+    languages['x-default'] = `${siteUrl}/en/projects/${project.slug}`;
+    return Array.from(locales, locale => ({
+      url: `${siteUrl}/${locale}/projects/${project.slug}`,
+      lastModified: STATIC_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+      alternates: { languages },
+    }));
+  });
+
   const blogEntries = blogs.flatMap(blog => {
     const blogLocales = getAvailableBlogLocales(blog.slug);
     const languages = blogLocales.reduce((acc, locale) => {
@@ -54,5 +70,5 @@ export default function sitemap() {
     }));
   });
 
-  return [...staticEntries, ...pillarEntries, ...blogEntries];
+  return [...staticEntries, ...pillarEntries, ...projectEntries, ...blogEntries];
 }

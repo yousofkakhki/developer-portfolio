@@ -5,6 +5,8 @@ import { io } from 'socket.io-client';
 import { useMicVAD } from '@ricky0123/vad-react';
 import {
   canCommitAudioStart,
+  canEmitVadAudio,
+  canProcessVadCallback,
   createAudioChunkQueue,
   ensureAudioContextRunning,
   REALTIME_VAD_OPTIONS,
@@ -28,8 +30,14 @@ function decodeBase64(base64Audio) {
   return bytes.buffer;
 }
 
-function isAutoplayError(error) {
-  return error?.name === 'NotAllowedError' || error?.name === 'SecurityError';
+function isRecoverableAudioAccessError(error) {
+  return [
+    'AbortError',
+    'NotAllowedError',
+    'NotFoundError',
+    'NotReadableError',
+    'SecurityError',
+  ].includes(error?.name);
 }
 
 async function prepareAudioOutput(contextRef) {
@@ -129,6 +137,8 @@ export function AvatarVoiceSession({ onStateChange }) {
   const awaitingResponseRef = useRef(false);
   const turnCompletedRef = useRef(false);
   const vadListeningRef = useRef(false);
+  const vadStartingRef = useRef(false);
+  const vadRestartPendingRef = useRef(false);
   const vadControlsRef = useRef(null);
   const vadReadyRef = useRef(false);
   const connectionStateRef = useRef('connecting');
@@ -167,12 +177,23 @@ export function AvatarVoiceSession({ onStateChange }) {
 
   const startListening = useCallback(async () => {
     if (
+      vadStartingRef.current ||
       !mountedRef.current ||
       !autoSessionRef.current ||
       !pageVisibleRef.current ||
+      document.visibilityState !== 'visible' ||
       !vadReadyRef.current ||
       awaitingResponseRef.current
     ) {
+      if (
+        vadStartingRef.current &&
+        mountedRef.current &&
+        autoSessionRef.current &&
+        pageVisibleRef.current &&
+        document.visibilityState === 'visible'
+      ) {
+        vadRestartPendingRef.current = true;
+      }
       return;
     }
 
@@ -190,37 +211,34 @@ export function AvatarVoiceSession({ onStateChange }) {
     }
 
     const generation = ++startGenerationRef.current;
+    vadStartingRef.current = true;
+    vadRestartPendingRef.current = false;
     let microphoneStarted = false;
+    const canCommitStart = () => canCommitAudioStart({
+      generation,
+      currentGeneration: startGenerationRef.current,
+      mounted: mountedRef.current,
+      autoSession: autoSessionRef.current,
+      pageVisible:
+        pageVisibleRef.current && document.visibilityState === 'visible',
+      transportConnected: connectionStateRef.current === 'connected',
+      awaitingResponse: awaitingResponseRef.current,
+      playbackBusy: Boolean(playbackQueueRef.current?.isBusy()),
+    });
     setVoiceState('requestingMic');
     try {
       await vadPausePromiseRef.current;
-      if (
-        generation !== startGenerationRef.current ||
-        !mountedRef.current ||
-        !autoSessionRef.current ||
-        !pageVisibleRef.current
-      ) {
+      if (!canCommitStart()) {
         return;
       }
       await controls.start();
       microphoneStarted = true;
-      if (
-        generation !== startGenerationRef.current ||
-        !mountedRef.current ||
-        !autoSessionRef.current ||
-        !pageVisibleRef.current
-      ) {
+      if (!canCommitStart()) {
         await controls.pause?.();
         return;
       }
       await prepareAudioOutput(audioContextRef);
-      if (!canCommitAudioStart({
-        generation,
-        currentGeneration: startGenerationRef.current,
-        mounted: mountedRef.current,
-        autoSession: autoSessionRef.current,
-        pageVisible: pageVisibleRef.current,
-      })) {
+      if (!canCommitStart()) {
         await controls.pause?.();
         return;
       }
@@ -241,10 +259,28 @@ export function AvatarVoiceSession({ onStateChange }) {
       awaitingResponseRef.current = false;
       turnCompletedRef.current = true;
       playbackQueueRef.current?.reset();
-      console.error('Failed to start hands-free voice session:', error);
-      playbackBlockedRef.current = isAutoplayError(error);
-      setVoiceState(isAutoplayError(error) ? 'blocked' : 'error');
-      autoSessionRef.current = isAutoplayError(error) ? false : true;
+      const playbackBlocked = isRecoverableAudioAccessError(error);
+      if (playbackBlocked) {
+        // Microphone and autoplay permission are device decisions, not page failures.
+        console.info('Hands-free voice session is awaiting microphone or audio permission.');
+      } else {
+        console.error('Failed to start hands-free voice session:', error);
+      }
+      playbackBlockedRef.current = playbackBlocked;
+      setVoiceState(playbackBlocked ? 'blocked' : 'error');
+      autoSessionRef.current = playbackBlocked ? false : true;
+    } finally {
+      vadStartingRef.current = false;
+      if (
+        vadRestartPendingRef.current &&
+        mountedRef.current &&
+        autoSessionRef.current &&
+        pageVisibleRef.current &&
+        document.visibilityState === 'visible'
+      ) {
+        vadRestartPendingRef.current = false;
+        window.setTimeout(() => void startListening(), 0);
+      }
     }
   }, [setVoiceState]);
 
@@ -252,7 +288,7 @@ export function AvatarVoiceSession({ onStateChange }) {
     if (!mountedRef.current) {
       return;
     }
-    if (isAutoplayError(error)) {
+    if (isRecoverableAudioAccessError(error)) {
       playbackBlockedRef.current = true;
       autoSessionRef.current = false;
       setVoiceState('blocked');
@@ -289,7 +325,7 @@ export function AvatarVoiceSession({ onStateChange }) {
   if (!playbackQueueRef.current) {
     playbackQueueRef.current = createAudioChunkQueue({
       play: (audio) => createPlayback(audio, audioContextRef),
-      isRecoverableError: isAutoplayError,
+      isRecoverableError: isRecoverableAudioAccessError,
       onPlaybackStart: () => setVoiceState('playing'),
       onPlaybackComplete: handlePlaybackComplete,
       onError: handlePlaybackError,
@@ -319,12 +355,13 @@ export function AvatarVoiceSession({ onStateChange }) {
     preSpeechPadMs: REALTIME_VAD_OPTIONS.preSpeechPadMs,
     minSpeechMs: REALTIME_VAD_OPTIONS.minSpeechMs,
     onSpeechStart: () => {
-      if (
-        !mountedRef.current ||
-        !pageVisibleRef.current ||
-        !vadListeningRef.current ||
-        awaitingResponseRef.current
-      ) {
+      if (!canProcessVadCallback({
+        mounted: mountedRef.current,
+        pageVisible: pageVisibleRef.current,
+        documentVisible: document.visibilityState === 'visible',
+        vadListening: vadListeningRef.current,
+        awaitingResponse: awaitingResponseRef.current,
+      })) {
         return;
       }
       clearResponseTimeout();
@@ -334,7 +371,13 @@ export function AvatarVoiceSession({ onStateChange }) {
       setVoiceState('speaking');
     },
     onVADMisfire: () => {
-      if (!pageVisibleRef.current) {
+      if (!canProcessVadCallback({
+        mounted: mountedRef.current,
+        pageVisible: pageVisibleRef.current,
+        documentVisible: document.visibilityState === 'visible',
+        vadListening: vadListeningRef.current,
+        awaitingResponse: awaitingResponseRef.current,
+      })) {
         return;
       }
       vadListeningRef.current = false;
@@ -343,20 +386,37 @@ export function AvatarVoiceSession({ onStateChange }) {
     },
     onSpeechEnd: async (speech) => {
       const socket = socketRef.current;
-      if (!vadListeningRef.current) {
-        return;
-      }
-      vadListeningRef.current = false;
-      if (!pageVisibleRef.current) {
+      const documentVisible = document.visibilityState === 'visible';
+      if (!pageVisibleRef.current || !documentVisible) {
         stopVad();
         setVoiceState('paused');
         return;
       }
-      if (!socket?.connected || !speech?.length) {
-        setVoiceState('ready');
-        void startListening();
+      if (!canProcessVadCallback({
+        mounted: mountedRef.current,
+        pageVisible: pageVisibleRef.current,
+        documentVisible,
+        vadListening: vadListeningRef.current,
+        awaitingResponse: awaitingResponseRef.current,
+      })) {
         return;
       }
+      if (!canEmitVadAudio({
+        mounted: mountedRef.current,
+        pageVisible: pageVisibleRef.current,
+        documentVisible,
+        vadListening: vadListeningRef.current,
+        awaitingResponse: awaitingResponseRef.current,
+        transportConnected: Boolean(socket?.connected),
+        speechLength: speech?.length || 0,
+      })) {
+        if (!pageVisibleRef.current || !documentVisible) {
+          stopVad();
+          setVoiceState('paused');
+        }
+        return;
+      }
+      vadListeningRef.current = false;
 
       stopVad();
       clearResponseTimeout();
@@ -412,9 +472,11 @@ export function AvatarVoiceSession({ onStateChange }) {
 
   useEffect(() => {
     const updateVisibility = (visible) => {
-      pageVisibleRef.current = visible;
-      if (!visible) {
+      const pageIsVisible = visible && document.visibilityState === 'visible';
+      pageVisibleRef.current = pageIsVisible;
+      if (!pageIsVisible) {
         autoSessionRef.current = false;
+        vadRestartPendingRef.current = false;
         stopVad();
         setVoiceState('paused');
         return;
@@ -436,7 +498,7 @@ export function AvatarVoiceSession({ onStateChange }) {
       updateVisibility(document.visibilityState === 'visible');
     };
     const handlePageHide = () => updateVisibility(false);
-    const handlePageShow = () => updateVisibility(true);
+    const handlePageShow = () => updateVisibility(document.visibilityState === 'visible');
 
     pageVisibleRef.current = document.visibilityState === 'visible';
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -459,6 +521,11 @@ export function AvatarVoiceSession({ onStateChange }) {
       playbackBlockedRef.current = false;
       autoSessionRef.current = true;
       playbackQueue.resumePlayback();
+      if (socketRef.current && !socketRef.current.connected) {
+        connectionStateRef.current = 'connecting';
+        socketRef.current.connect();
+        return;
+      }
       void startListening();
     };
     const events = ['pointerdown', 'touchstart', 'keydown'];
@@ -471,7 +538,7 @@ export function AvatarVoiceSession({ onStateChange }) {
       path: '/socket_io',
       transports: ['websocket'],
       withCredentials: false,
-      autoConnect: true,
+      autoConnect: false,
     });
     socketRef.current = socket;
 

@@ -1,60 +1,12 @@
-// @flow strict
+// Legacy data export kept for consumers outside the localized homepage.
+// Public career facts are owned by career-facts.js.
+import { careerFacts } from './career-facts';
 
-export const experiences = [
-  {
-    id: 1,
-    title: 'Solutions Architect',
-    company: "HonarAmoozesh (Remote/Contract)",
-    duration: "(Jul 2025 - Present)",
-    tech: "WebRTC (LiveKit), delayed HLS playback, NATS JetStream, Go",
-    description: [
-      "Architected live WebRTC delivery for 5,000+ concurrent users.",
-      "Engineered low-latency signaling via NATS JetStream and supported HLS playback for material available hours after the live session—not as a live fallback."
-    ]
-  },
-  {
-    id: 2,
-    title: 'Head of Software & AI Development',
-    company: "Capitalino",
-    duration: "(Oct 2023 - Jun 2025)",
-    tech: "Docker Swarm, Python (AI), Node.js, Odoo ERP",
-    description: [
-      "Led a 4-person team in building and deploying a crypto-to-fiat payment gateway.",
-      "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
-      "Directed ERP customization and internal network security."
-    ]
-  },
-  {
-    id: 3,
-    title: "Senior Backend Engineer",
-    company: "Avin Avisa",
-    duration: "(Apr 2021 - Sep 2023)",
-    tech: "Greedy Algorithms, Web3.js, PostgreSQL, Redis",
-    description: [
-      "Designed a sub-100ms P2P matching engine using Greedy Knapsack algorithms.",
-      "Implemented ACID-compliant ledgers for high-frequency trading."
-    ]
-  },
-  {
-    id: 4,
-    title: "Systems Engineer (Embedded Linux)",
-    company: "Batna",
-    duration: "(Sep 2019 - Mar 2021)",
-    tech: "Yocto, C++, Linux Kernel",
-    description: [
-      "Concurrent with M.Sc. studies.",
-      "Optimized Linux kernel boot times by 40% and designed atomic OTA update pipelines for 5,000+ IoT devices."
-    ]
-  },
-  {
-    id: 5,
-    title: "Android Systems Developer",
-    company: "Azma Data Structure",
-    duration: "(Apr 2016 - Aug 2019)",
-    tech: "Android NDK, C++, Java",
-    description: [
-      "Developed native C++ modules for GPS sensor fusion.",
-      "Engineered offline-first state synchronization engines."
-    ]
-  }
-];
+export const experiences = careerFacts.roles.map((role) => ({
+  id: role.id,
+  title: role.title.en,
+  company: role.company,
+  duration: `(${role.publicDate.en})`,
+  tech: role.technologies.join(', '),
+  description: role.summary.en.slice(),
+}));

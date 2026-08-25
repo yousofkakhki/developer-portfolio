@@ -3,55 +3,69 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { memo, useMemo } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { memo, useMemo, useState } from 'react';
+import ProjectVisual from './project-visual';
 
 function ProjectCard({ project }) {
   const t = useTranslations('projects');
-  
+  const tCommon = useTranslations('common');
+  const locale = useLocale();
   const hasDemo = useMemo(() => project.demo && project.demo.trim(), [project.demo]);
   const hasCode = useMemo(() => project.code && project.code.trim(), [project.code]);
   const firstImage = project.images?.[0];
+  const [mediaStatus, setMediaStatus] = useState(firstImage ? 'loading' : 'architecture-brief');
+  const showImage = Boolean(firstImage) && mediaStatus !== 'failed';
 
   return (
-    <article className="border border-slate-700 bg-slate-800/50 rounded overflow-hidden">
-      {/* Image */}
-      {firstImage && (
-        <div className="relative h-48 overflow-hidden">
+    <article className="brand-panel brand-panel--interactive overflow-hidden">
+      <div
+        data-project-media-state={mediaStatus}
+        className="relative h-48 overflow-hidden border-b border-slate-700/70 bg-slate-950"
+      >
+        {mediaStatus !== 'ready' && (
+          <ProjectVisual
+            projectId={project.id}
+            visualKind={project.visualKind}
+            briefLabel={t('architectureBrief')}
+            categoryLabel={t(`visualKinds.${project.visualKind}`)}
+          />
+        )}
+        {showImage && (
           <Image
             src={firstImage}
             fill
             sizes="(max-width: 768px) 100vw, 800px"
             alt={project.name}
-            className="object-cover"
+            onLoad={() => setMediaStatus('ready')}
+            onError={() => setMediaStatus('failed')}
+            className={`object-cover transition-opacity duration-300 ${mediaStatus === 'ready' ? 'opacity-100' : 'opacity-0'}`}
           />
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-medium text-slate-100 mb-3">
+        <h3 className="mb-3 text-xl font-medium text-slate-100">
           {project.name}
         </h3>
-        
-        <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+
+        <p className="mb-4 text-sm leading-relaxed text-slate-400">
           {project.description}
         </p>
-        
+
         {project.role && (
-          <div className="text-sm mb-4">
-            <span className="text-slate-400">Role:</span>
-            <span className="text-slate-300 ml-2">{project.role}</span>
+          <div className="mb-4 text-sm">
+            <span className="text-slate-400">{t('role')}</span>
+            <span className="ms-2 text-slate-300">{project.role}</span>
           </div>
         )}
 
-        {/* Tools */}
         {project.tools?.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.tools.map((tool, index) => (
-              <span 
-                key={index} 
-                className="px-2 py-1 text-xs text-slate-400 bg-slate-700/50 border border-slate-700 rounded"
+          <div className="mb-4 flex flex-wrap gap-2">
+            {project.tools.map((tool) => (
+              <span
+                key={tool}
+                className="brand-chip font-mono text-slate-400"
               >
                 {tool}
               </span>
@@ -59,24 +73,34 @@ function ProjectCard({ project }) {
           </div>
         )}
 
-        {/* Links */}
-        <div className="flex items-center gap-4 text-sm">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+          <Link
+            href={`/${locale}/projects/${project.slug}`}
+            className="inline-flex min-h-[44px] items-center text-cyan-300 hover:text-cyan-100 transition-colors"
+            aria-label={`${t('caseStudy')}: ${project.name}`}
+          >
+            {t('caseStudy')} →
+          </Link>
           {hasDemo && (
-            <Link 
-              href={project.demo} 
-              target='_blank' 
-              className="text-slate-400 hover:text-slate-200 transition-colors"
+            <Link
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center text-slate-400 hover:text-slate-200 transition-colors"
+              aria-label={`${t('viewDemo')} — ${project.name} (${tCommon('opensInNewTab')})`}
             >
-              View Demo →
+              {t('viewDemo')} →
             </Link>
           )}
           {hasCode && (
-            <Link 
-              href={project.code} 
-              target='_blank' 
-              className="text-slate-400 hover:text-slate-200 transition-colors"
+            <Link
+              href={project.code}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center text-slate-400 hover:text-slate-200 transition-colors"
+              aria-label={`${t('viewCode')} — ${project.name} (${tCommon('opensInNewTab')})`}
             >
-              View Code →
+              {t('viewCode')} →
             </Link>
           )}
         </div>

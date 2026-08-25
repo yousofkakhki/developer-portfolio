@@ -1,47 +1,21 @@
 export function timeConverter(isoTime, locale = 'en') {
-  const currentTime = new Date().getTime();
-  const pastTime = new Date(isoTime).getTime();
-  const timeDifference = currentTime - pastTime;
+  const timestamp = new Date(isoTime).getTime();
+  if (!Number.isFinite(timestamp)) return '';
 
-  const seconds = Math.floor(timeDifference / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
+  const elapsedSeconds = (timestamp - Date.now()) / 1000;
+  const units = [
+    ['year', 60 * 60 * 24 * 365],
+    ['month', 60 * 60 * 24 * 30],
+    ['day', 60 * 60 * 24],
+    ['hour', 60 * 60],
+    ['minute', 60],
+    ['second', 1],
+  ];
+  const [unit, divisor] = units.find(([, seconds]) => Math.abs(elapsedSeconds) >= seconds) || units.at(-1);
+  const value = Math.round(elapsedSeconds / divisor);
+  const formatter = new Intl.RelativeTimeFormat(locale === 'fa' ? 'fa-IR' : 'en-US', {
+    numeric: 'always',
+  });
 
-  const translations = {
-    en: {
-      seconds: 'seconds ago',
-      minutes: 'minutes ago',
-      hours: 'hours ago',
-      days: 'days ago',
-      months: 'months ago',
-      years: 'years ago',
-    },
-    fa: {
-      seconds: 'ثانیه پیش',
-      minutes: 'دقیقه پیش',
-      hours: 'ساعت پیش',
-      days: 'روز پیش',
-      months: 'ماه پیش',
-      years: 'سال پیش',
-    }
-  };
-
-  const t = translations[locale] || translations.en;
-
-  if (seconds < 60) {
-    return `${seconds} ${t.seconds}`;
-  } else if (minutes < 60) {
-    return `${minutes} ${t.minutes}`;
-  } else if (hours < 24) {
-    return `${hours} ${t.hours}`;
-  } else if (days < 30) {
-    return `${days} ${t.days}`;
-  } else if (months < 12) {
-    return `${months} ${t.months}`;
-  } else {
-    return `${years} ${t.years}`;
-  }
+  return formatter.format(value, unit);
 }

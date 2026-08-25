@@ -8,21 +8,30 @@ import { voiceAnalyserRef } from '@/app/utils/avatarVoiceAudio';
 
 const MODEL_URL = '/avatar/kakhki-robot.vrm';
 const FACE_MESH_NAMES = new Set(['HEAD', 'EYES', 'EYES.001']);
+const EYE_MESH_NAMES = new Set(['EYES', 'EYES.001']);
 const HIDDEN_FACE_MATERIALS = new Set(['SPINE']);
-const FACE_TRANSLATE_X = -5.5;
-const FACE_TRANSLATE_Y = 10.5;
-const FACE_SUPERSAMPLE = 1.5;
+const AVATAR_EYE_COLOR = 0x67e8f9;
+const AVATAR_EYE_EMISSIVE_INTENSITY = 0.18;
+const AVATAR_RENDER_TIMEOUT_MS = 20000;
+const FACE_TRANSLATE_X = -3.5;
+const FACE_TRANSLATE_Y = 16.5;
+const FACE_SUPERSAMPLE = 2;
 const FACE_MAX_PIXEL_RATIO = 3;
 const FACE_CLIP_PATH =
   'polygon(0 0, 100% 0, 100% 58%, 98% 67%, 94% 74%, 87% 81%, 77% 87%, 64% 91%, 50% 93%, 36% 91%, 23% 87%, 13% 81%, 6% 74%, 2% 67%, 0 58%)';
 
-export default function AvatarFaceCanvas({ onReady }) {
+export default function AvatarFaceCanvas({ onReady, onFailure }) {
   const canvasRef = useRef(null);
   const onReadyRef = useRef(onReady);
+  const onFailureRef = useRef(onFailure);
 
   useEffect(() => {
     onReadyRef.current = onReady;
   }, [onReady]);
+
+  useEffect(() => {
+    onFailureRef.current = onFailure;
+  }, [onFailure]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,6 +44,15 @@ export default function AvatarFaceCanvas({ onReady }) {
     let animationFrame;
     let vrm;
     let readySent = false;
+    let failureSent = false;
+    const reportFailure = () => {
+      if (disposed || readySent || failureSent) {
+        return;
+      }
+      failureSent = true;
+      onFailureRef.current?.();
+    };
+    const failureTimer = window.setTimeout(reportFailure, AVATAR_RENDER_TIMEOUT_MS);
     const mouthTarget = { aa: 0, oh: 0 };
     const mouthCurrent = { aa: 0, oh: 0 };
     const mouthSamples = new Uint8Array(256);
@@ -51,6 +69,8 @@ export default function AvatarFaceCanvas({ onReady }) {
         powerPreference: 'high-performance',
       });
     } catch {
+      reportFailure();
+      window.clearTimeout(failureTimer);
       return undefined;
     }
 
@@ -97,6 +117,7 @@ export default function AvatarFaceCanvas({ onReady }) {
 
         vrm = gltf.userData.vrm;
         if (!vrm) {
+          reportFailure();
           return;
         }
 
@@ -106,6 +127,11 @@ export default function AvatarFaceCanvas({ onReady }) {
         const faceMeshIndexes = new Set(
           gltf.parser.json.nodes
             .filter(node => FACE_MESH_NAMES.has(node.name) && Number.isInteger(node.mesh))
+            .map(node => node.mesh),
+        );
+        const eyeMeshIndexes = new Set(
+          gltf.parser.json.nodes
+            .filter(node => EYE_MESH_NAMES.has(node.name) && Number.isInteger(node.mesh))
             .map(node => node.mesh),
         );
 
@@ -123,7 +149,19 @@ export default function AvatarFaceCanvas({ onReady }) {
               : [object.material];
             const filteredMaterials = materials.map(material => {
               if (!HIDDEN_FACE_MATERIALS.has(material.name)) {
-                return material;
+                if (!eyeMeshIndexes.has(meshIndex)) {
+                  return material;
+                }
+
+                const eyeMaterial = material.clone();
+                if (eyeMaterial.emissive?.setHex) {
+                  eyeMaterial.emissive.setHex(AVATAR_EYE_COLOR);
+                  eyeMaterial.emissiveIntensity = AVATAR_EYE_EMISSIVE_INTENSITY;
+                } else if (eyeMaterial.color?.lerp) {
+                  eyeMaterial.color.lerp(new THREE.Color(AVATAR_EYE_COLOR), 0.24);
+                }
+                eyeMaterial.needsUpdate = true;
+                return eyeMaterial;
               }
 
               const hiddenMaterial = material.clone();
@@ -140,6 +178,7 @@ export default function AvatarFaceCanvas({ onReady }) {
 
         const cameraHead = vrm.humanoid?.getRawBoneNode('head');
         if (!cameraHead) {
+          reportFailure();
           return;
         }
 
@@ -149,9 +188,7 @@ export default function AvatarFaceCanvas({ onReady }) {
         camera.lookAt(headPosition.x, headPosition.y + 0.04, headPosition.z);
       },
       undefined,
-      () => {
-        // Keep the original portrait unchanged when the model cannot load.
-      },
+      reportFailure,
     );
 
     const avatarPixelsAreVisible = () => {
@@ -216,6 +253,7 @@ export default function AvatarFaceCanvas({ onReady }) {
 
         if (!readySent && avatarPixelsAreVisible()) {
           readySent = true;
+          window.clearTimeout(failureTimer);
           window.requestAnimationFrame(() => onReadyRef.current?.());
         }
       }
@@ -225,6 +263,7 @@ export default function AvatarFaceCanvas({ onReady }) {
 
     return () => {
       disposed = true;
+      window.clearTimeout(failureTimer);
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
       if (vrm) {

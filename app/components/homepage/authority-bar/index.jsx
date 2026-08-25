@@ -1,7 +1,6 @@
 // @flow strict
 "use client";
 import { memo } from "react";
-import Link from "next/link";
 import { FaTrophy, FaFilePdf } from "react-icons/fa";
 
 function AuthorityBar() {
@@ -23,14 +22,10 @@ function AuthorityBar() {
         <div className="hidden md:block w-px h-12 bg-slate-700"></div>
         <div className="md:hidden w-32 h-px bg-slate-700"></div>
 
-        <Link
-          href="/recommendation.pdf"
-          target="_blank"
-          className="flex items-center gap-2 px-6 py-3 rounded border border-burgundy text-slate-200 hover:bg-burgundy hover:text-white transition-colors group"
-        >
-          <FaFilePdf className="text-burgundy group-hover:text-white transition-colors" />
-          <span className="font-medium text-sm">View Recommendation Letter</span>
-        </Link>
+        <span className="flex items-center gap-2 px-6 py-3 rounded border border-slate-700 text-slate-400">
+          <FaFilePdf className="text-slate-400" aria-hidden="true" />
+          <span className="font-medium text-sm">Proof document available on request</span>
+        </span>
       </div>
     </section>
   );

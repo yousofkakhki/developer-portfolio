@@ -1,12 +1,12 @@
 export default function manifest() {
   return {
-    name: 'Yousef Kakhki — System Architect & Technical Lead',
+    name: 'Yousef Kakhki — Senior Backend Engineer & Technical Lead',
     short_name: 'Yousef Kakhki',
-    description: 'Systems architecture, real-time platforms, AI systems, and infrastructure.',
+    description: 'Distributed systems, real-time media, and backend platforms.',
     start_url: '/en',
     display: 'standalone',
-    background_color: '#071018',
-    theme_color: '#071018',
+    background_color: '#08111F',
+    theme_color: '#08111F',
     lang: 'en',
     dir: 'ltr',
     icons: [

@@ -16,6 +16,8 @@ const ALLOWED_EVENTS = new Set([
   'work_with_me_view',
   'work_with_me_contact',
   'article_work_with_me',
+  'project_case_study_view',
+  'project_case_study_contact',
 ]);
 const ANALYTICS_DIR = process.env.ANALYTICS_DIR || '/app/data/analytics';
 const ANALYTICS_FILE = path.join(ANALYTICS_DIR, 'events.jsonl');

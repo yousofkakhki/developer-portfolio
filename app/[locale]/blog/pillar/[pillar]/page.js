@@ -67,57 +67,53 @@ export default async function PillarPage({ params }) {
   };
 
   return (
-    <div className="py-16 max-w-3xl mx-auto px-4">
+    <div className="brand-route brand-pillar">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <Link
-        href="/en/blog"
-        className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 mb-8 transition-colors text-sm"
-      >
-        <span>←</span> All posts
+      <Link href="/en/blog" className="brand-route__back">
+        <span aria-hidden="true">←</span>
+        <span>All field notes</span>
       </Link>
 
-      <div className="mb-10">
-        <div className="w-12 h-1 rounded mb-4" style={{ backgroundColor: meta.color }} />
-        <h1 className="text-3xl font-semibold text-slate-100 mb-3">{meta.title}</h1>
-        <p className="text-slate-400 leading-relaxed">{meta.description}</p>
-      </div>
+      <header className="brand-route__header brand-pillar__header">
+        <div>
+          <p className="brand-route__eyebrow">Topic guide / {String(posts.length).padStart(2, '0')} notes</p>
+          <h1 className="brand-route__title">{meta.title}</h1>
+        </div>
+        <p className="brand-route__lead">{meta.description}</p>
+      </header>
 
-      <ul className="space-y-6">
-          {posts.map(post => (
-            <li key={post.slug} className="border border-slate-700 bg-slate-800/50 rounded p-5 hover:border-slate-500 transition-colors">
-              <Link href={`/en/blog/${post.slug}`} className="block">
-                <h2 className="text-lg font-medium text-slate-100 mb-1 hover:text-white transition-colors">
-                  {post.title}
-                </h2>
-                <p className="text-slate-400 text-sm mb-3 leading-relaxed">{post.description}</p>
-                <div className="flex items-center gap-3 text-xs text-slate-500">
-                  <span>{new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                  <span>·</span>
-                  <span>{post.reading_time_minutes} min read</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-      </ul>
+      <ol className="brand-pillar__list">
+        {posts.map((post, index) => (
+          <li key={post.slug}>
+            <Link href={`/en/blog/${post.slug}`}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h2>{post.title}</h2>
+                <p>{post.description}</p>
+              </div>
+              <small>
+                {new Date(post.published_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                {' · '}{post.reading_time_minutes} min
+              </small>
+            </Link>
+          </li>
+        ))}
+      </ol>
 
-      <div className="mt-16 pt-8 border-t border-slate-800">
-        <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">Other topics</h2>
-        <div className="flex flex-wrap gap-3">
-          {otherPillars.map(([slug, p]) => (
-            <Link
-              key={slug}
-              href={`/en/blog/pillar/${slug}`}
-              className="px-3 py-1.5 text-sm text-slate-300 border border-slate-700 rounded hover:border-slate-500 hover:text-slate-100 transition-colors"
-            >
-              {p.title}
+      <nav className="brand-pillar__other" aria-label="Other topic guides">
+        <h2>Other topic guides</h2>
+        <div>
+          {otherPillars.map(([slug, other]) => (
+            <Link key={slug} href={`/en/blog/pillar/${slug}`}>
+              {other.title} <span aria-hidden="true">→</span>
             </Link>
           ))}
         </div>
-      </div>
+      </nav>
     </div>
   );
 }
