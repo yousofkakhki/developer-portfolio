@@ -8,6 +8,7 @@ COPY package*.json ./
 RUN npm ci --include=dev
 COPY . .
 RUN npm run build
+RUN rm -rf .next/cache
 
 FROM node:20-alpine AS release
 
