@@ -27,5 +27,7 @@ test('internal link QA crawls the sitemap, assets, Open Graph images, and stable
   assert.match(source, /og-image/);
   assert.match(source, /stale_resume_link/);
   assert.match(source, /retired_recommendation_link/);
+  assert.match(source, /cloudflareEmailProtectionPath/);
+  assert.match(source, /url[.]pathname === cloudflareEmailProtectionPath/);
   assert.match(source, /response[.]status >= 400/);
 });

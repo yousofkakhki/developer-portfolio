@@ -5,6 +5,7 @@ const fetchOrigin = (process.env.LINK_FETCH_ORIGIN || canonicalBase).replace(/\/
 const canonicalOrigin = new URL(canonicalBase).origin;
 const fetchBaseOrigin = new URL(fetchOrigin).origin;
 const stableResumePath = '/files/yousef-kakhki-resume.pdf';
+const cloudflareEmailProtectionPath = '/cdn-cgi/l/email-protection';
 const jsonMode = process.argv.includes('--json');
 const responseCache = new Map();
 const failures = [];
@@ -75,6 +76,7 @@ function addTarget(value, sourceUrl, kind) {
   }
   const url = new URL(resolved);
   if (url.origin !== canonicalOrigin) return;
+  if (url.pathname === cloudflareEmailProtectionPath) return;
   const key = url.href.split('#')[0];
   const record = targets.get(key) || { url: key, kinds: new Set(), sources: new Set() };
   record.kinds.add(kind);
