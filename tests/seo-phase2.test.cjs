@@ -25,7 +25,8 @@ test('article schema is BlogPosting with breadcrumbs and stable references', () 
 
 test('title template keeps branding compact', () => {
   const source = read('app/[locale]/layout.js');
-  assert.match(source, /template:\s*'%s \| Yousef Kakhki'/);
+  assert.match(source, /ownerName\s*=\s*localized\(careerFacts\.identity\.localizedName, locale\)/);
+  assert.match(source, /template:\s*`%s \| \$\{ownerName\}`/);
   assert.doesNotMatch(source, /template:.*System Architect/);
 });
 
@@ -45,6 +46,7 @@ test('pillars expose only genuine English routes', () => {
 test('sitemap contains pillars and stable static modification dates', () => {
   const source = read('app/sitemap.js');
   assert.match(source, /getActivePillarSlugs/);
+  assert.match(source, /siteRouteManifest/);
   assert.match(source, /blog\/pillar/);
   assert.doesNotMatch(source, /lastModified:\s*new Date\(\)/);
 });

@@ -32,6 +32,7 @@ export async function generateMetadata({ params }) {
       url,
       title: meta.title,
       description: meta.description,
+      locale: 'en_US',
       images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
     },
   };

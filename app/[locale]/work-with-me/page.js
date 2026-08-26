@@ -7,6 +7,7 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 const copy = {
   en: {
     title: 'Work with Yousef Kakhki',
+    metadataTitle: 'Hiring, Relocation & Architecture Support',
     description: 'Senior backend, platform, and real-time media engineering for teams building reliable distributed systems.',
     eyebrow: 'For engineering leaders and recruiters',
     intro: '',
@@ -33,6 +34,7 @@ const copy = {
   },
   fa: {
     title: 'همکاری با یوسف کاخکی',
+    metadataTitle: 'استخدام، مهاجرت کاری و مشاورهٔ معماری',
     description: 'مهندسی بک‌اند، پلتفرم و رسانهٔ بلادرنگ برای تیم‌هایی که سیستم‌های توزیع‌شدهٔ قابل‌اعتماد می‌سازند.',
     eyebrow: 'برای مدیران مهندسی و استخدام‌کنندگان',
     intro: '',
@@ -92,7 +94,7 @@ export async function generateMetadata({ params }) {
   const text = getCopy(language);
   const url = `${siteUrl}/${language}/work-with-me`;
   return {
-    title: text.title,
+    title: text.metadataTitle,
     description: text.description,
     alternates: {
       canonical: url,

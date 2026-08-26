@@ -18,6 +18,7 @@ const projectContent = [
     images: ['/ai-1.jpg', '/ai-2.jpg', '/ai-3.jpg'],
     visualKind: 'ai',
     featured: true,
+    updatedAt: '2026-08-26',
     factIds: ['capitalino.team-size', 'hologram.itex-2024', 'hologram.best-booth'],
     name: {
       en: 'Interactive AI Hologram Installation',
@@ -42,6 +43,7 @@ const projectContent = [
     images: [],
     visualKind: 'analytics',
     featured: true,
+    updatedAt: '2026-08-26',
     factIds: ['capitalino.investment-dashboard', 'capitalino.backend-ownership'],
     name: { en: 'Investment Analytics Platform', fa: 'پلتفرم تحلیل سرمایه‌گذاری' },
     summary: {
@@ -63,6 +65,7 @@ const projectContent = [
     images: [],
     visualKind: 'payments',
     featured: true,
+    updatedAt: '2026-08-26',
     factIds: ['capitalino.gateway', 'gateway.idempotency', 'gateway.reconciliation'],
     name: { en: 'Crypto-to-Fiat Payment Gateway', fa: 'درگاه پرداخت رمزارز به فیات' },
     summary: {

@@ -34,7 +34,7 @@ test('work-with-me route is bilingual, canonical, and included in sitemap', () =
   assert.match(page, /senior individual-contributor/i);
   assert.match(page, /فرصت‌های مهندسی/);
   assert.match(page, /ProfilePage/);
-  assert.match(read('app/sitemap.js'), /work-with-me/);
+  assert.match(read('utils/data/site-route-manifest.cjs'), /work-with-me/);
   assert.match(read('app/components/navbar.jsx'), /work-with-me/);
 });
 

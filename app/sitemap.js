@@ -1,28 +1,32 @@
 import { locales } from '@/i18n';
 import { getAvailableBlogLocales, getLocalBlogs } from '@/utils/data/local-blogs';
-import { getActivePillarSlugs } from '@/utils/data/blog-pillars';
+import { getActivePillarSlugs, getPillarForTags } from '@/utils/data/blog-pillars';
 import { caseStudyProjects } from '@/utils/data/project-catalog';
+import routeManifest from '@/utils/data/site-route-manifest.cjs';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
-const STATIC_LAST_MODIFIED = new Date('2026-07-28');
+const { siteRouteManifest } = routeManifest;
+
+function latestDate(values) {
+  return new Date(Math.max(...values.map(value => new Date(value).getTime())));
+}
 
 export default function sitemap() {
-  const routes = ['', '/blog', '/projects', '/work-with-me'];
   const blogs = getLocalBlogs('en');
   const staticEntries = [];
 
   locales.forEach(locale => {
-    routes.forEach(route => {
+    siteRouteManifest.forEach(route => {
       const languages = locales.reduce((acc, loc) => {
-        acc[loc] = `${siteUrl}/${loc}${route}`;
+        acc[loc] = `${siteUrl}/${loc}${route.path}`;
         return acc;
       }, {});
-      languages['x-default'] = `${siteUrl}/en${route}`;
+      languages['x-default'] = `${siteUrl}/en${route.path}`;
       staticEntries.push({
-        url: `${siteUrl}/${locale}${route}`,
-        lastModified: STATIC_LAST_MODIFIED,
-        changeFrequency: route === '' ? 'weekly' : 'monthly',
-        priority: route === '' ? 1.0 : 0.9,
+        url: `${siteUrl}/${locale}${route.path}`,
+        lastModified: new Date(route.lastModified),
+        changeFrequency: route.changeFrequency,
+        priority: route.priority,
         alternates: { languages },
       });
     });
@@ -30,9 +34,10 @@ export default function sitemap() {
 
   const pillarEntries = getActivePillarSlugs(blogs).map(pillar => {
     const url = `${siteUrl}/en/blog/pillar/${pillar}`;
+    const pillarBlogs = blogs.filter(blog => getPillarForTags(blog.tag_list || []) === pillar);
     return {
       url,
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: latestDate((pillarBlogs.length ? pillarBlogs : blogs).map(blog => blog.updated_at || blog.published_at)),
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: { languages: { en: url, 'x-default': url } },
@@ -47,7 +52,7 @@ export default function sitemap() {
     languages['x-default'] = `${siteUrl}/en/projects/${project.slug}`;
     return Array.from(locales, locale => ({
       url: `${siteUrl}/${locale}/projects/${project.slug}`,
-      lastModified: STATIC_LAST_MODIFIED,
+      lastModified: new Date(project.updatedAt),
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: { languages },

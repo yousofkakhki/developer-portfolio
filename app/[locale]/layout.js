@@ -49,7 +49,8 @@ export async function generateMetadata({ params: { locale } }) {
   const messages = await getMessages({ locale });
   const metadata = messages.metadata || {};
   const primaryTitle = localized(careerFacts.identity.primaryTitle, locale);
-  const title = `${careerFacts.identity.name} | ${primaryTitle}`;
+  const ownerName = localized(careerFacts.identity.localizedName, locale);
+  const title = `${ownerName} | ${primaryTitle}`;
   const description = metadata.description || localized(careerFacts.identity.description, locale);
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   
@@ -65,7 +66,7 @@ export async function generateMetadata({ params: { locale } }) {
   return {
     title: {
       default: title,
-      template: '%s | Yousef Kakhki'
+      template: `%s | ${ownerName}`
     },
     description,
     keywords: [

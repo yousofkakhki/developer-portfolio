@@ -10,8 +10,8 @@
     "fa": "مطالعهٔ موردی با مرز شواهد روشن دربارهٔ LiveKit، ‏WebRTC، بازپخش با تأخیر HLS، ‏NATS JetStream و Go در هنرجوآموز."
   },
   "seoTitle": {
-    "en": "WebRTC Live Streaming and Delayed HLS Playback for 5,000+ Concurrent Platform Users",
-    "fa": "پخش زندهٔ WebRTC و بازپخش با تأخیر HLS برای بیش از ۵۰۰۰ کاربر همزمان در سطح پلتفرم"
+    "en": "WebRTC and Delayed HLS for 5,000+ Platform Users",
+    "fa": "WebRTC و HLS با تأخیر برای بیش از ۵۰۰۰ کاربر پلتفرم"
   },
   "seoDescription": {
     "en": "A practical case study of LiveKit WebRTC for live participation, with HLS playback available hours after the session.",

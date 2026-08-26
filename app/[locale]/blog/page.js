@@ -23,13 +23,18 @@ export async function generateMetadata({ params }) {
     description,
     alternates: {
       canonical: `${siteUrl}/${locale}/blog`,
-      languages: { en: `${siteUrl}/en/blog`, fa: `${siteUrl}/fa/blog` },
+      languages: {
+        en: `${siteUrl}/en/blog`,
+        fa: `${siteUrl}/fa/blog`,
+        'x-default': `${siteUrl}/en/blog`,
+      },
     },
     openGraph: {
       type: 'website',
       url: `${siteUrl}/${locale}/blog`,
       title,
       description,
+      locale: isEn ? 'en_US' : 'fa_IR',
       images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
     },
   };

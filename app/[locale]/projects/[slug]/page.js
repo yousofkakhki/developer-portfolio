@@ -11,6 +11,7 @@ import {
   getLocalizedProject,
   getProjectBySlug,
 } from '@/utils/data/project-catalog';
+import { careerFacts, localized } from '@/utils/data/career-facts';
 import { locales } from '@/i18n';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }) {
   if (!project) return {};
 
   const url = `${siteUrl}/${language}/projects/${project.slug}`;
+  const ownerName = localized(careerFacts.identity.localizedName, language);
   return {
     title: project.name,
     description: project.description,
@@ -49,7 +51,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       type: 'website',
       url,
-      title: `${project.name} | Yousef Kakhki`,
+      title: `${project.name} | ${ownerName}`,
       description: project.description,
       locale: language === 'fa' ? 'fa_IR' : 'en_US',
       images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
