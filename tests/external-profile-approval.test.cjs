@@ -39,3 +39,14 @@ test('global profile links are semantic and visibly named', () => {
   assert.match(contact, /<span>\{t\(`\$\{profile\.id\}Profile`\)\}<\/span>/);
   assert.match(hero, /<ul className="hero-socials/);
 });
+
+test('external GitHub and search-index actions remain explicit owner tasks', () => {
+  const ownerActions = read('docs/owner-actions.md');
+
+  assert.match(ownerActions, /Google Search Console/);
+  assert.match(ownerActions, /Bing Webmaster Tools/);
+  assert.match(ownerActions, /Search snippets are not expected to change immediately/);
+  assert.match(ownerActions, /Senior Backend Engineer & Technical Lead/);
+  assert.match(ownerActions, /\[cite_start\]/);
+  assert.match(ownerActions, /approvedForGlobalBranding` to `true`/);
+});
