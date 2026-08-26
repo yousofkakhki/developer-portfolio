@@ -22,12 +22,14 @@ function evaluateModule(file, resultExpression, context = {}) {
   return sandbox.result;
 }
 
-const careerFacts = evaluateModule('utils/data/career-facts.js', 'careerFacts');
+const resumeManifest = require('../utils/data/resume-manifest.cjs');
+const careerFacts = evaluateModule('utils/data/career-facts.js', 'careerFacts', { resumeManifest });
 const publicationManifest = require('../utils/data/project-publication-manifest.cjs');
 const projectCatalog = evaluateModule(
   'utils/data/project-catalog.js',
   'projectCatalog',
   {
+    careerFacts,
     publicationManifest,
     localized: (value, locale = 'en') => typeof value === 'string' ? value : value?.[locale] || value?.en || '',
   },

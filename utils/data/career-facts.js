@@ -1,3 +1,5 @@
+import resumeManifest from './resume-manifest.cjs';
+
 /**
  * Canonical, evidence-aware professional facts.
  *
@@ -36,6 +38,13 @@ export const careerFacts = Object.freeze({
       fa: 'مهندس ارشد بک‌اند و رهبر فنی در حوزهٔ سیستم‌های توزیع‌شده، رسانهٔ بلادرنگ، مهندسی پلتفرم و لینوکس.',
     },
     surfaces: ['homepage', 'work', 'resume', 'metadata', 'structuredData'],
+  },
+
+  contact: {
+    location: 'Tehran, Iran',
+    email: 'me@kakhki.me',
+    website: 'https://kakhki.me',
+    linkedin: 'https://www.linkedin.com/in/yousefkakhki',
   },
 
   metrics: {
@@ -127,11 +136,11 @@ export const careerFacts = Object.freeze({
       summary: {
         en: [
           'Architected live WebRTC delivery for 5,000+ concurrent users at platform level.',
-          'Used NATS JetStream and Go for application coordination; delayed HLS playback was available hours after the live session, not as a current-session fallback.',
+          'Used NATS JetStream and Go for application coordination; HLS playback was a separate post-session path available hours later.',
         ],
         fa: [
           'معماری تحویل زندهٔ WebRTC را برای بیش از ۵٬۰۰۰ کاربر همزمان در سطح پلتفرم انجام دادم.',
-          'برای هماهنگی لایهٔ کاربرد از NATS JetStream و Go استفاده شد؛ بازپخش HLS چند ساعت پس از جلسه در دسترس بود و مسیر fallback همان جلسه نبود.',
+          'برای هماهنگی لایهٔ کاربرد از NATS JetStream و Go استفاده شد؛ بازپخش HLS یک مسیر جداگانهٔ پس از جلسه بود که چند ساعت بعد در دسترس قرار می‌گرفت.',
         ],
       },
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
@@ -148,10 +157,12 @@ export const careerFacts = Object.freeze({
         en: [
           'Led a four-person team delivering a crypto-to-fiat payment gateway and AI hologram installation.',
           'Led a four-person team across backend engineering, infrastructure, and event delivery. The AI hologram installation received the Best Booth award at ITEX 2024.',
+          'Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.',
         ],
         fa: [
           'رهبری تیمی چهار نفره برای تحویل درگاه پرداخت رمزارز به فیات و نصب هولوگرام هوش مصنوعی.',
           'رهبری تیمی چهار نفره در مهندسی بک‌اند، زیرساخت و تحویل رویداد. نصب هولوگرام هوش مصنوعی در ITEX 2024 جایزهٔ بهترین غرفه را دریافت کرد.',
+          'بک‌اند و جریان عملیاتی یک درگاه رمزارز به فیات، شامل idempotency، مرزهای تراکنش و تطبیق، را طراحی و پیاده‌سازی کردم.',
         ],
       },
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
@@ -166,11 +177,11 @@ export const careerFacts = Object.freeze({
       technologies: ['Node.js', 'Web3.js', 'PostgreSQL', 'Redis'],
       summary: {
         en: [
-          'Built backend workflows for trading and transactional systems with PostgreSQL, Redis, and Web3.js.',
+          'Built backend workflows for financial trading and transactional systems with PostgreSQL, Redis, and Web3.js.',
           'Worked on matching workflows, order-book recovery, and transactional ledger semantics.',
         ],
         fa: [
-          'ساخت جریان‌های بک‌اند برای سامانه‌های معاملاتی و تراکنشی با PostgreSQL، Redis و Web3.js.',
+          'ساخت جریان‌های بک‌اند برای سامانه‌های معاملات مالی و تراکنشی با PostgreSQL، Redis و Web3.js.',
           'کار روی جریان‌های تطبیق سفارش، بازیابی دفتر سفارش و منطق دفترکل تراکنشی.',
         ],
       },
@@ -185,8 +196,8 @@ export const careerFacts = Object.freeze({
       publicDate: { en: 'Sep 2019 – Mar 2021', fa: 'سپتامبر ۲۰۱۹ – مارس ۲۰۲۱' },
       technologies: ['Yocto', 'C++', 'Linux Kernel'],
       summary: {
-        en: ['Designed atomic OTA update workflows and worked on Linux kernel and boot performance.'],
-        fa: ['طراحی جریان‌های به‌روزرسانی OTA اتمیک و کار روی هستهٔ لینوکس و عملکرد راه‌اندازی.'],
+        en: ['Modified embedded Linux distributions and designed atomic OTA workflows spanning firmware delivery, rollback safeguards, kernel integration, and release pipelines.'],
+        fa: ['توزیع‌های لینوکس نهفته را تغییر دادم و جریان‌های OTA اتمیک شامل تحویل firmware، بازگشت امن، یکپارچه‌سازی هسته و خط انتشار را طراحی کردم.'],
       },
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
       publish: { homepage: false, work: false, resume: true, caseStudy: true, metadata: false },
@@ -261,6 +272,26 @@ export const careerFacts = Object.freeze({
     { name: 'French', level: 'Basic', evidenceStatus: EVIDENCE_STATUS.unconfirmed, publish: false },
   ],
 
+  education: [
+    {
+      degree: 'M.Sc. in Computer Science (System Design)',
+      institution: 'Amirkabir University of Technology (Tehran Polytechnic)',
+      location: 'Tehran, Iran',
+      publicDate: '2018 – 2021',
+      detail: 'GPA 3.8/4.0',
+      evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
+      publish: { resume: true },
+    },
+    {
+      degree: 'B.Sc. in Computer Science',
+      institution: 'University of Bojnurd',
+      location: 'Bojnurd, Iran',
+      publicDate: '2012 – 2017',
+      evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
+      publish: { resume: true },
+    },
+  ],
+
   testimonials: [
     {
       id: 'ali-mohammadian',
@@ -283,8 +314,8 @@ export const careerFacts = Object.freeze({
   ],
 
   resume: {
-    publicUrl: '/files/yousef-kakhki-resume.pdf',
-    legacyUrls: ['/files/yousef-kakhki-resume-2026-06.pdf', '/files/Kakhki-May28.pdf'],
+    publicUrl: resumeManifest.publicUrl,
+    legacyUrls: resumeManifest.legacyUrls,
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     publish: true,
   },

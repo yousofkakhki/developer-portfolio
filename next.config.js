@@ -2,6 +2,7 @@ const path = require('path')
 const createNextIntlPlugin = require('next-intl/plugin');
 const { PROJECT_PUBLICATION_TYPES, projectPublicationManifest } = require('./utils/data/project-publication-manifest.cjs');
 const { historicalArticleRedirects } = require('./utils/data/legacy-route-manifest.cjs');
+const resumeManifest = require('./utils/data/resume-manifest.cjs');
  
 const withNextIntl = createNextIntlPlugin('./i18n.js');
 
@@ -25,7 +26,12 @@ module.exports = withNextIntl({
       { source: `/${locale}/blog/pillar/systems-edge`, destination: `/${locale}/blog`, permanent: true },
       { source: `/${locale}/blog/pillar/site-engineering`, destination: `/${locale}/blog`, permanent: true },
     ]);
-    return [...projectRedirects, ...thinPillarRedirects, ...historicalArticleRedirects];
+    const resumeRedirects = resumeManifest.legacyUrls.map(source => ({
+      source,
+      destination: resumeManifest.publicUrl,
+      permanent: true,
+    }));
+    return [...projectRedirects, ...thinPillarRedirects, ...historicalArticleRedirects, ...resumeRedirects];
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],

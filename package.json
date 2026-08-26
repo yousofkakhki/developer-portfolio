@@ -12,6 +12,7 @@
     "test:watch": "node --test --watch tests/*.test.cjs",
     "analytics:summary": "node scripts/analytics-summary.cjs",
     "content:integrity": "node scripts/content-integrity-check.cjs",
+    "resume:generate": "node scripts/generate-resume.cjs",
     "resume:check": "node scripts/resume-check.cjs",
     "seo:health": "node scripts/seo-health-check.cjs --json",
     "viewport:check": "node scripts/viewport-check.cjs",

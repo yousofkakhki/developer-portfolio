@@ -1,6 +1,6 @@
 \documentclass[10pt,a4paper]{article}
 
-\usepackage[a4paper,margin=1.45cm]{geometry}
+\usepackage[a4paper,top=1.25cm,bottom=1.25cm,left=1.35cm,right=1.35cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -13,95 +13,75 @@
 \definecolor{navy}{HTML}{08111F}
 \definecolor{cyan}{HTML}{087E9B}
 \definecolor{muted}{HTML}{4B5D70}
-\definecolor{rule}{HTML}{CBD5E1}
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.22em}
-\setlist[itemize]{leftmargin=1.25em,itemsep=0.12em,topsep=0.12em,parsep=0pt}
+\setlength{\parskip}{0.11em}
+\setlist[itemize]{leftmargin=1.15em,itemsep=0.06em,topsep=0.08em,parsep=0pt,partopsep=0pt}
 \input{glyphtounicode}
 \pdfgentounicode=1
 
-\newcommand{\sectiontitle}[1]{\vspace{0.45em}\textcolor{cyan}{\textsf{\bfseries\small #1}}\par\vspace{0.12em}\hrule height 0.45pt\vspace{0.28em}}
-\newcommand{\role}[3]{\textbf{#1} \hfill \textcolor{muted}{#2}\par\textit{#3}\par}
-\newcommand{\smallcaps}[1]{\textsf{\bfseries #1}}
+\newcommand{\sectiontitle}[1]{\vspace{0.42em}\textcolor{cyan}{\textsf{\bfseries\fontsize{9}{10}\selectfont #1}}\par\vspace{0.08em}\hrule height 0.4pt\vspace{0.2em}}
+\newcommand{\role}[3]{\vspace{0.08em}\textbf{#1} \hfill \textcolor{muted}{#2}\par\textit{#3}\par}
 
 \begin{document}
+\fontsize{10.15}{12.2}\selectfont
 
-{\LARGE\textcolor{navy}{\textbf{Yousef Kakhki}}}\par
-\vspace{0.12em}
-{\large\textcolor{cyan}{\textbf{Senior Backend Engineer \& Technical Lead}}}\par
-\vspace{0.25em}
-\textcolor{muted}{Tehran, Iran \textbar{} Open to employer-supported relocation in Germany and the Netherlands}\par
-\href{mailto:me@kakhki.me}{me@kakhki.me} \textbar{} \href{https://kakhki.me}{kakhki.me} \textbar{} \href{https://www.linkedin.com/in/yousefkakhki}{linkedin.com/in/yousefkakhki}\par
+{\fontsize{22}{24}\selectfont\textcolor{navy}{\textbf{@@NAME@@}}}\par
+\vspace{0.02em}
+{\fontsize{12.2}{14}\selectfont\textcolor{cyan}{\textbf{@@PRIMARY_TITLE@@}}}\par
+\vspace{0.09em}
+\textcolor{muted}{@@LOCATION@@ \textbar{} Open to employer-supported relocation in Germany and the Netherlands}\par
+\href{mailto:@@EMAIL@@}{@@EMAIL@@} \textbar{} \href{@@WEBSITE_URL@@}{@@WEBSITE_LABEL@@} \textbar{} \href{@@LINKEDIN_URL@@}{@@LINKEDIN_LABEL@@}\par
 
 \sectiontitle{SUMMARY}
-Hands-on senior backend engineer and technical lead with 10+ years across distributed systems, real-time media, fintech, and embedded Linux. I design system boundaries, failure handling, and operational workflows, then continue contributing directly to production code. Core experience includes Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC/LiveKit, Linux, and OTA delivery.
-
-\sectiontitle{SELECTED EVIDENCE}
-\begin{itemize}
-  \item \textbf{5,000+ platform-level concurrent users} on an educational media platform; this figure does not claim 5,000 publishers, one room, or one SFU.
-  \item LiveKit/WebRTC for live interactive participation, with a separate HLS playback path available hours after the session.
-  \item Led a four-person engineering team across backend, infrastructure, and applied AI delivery.
-\end{itemize}
+Hands-on senior backend engineer and technical lead with @@BACKEND_EXPERIENCE@@ years across distributed systems, real-time media, fintech, and embedded Linux. I define system boundaries, failure handling, and operational workflows while continuing to contribute directly to implementation. Core experience includes Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC/LiveKit, Linux, and OTA delivery.
 
 \sectiontitle{EXPERIENCE}
-\role{Solutions Architect --- HonarAmoozesh}{2025 \textperiodcentered{} project contract}{Remote}
+\role{@@HONAR_TITLE@@ --- @@HONAR_COMPANY@@}{@@HONAR_DATE@@}{Remote}
 \begin{itemize}
-  \item Architected live WebRTC delivery for more than 5,000 concurrent users at platform level using LiveKit.
-  \item Used NATS JetStream and Go for application coordination; delayed HLS playback was a separate post-session path, not a current-session fallback.
+  \item @@HONAR_SUMMARY_1@@
+  \item @@HONAR_SUMMARY_2@@
 \end{itemize}
 
-\role{Head of Software \& AI Development --- Capitalino}{Oct 2023 -- Jun 2025}{Tehran, Iran}
+\role{@@CAPITALINO_TITLE@@ --- @@CAPITALINO_COMPANY@@}{@@CAPITALINO_DATE@@}{Tehran, Iran}
 \begin{itemize}
-  \item Led a four-person team delivering backend systems, a crypto-to-fiat payment gateway, and an AI hologram installation.
-  \item Designed idempotent payment workflows and event-driven reconciliation patterns with explicit financial-integrity boundaries; public production and regulatory status are not claimed here.
-  \item Led the AI hologram project from concept through delivery; the installation won Best Booth at ITEX 2024.
+  \item @@CAPITALINO_SUMMARY_1@@
+  \item @@CAPITALINO_SUMMARY_2@@
 \end{itemize}
 
-\role{Senior Backend Engineer --- Avin Avisa}{Apr 2021 -- Sep 2023}{Tehran, Iran}
+\role{@@AVIN_TITLE@@ --- @@AVIN_COMPANY@@}{@@AVIN_DATE@@}{Tehran, Iran}
 \begin{itemize}
-  \item Built backend workflows for trading and transactional systems with Node.js, PostgreSQL, Redis, Web3.js, and messaging infrastructure.
-  \item Worked on matching logic, order-book recovery, and transactional ledger semantics with explicit consistency and failure boundaries.
+  \item @@AVIN_SUMMARY_1@@
+  \item @@AVIN_SUMMARY_2@@
 \end{itemize}
 
-\newpage
-
-\sectiontitle{EXPERIENCE (CONTINUED)}
-\role{Systems Engineer --- Embedded Linux, Batna}{Sep 2019 -- Mar 2021}{Tehran, Iran}
+\role{@@BATNA_TITLE@@ --- @@BATNA_COMPANY@@}{@@BATNA_DATE@@}{Tehran, Iran}
 \begin{itemize}
-  \item Designed atomic OTA update workflows with A/B partitions, rollback safeguards, and secure delivery.
-  \item Modified and developed Yocto/Buildroot Linux distributions, firmware delivery, and kernel, boot, and release-pipeline integration.
+  \item @@BATNA_SUMMARY_1@@
 \end{itemize}
 
-\role{Android Systems Developer --- Azma Data Structure}{Apr 2016 -- Aug 2019}{Mashhad, Iran}
+\role{@@AZMA_TITLE@@ --- @@AZMA_COMPANY@@}{@@AZMA_DATE@@}{Mashhad, Iran}
 \begin{itemize}
-  \item Developed native Android modules with C++/NDK and offline-first synchronization workflows.
-  \item Worked on local storage, background queues, conflict handling, and device-facing application delivery.
+  \item @@AZMA_SUMMARY_1@@
 \end{itemize}
 
 \sectiontitle{TECHNICAL FOCUS}
-\textbf{Backend:} Node.js, Go, Python, TypeScript, REST, GraphQL, WebSocket, gRPC\par
-\textbf{Distributed systems:} Kafka, NATS JetStream, event-driven services, idempotency, CQRS, PostgreSQL, Redis\par
-\textbf{Real-time media:} WebRTC, LiveKit SFU, delayed HLS playback, role transitions, signaling boundaries\par
-\textbf{Platform and edge:} Linux, Linux Kernel, Yocto, Buildroot, ARM, OTA, Docker, Docker Swarm, Prometheus\par
-\textbf{Applied systems:} Web3.js, payment workflows, ledger semantics, computer-vision integration, Android NDK
+\textbf{Distributed backend:} Node.js, Go, Python, TypeScript, PostgreSQL, Redis, Kafka, NATS JetStream, REST, WebSocket, gRPC\par
+\textbf{Real-time and transactional systems:} WebRTC, LiveKit, delayed HLS playback, ledgers, idempotency, reconciliation\par
+\textbf{Linux and delivery:} Embedded Linux, Linux Kernel, Yocto, Buildroot, ARM, OTA, Docker, CI/CD, observability\par
+\textbf{Applied systems:} Web3.js, payment workflows, computer-vision integration, Android NDK, C++, Java
 
 \sectiontitle{EDUCATION}
-\textbf{M.Sc. in Computer Science (System Design)} \hfill 2018 -- 2021\par
-Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran \textbar{} GPA 3.8/4.0\par
-\textbf{B.Sc. in Computer Science} \hfill 2012 -- 2017\par
-University of Bojnurd, Bojnurd, Iran
+\textbf{@@MSC_DEGREE@@} \hfill @@MSC_DATE@@\par
+@@MSC_INSTITUTION@@, @@MSC_LOCATION@@ \textbar{} @@MSC_DETAIL@@\par
+\textbf{@@BSC_DEGREE@@} \hfill @@BSC_DATE@@\par
+@@BSC_INSTITUTION@@, @@BSC_LOCATION@@
 
-\sectiontitle{SELECTED TRAINING AND CREDENTIALS}
-IELTS 7.5 (C1) \textbar{} TensorFlow for Artificial Intelligence, Coursera\par
-Research-level study: Hyperledger Sawtooth Architecture
-
-\sectiontitle{LANGUAGES AND WORKING MODEL}
-Persian: Native \textbar{} English: Professional proficiency (IELTS 7.5)\par
-Open to employer-supported relocation in Germany and the Netherlands, plus selected remote engineering or consulting engagements.
+\sectiontitle{LANGUAGES AND MOBILITY}
+Persian: @@PERSIAN_LEVEL@@ \textbar{} English: Professional proficiency (@@ENGLISH_LEVEL@@)\par
+@@RELOCATION_STATEMENT@@
 
 \vfill
-\textcolor{muted}{Selected public facts are evidence-bounded; proprietary deployment details and unsupported performance metrics are intentionally omitted.}\par
-\textcolor{muted}{Portfolio: \href{https://kakhki.me}{kakhki.me} \textbar{} Résumé URL: \href{https://kakhki.me/files/yousef-kakhki-resume.pdf}{kakhki.me/files/yousef-kakhki-resume.pdf}}
+\textcolor{muted}{Portfolio: \href{@@WEBSITE_URL@@}{@@WEBSITE_LABEL@@} \textbar{} Résumé: \href{@@RESUME_URL@@}{@@RESUME_LABEL@@}}
 
 \end{document}

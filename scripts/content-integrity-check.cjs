@@ -84,7 +84,7 @@ function run() {
   if (!careerFacts.includes("en: 'Senior Backend Engineer & Technical Lead'")) {
     violations.push('canonical primary title is missing');
   }
-  if (!careerFacts.includes('delayed HLS playback was available hours after the live session')) {
+  if (!careerFacts.includes('HLS playback was a separate post-session path available hours later')) {
     violations.push('canonical delayed-HLS wording is missing');
   }
   if (!factCheck.includes('HonarAmoozesh engagement dates')) {

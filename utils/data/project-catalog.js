@@ -1,4 +1,4 @@
-import { localized } from './career-facts';
+import { careerFacts, localized } from './career-facts';
 import publicationManifest from './project-publication-manifest.cjs';
 
 export const { PROJECT_PUBLICATION_TYPES } = publicationManifest;
@@ -69,8 +69,8 @@ const projectContent = [
     factIds: ['capitalino.gateway', 'gateway.idempotency', 'gateway.reconciliation'],
     name: { en: 'Crypto-to-Fiat Payment Gateway', fa: 'درگاه پرداخت رمزارز به فیات' },
     summary: {
-      en: 'Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.',
-      fa: 'بک‌اند و جریان عملیاتی یک درگاه رمزارز به فیات، شامل idempotency، مرزهای تراکنش و تطبیق، را طراحی و پیاده‌سازی کردم.',
+      en: careerFacts.roles.find(role => role.id === 'capitalino').summary.en[2],
+      fa: careerFacts.roles.find(role => role.id === 'capitalino').summary.fa[2],
     },
     role: { en: 'Technical Architect', fa: 'معمار فنی' },
     technologies: ['Node.js', 'REST APIs', 'Transaction State', 'Reconciliation', 'Nginx'],
