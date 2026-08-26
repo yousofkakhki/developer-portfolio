@@ -15,5 +15,17 @@ test('browser QA resolves an installed Chromium without pinning a machine-specif
   assert.match(resolver, /ms-playwright/);
   assert.doesNotMatch(resolver, /chromium-\d+/);
   assert.match(viewport, /resolveBrowserExecutable/);
+  assert.match(viewport, /case-study-hologram-en-390[.]png/);
+  assert.match(viewport, /article-honar-en-390[.]png/);
   assert.match(accessibility, /resolveBrowserExecutable/);
+});
+
+test('internal link QA crawls the sitemap, assets, Open Graph images, and stable résumé links', () => {
+  const source = read('scripts/internal-link-check.cjs');
+
+  assert.match(source, /sitemap[.]xml/);
+  assert.match(source, /og-image/);
+  assert.match(source, /stale_resume_link/);
+  assert.match(source, /retired_recommendation_link/);
+  assert.match(source, /response[.]status >= 400/);
 });

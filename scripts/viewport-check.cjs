@@ -18,6 +18,14 @@ const routes = [
   '/fa/work-with-me',
 ];
 const widths = [320, 390, 768, 1024, 1440];
+const screenshotRoutes = new Map([
+  ['/en', 'home-en-390.png'],
+  ['/fa', 'home-fa-390.png'],
+  ['/en/work-with-me', 'work-en-390.png'],
+  ['/en/projects', 'projects-en-390.png'],
+  ['/en/projects/ai-hologram-realtime-backend', 'case-study-hologram-en-390.png'],
+  ['/en/blog/honar-amoozesh-5000-concurrent-webrtc-case-study', 'article-honar-en-390.png'],
+]);
 
 async function run() {
   fs.mkdirSync(screenshotDir, { recursive: true });
@@ -45,7 +53,7 @@ async function run() {
   for (const route of routes) {
     for (const width of widths) {
       await page.setViewport({ width, height: 900, deviceScaleFactor: 1 });
-      const response = await page.goto(`${baseUrl}${route}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+      const response = await page.goto(`${baseUrl}${route}`, { waitUntil: 'domcontentloaded', timeout: 20000 });
       await new Promise(resolve => setTimeout(resolve, 300));
       const snapshot = await page.evaluate(() => ({
         scrollWidth: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
@@ -63,9 +71,11 @@ async function run() {
         overflow: snapshot.scrollWidth > snapshot.viewportWidth + 1,
         ...snapshot,
       });
-      if (width === 390 && (route === '/en' || route === '/fa')) {
-        const locale = route.slice(1);
-        await page.screenshot({ path: path.join(screenshotDir, `home-${locale}-390.png`), fullPage: false });
+      if (width === 390 && screenshotRoutes.has(route)) {
+        await page.screenshot({
+          path: path.join(screenshotDir, screenshotRoutes.get(route)),
+          fullPage: true,
+        });
       }
     }
   }

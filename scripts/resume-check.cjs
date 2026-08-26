@@ -22,7 +22,9 @@ function requireText(haystack, value, label) {
 
 function run() {
   const facts = loadCareerFacts(root);
-  const resumePath = path.join(root, 'public', facts.resume.publicUrl.replace(/^\//, ''));
+  const resumePath = process.env.RESUME_PATH
+    ? path.resolve(process.env.RESUME_PATH)
+    : path.join(root, 'public', facts.resume.publicUrl.replace(/^\//, ''));
   if (!fs.existsSync(resumePath)) throw new Error('stable résumé PDF is missing');
 
   const info = execFileSync('pdfinfo', [resumePath], { encoding: 'utf8' });

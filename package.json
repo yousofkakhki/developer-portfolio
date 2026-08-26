@@ -14,6 +14,7 @@
     "content:integrity": "node scripts/content-integrity-check.cjs",
     "resume:generate": "node scripts/generate-resume.cjs",
     "resume:check": "node scripts/resume-check.cjs",
+    "links:check": "node scripts/internal-link-check.cjs --json",
     "seo:health": "node scripts/seo-health-check.cjs --json",
     "viewport:check": "node scripts/viewport-check.cjs",
     "a11y:check": "node scripts/accessibility-check.cjs"

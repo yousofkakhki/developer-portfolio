@@ -126,7 +126,9 @@ function run() {
   const rendered = renderTemplate(template, buildReplacements(facts));
   const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'kakhki-resume-'));
   const renderedSource = path.join(temporaryDirectory, 'yousef-kakhki-resume.tex');
-  const outputPath = path.join(root, 'public', facts.resume.publicUrl.replace(/^\//, ''));
+  const outputPath = process.env.RESUME_OUTPUT_PATH
+    ? path.resolve(process.env.RESUME_OUTPUT_PATH)
+    : path.join(root, 'public', facts.resume.publicUrl.replace(/^\//, ''));
 
   try {
     fs.writeFileSync(renderedSource, rendered);
