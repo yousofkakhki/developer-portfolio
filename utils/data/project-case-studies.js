@@ -4,7 +4,14 @@ export const projectCaseStudies = {
   'ai-hologram-realtime-backend': {
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     category: { en: 'Real-time applied AI', fa: 'هوش مصنوعی بلادرنگ کاربردی' },
-    role: { en: 'Technical & AI Team Lead', fa: 'رهبر تیم فنی و هوش مصنوعی' },
+    visualAlt: {
+      en: 'Interactive hologram installation and delivery team at ITEX 2024',
+      fa: 'نصب هولوگرام تعاملی و تیم تحویل در ITEX 2024',
+    },
+    visualCaption: {
+      en: 'ITEX 2024 installation and team context.',
+      fa: 'نمای نصب و تیم پروژه در ITEX 2024.',
+    },
     sections: {
       context: {
         heading: { en: 'Context', fa: 'زمینه' },
@@ -55,13 +62,6 @@ export const projectCaseStudies = {
           fa: 'در صورت در دسترس نبودن ورودی دوربین، استنتاج یا انتقال، سامانه می‌توانست به وضعیت پایدار نمایش بازگردد. در سوابق عمومی معیار اندازه‌گیری تأخیر به‌طور قطعی ثبت نشده است؛ بنابراین عددی ادعا نمی‌شود.',
         },
       },
-      outcomes: {
-        heading: { en: 'Outcomes', fa: 'نتایج' },
-        body: {
-          en: 'The installation was demonstrated at ITEX 2024 and received the Best Booth award. The award is the public outcome; implementation metrics remain private or unconfirmed.',
-          fa: 'این نصب در ITEX 2024 نمایش داده شد و جایزهٔ بهترین غرفه را دریافت کرد. جایزه نتیجهٔ عمومی پروژه است؛ معیارهای پیاده‌سازی خصوصی یا تأییدنشده باقی می‌مانند.',
-        },
-      },
       evidence: {
         heading: { en: 'Evidence boundary', fa: 'مرز شواهد' },
         body: {
@@ -70,13 +70,16 @@ export const projectCaseStudies = {
         },
       },
     },
-    relatedWriting: ['ai-enhanced-sfu-for-low-latency-streaming'],
   },
 
   'investment-analytics-platform': {
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     category: { en: 'Transactional backend platform', fa: 'پلتفرم بک‌اند تراکنشی' },
-    role: { en: 'Lead Backend Architect', fa: 'معمار ارشد بک‌اند' },
+    visualAlt: { en: '', fa: '' },
+    visualCaption: {
+      en: 'Category illustration; client screens and data remain private.',
+      fa: 'تصویر دسته‌بندی پروژه؛ صفحه‌های محصول و داده‌های مشتری خصوصی هستند.',
+    },
     sections: {
       context: {
         heading: { en: 'Context', fa: 'زمینه' },
@@ -127,13 +130,6 @@ export const projectCaseStudies = {
           fa: 'تحلیل‌های قدیمی، محاسبات ناقص و وابستگی‌های در دسترس‌نبودنی به‌عنوان وضعیت‌هایی صریح در نظر گرفته شدند، نه اینکه بی‌صدا نمایشی ظاهراً کامل از پورتفولیو تولید شود.',
         },
       },
-      outcomes: {
-        heading: { en: 'Outcomes', fa: 'نتایج' },
-        body: {
-          en: 'The backend computational layer and investor dashboard workflows were delivered for Capitalino. No unsupported scale, cost, or performance number is published.',
-          fa: 'لایهٔ محاسباتی بک‌اند و جریان‌های داشبورد سرمایه‌گذار برای کاپیتالینو تحویل شد. هیچ عدد تأییدنشده‌ای دربارهٔ مقیاس، هزینه یا عملکرد منتشر نمی‌شود.',
-        },
-      },
       evidence: {
         heading: { en: 'Evidence boundary', fa: 'مرز شواهد' },
         body: {
@@ -142,13 +138,16 @@ export const projectCaseStudies = {
         },
       },
     },
-    relatedWriting: ['ai-routing-makes-payment-retries-harder'],
   },
 
   'crypto-fiat-payment-gateway': {
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     category: { en: 'Payments and ledger workflows', fa: 'جریان‌های پرداخت و دفترکل' },
-    role: { en: 'Technical Architect', fa: 'معمار فنی' },
+    visualAlt: { en: '', fa: '' },
+    visualCaption: {
+      en: 'Category illustration; provider and production details remain private.',
+      fa: 'تصویر دسته‌بندی پروژه؛ جزئیات ارائه‌دهندگان و محیط بهره‌برداری خصوصی هستند.',
+    },
     sections: {
       context: {
         heading: { en: 'Context', fa: 'زمینه' },
@@ -199,13 +198,6 @@ export const projectCaseStudies = {
           fa: 'درخواست‌های تکراری، callbackهای دیررس و وضعیت‌های نامنطبق تسویه به‌عنوان حالت‌های قابل بازیابی در نظر گرفته شدند. idempotency و تطبیق سازوکارهای حفاظتی بودند؛ ادعای پنج نه منتشر نمی‌شود.',
         },
       },
-      outcomes: {
-        heading: { en: 'Outcomes', fa: 'نتایج' },
-        body: {
-          en: 'Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.',
-          fa: 'بک‌اند و جریان عملیاتی یک درگاه رمزارز به فیات، شامل idempotency، مرزهای تراکنش و تطبیق، طراحی و پیاده‌سازی شد.',
-        },
-      },
       evidence: {
         heading: { en: 'Evidence boundary', fa: 'مرز شواهد' },
         body: {
@@ -214,7 +206,6 @@ export const projectCaseStudies = {
         },
       },
     },
-    relatedWriting: ['idempotent-crypto-payments-in-frankfurt'],
   },
 };
 
@@ -225,7 +216,8 @@ export function getProjectCaseStudy(slug, locale = 'en') {
   return {
     ...caseStudy,
     category: localized(caseStudy.category, locale),
-    role: localized(caseStudy.role, locale),
+    visualAlt: localized(caseStudy.visualAlt, locale),
+    visualCaption: localized(caseStudy.visualCaption, locale),
     sections: Object.fromEntries(
       Object.entries(caseStudy.sections).map(([key, section]) => [key, {
         heading: localized(section.heading, locale),

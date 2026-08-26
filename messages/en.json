@@ -136,133 +136,14 @@
     }
   },
   "projects": {
-    "title": "Projects",
-    "myRole": "My Role:",
-    "tools": "Tools:",
-    "viewCode": "View Code",
-    "viewDemo": "View Demo",
-    "codeNotAvailable": "Code not available",
-    "demoNotAvailable": "Demo not available",
-    "1": {
-      "name": "Award-Winning AI Hologram Project",
-      "description": "Led backend and AI integration for an interactive hologram installation presented at ITEX 2024. The installation received the event’s Best Booth award.",
-      "role": "Technical & AI Team Lead",
-      "tools": [
-        "Python",
-        "AI/ML Libraries",
-        "FastAPI",
-        "WebSocket",
-        "Docker"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "2": {
-      "name": "Digital Investment Management Dashboard",
-      "description": "Designed the backend computational workflows for an investor dashboard, separating portfolio logic and background processing from the presentation layer.",
-      "role": "Lead Backend Architect",
-      "tools": [
-        "Node.js",
-        "TypeScript",
-        "REST APIs",
-        "MongoDB",
-        "Data Visualization",
-        "Docker"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "3": {
-      "name": "Crypto-to-Fiat Payment Gateway",
-      "description": "Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.",
-      "role": "Technical Architect",
-      "tools": [
-        "Node.js",
-        "REST APIs",
-        "Database Security",
-        "Payment Processing APIs",
-        "Nginx"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "4": {
-      "name": "Financial Trading Gamification Platform",
-      "description": "Engineered and launched a competitive gamification platform for financial trading simulations. The platform debuted at the Shiraz ITEX 2023 international exhibition to drive user engagement and demonstrate real-time data handling capabilities.",
-      "role": "Senior Software Engineer",
-      "tools": [
-        "Node.js",
-        "React",
-        "Next.js",
-        "WebSocket",
-        "Tailwind CSS"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "5": {
-      "name": "Secure Over-the-Air (OTA) Update System",
-      "description": "Worked on atomic OTA workflows for embedded Linux, including A/B partitioning, rollback safeguards, firmware delivery, and release-pipeline integration.",
-      "role": "Systems Engineer",
-      "tools": [
-        "Linux",
-        "C",
-        "Bash",
-        "Python",
-        "Jenkins",
-        "CI/CD",
-        "Network Security"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "6": {
-      "name": "GreedyLearner: Gamified Algorithm Tutor",
-      "description": "Developed as my Master's thesis, 'GreedyLearner' is an Android application that gamifies complex computer science algorithms to improve student motivation and learning outcomes through a guided discovery approach. The app was successfully published on app stores.",
-      "role": "Solo Developer & Researcher",
-      "tools": [
-        "Java",
-        "Android SDK",
-        "Android Studio",
-        "Gamification",
-        "NoSQL"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "7": {
-      "name": "P2P Cryptocurrency Trading Platform",
-      "description": "Architected and built a complete Peer-to-Peer cryptocurrency trading platform from the ground up. A key feature was the implementation of atomic transactions in MongoDB to guarantee financial data integrity, along with secure integration with the Ethereum blockchain via Web3.js.",
-      "role": "Lead Backend Developer",
-      "tools": [
-        "Node.js",
-        "TypeScript",
-        "MongoDB",
-        "Web3.js",
-        "Ethereum",
-        "REST APIs",
-        "Docker"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "8": {
-      "name": "Blockchain-Based Virtual Coin System",
-      "description": "Developed a permissioned blockchain reward system on Hyperledger Sawtooth as part of the university Blockchain Committee. Users earned tokens from verified real-world actions, settled via a Node.js REST gateway with idempotency guarantees.",
-      "role": "Researcher & Developer",
-      "tools": [
-        "Hyperledger Sawtooth",
-        "Node.js",
-        "Blockchain",
-        "REST APIs"
-      ],
-      "code": "",
-      "demo": ""
-    },
-    "role": "Role:",
-    "indexTitle": "Systems case studies",
-    "indexIntro": "A crawlable index of public work, with architecture, ownership, trade-offs, and evidence boundaries where the record supports them.",
-    "evidenceCaption": "Delivery or architecture evidence",
+    "title": "Featured systems case studies",
+   "role": "Role",
+    "indexTitle": "Systems work",
+    "indexEyebrow": "Systems work",
+    "indexIntro": "Three evidence-led case studies and five concise project snapshots across backend systems, real-time media, payments, and embedded delivery.",
+    "caseStudyLabel": "Case study",
+    "snapshotLabel": "Project snapshot",
+    "readCaseStudy": "Read case study",
     "relatedWriting": "Related writing",
     "sectionContext": "Context",
     "sectionProblem": "Problem",
@@ -272,17 +153,17 @@
     "sectionTradeoffs": "Key decisions and trade-offs",
     "sectionSafeguards": "Failure modes and safeguards",
     "sectionOutcomes": "Outcomes",
-    "featuredIntro": "Three selected systems first. Expand the list to review the complete portfolio.",
-    "viewAllProjects": "View all 8 projects",
-    "showFewerProjects": "Show fewer projects",
-    "caseStudy": "Read project note",
-    "architectureBrief": "Architecture brief",
+    "featuredIntro": "Three evidence-led projects with distinct architecture, decisions, safeguards, and public evidence boundaries.",
+    "viewAllProjects": "View all systems work",
     "projectFacts": "Project facts",
     "technology": "Technology",
-    "confidentialityTitle": "What I can share",
-    "evidenceScope": "Evidence / Scope",
-    "nextConversation": "Next / Conversation",
-    "confidentialityNote": "This public project note is intentionally limited to the role, technology, and outcomes I can responsibly describe. Client information, source code, and security-sensitive implementation details remain confidential.",
+    "evidenceBoundary": "Evidence boundary",
+    "outcomeTypes": {
+      "observed-outcome": "Observed outcome",
+      "implementation-scope": "Implementation scope",
+      "measured-outcome": "Measured outcome",
+      "design-goal": "Design goal"
+    },
     "backToProjects": "Back to projects",
     "discussSimilarWork": "Discuss a similar engineering problem",
     "visualKinds": {

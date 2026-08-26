@@ -1,12 +1,10 @@
 // @flow strict
 
-export default function ProjectVisual({ projectId, visualKind, briefLabel, categoryLabel }) {
-  const projectNumber = String(projectId).padStart(2, '0');
-
+export default function ProjectVisual({ visualKind, briefLabel, categoryLabel }) {
   return (
     <div
       aria-hidden="true"
-      data-project-visual="architectureBrief"
+      data-project-visual="case-study"
       data-project-visual-kind={visualKind}
       className="relative h-full min-h-48 overflow-hidden bg-[#08111F]"
     >
@@ -19,11 +17,10 @@ export default function ProjectVisual({ projectId, visualKind, briefLabel, categ
       <span className="absolute left-[calc(18%-4px)] top-[calc(50%-4px)] h-2 w-2 rounded-[2px] border border-[#22D3EE] bg-[#08111F]" />
       <span className="absolute bottom-[calc(20%-4px)] right-[calc(14%-4px)] h-2 w-2 rounded-[2px] border border-[#F59E0B] bg-[#08111F]" />
 
-      <div className="absolute inset-x-5 top-5 flex items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.18em]">
+      <div className="absolute inset-x-5 top-5 flex items-start font-mono text-[10px] uppercase tracking-[0.18em]">
         <span className="rounded-[2px] border border-[#22D3EE]/70 bg-[#08111F]/80 px-2 py-1 text-[#F3F7FB]/90">
           {briefLabel}
         </span>
-        <span className="text-[#A7B4C5]">{projectNumber}</span>
       </div>
 
       <div className="absolute inset-x-5 bottom-5">

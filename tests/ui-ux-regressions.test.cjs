@@ -65,7 +65,9 @@ test('language controls, form feedback, and motion preferences meet audited inte
   assert.match(styles, /prefers-reduced-motion: reduce/);
 });
 
-test('Persian projects do not expose the unverified placeholder GitHub destination', () => {
-  const fa = messages('fa');
-  assert.equal(fa.projects['6'].code, '');
+test('project cards do not expose an unapproved placeholder GitHub destination', () => {
+  const catalog = read('utils/data/project-catalog.js');
+  const card = read('app/components/homepage/projects/project-card.jsx');
+  assert.doesNotMatch(catalog, /github\.com/i);
+  assert.doesNotMatch(card, /project\.code|viewCode/);
 });

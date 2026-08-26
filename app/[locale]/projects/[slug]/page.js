@@ -6,21 +6,23 @@ import { ConversionLink, ConversionView } from '@/app/components/analytics/conve
 import ProjectVisual from '@/app/components/homepage/projects/project-visual';
 import { getProjectCaseStudy } from '@/utils/data/project-case-studies';
 import { getLocalBlogBySlug } from '@/utils/data/local-blogs';
-import { getProjectBySlug, projectCatalog } from '@/utils/data/project-catalog';
+import {
+  caseStudyProjects,
+  getLocalizedProject,
+  getProjectBySlug,
+} from '@/utils/data/project-catalog';
 import { locales } from '@/i18n';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 
-async function getProjectContent(locale, slug) {
-  const catalogProject = getProjectBySlug(slug);
-  if (!catalogProject) return null;
-  const t = await getTranslations({ locale, namespace: 'projects' });
-  const localizedProject = t.raw(String(catalogProject.id));
-  return localizedProject ? { ...catalogProject, ...localizedProject } : null;
+function getProjectContent(locale, slug) {
+  return getLocalizedProject(getProjectBySlug(slug), locale);
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return locales.flatMap(locale => projectCatalog.map(project => ({
+  return locales.flatMap(locale => caseStudyProjects.map(project => ({
     locale,
     slug: project.slug,
   })));
@@ -29,12 +31,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { locale, slug } = await params;
   const language = locale === 'fa' ? 'fa' : 'en';
-  const project = await getProjectContent(language, slug);
+  const project = getProjectContent(language, slug);
   if (!project) return {};
 
   const url = `${siteUrl}/${language}/projects/${project.slug}`;
   return {
-    title: { absolute: `${project.name} | Yousef Kakhki` },
+    title: project.name,
     description: project.description,
     alternates: {
       canonical: url,
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }) {
       },
     },
     openGraph: {
-      type: 'article',
+      type: 'website',
       url,
       title: `${project.name} | Yousef Kakhki`,
       description: project.description,
@@ -55,31 +57,20 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function fallbackSections(project, t) {
-  return {
-    context: { heading: t('sectionContext'), body: project.description },
-    problem: { heading: t('sectionProblem'), body: t('confidentialityNote') },
-    constraints: { heading: t('sectionConstraints'), body: t('confidentialityNote') },
-    ownership: { heading: t('sectionOwnership'), body: project.role },
-    architecture: { heading: t('sectionArchitecture'), body: t('confidentialityNote') },
-    tradeoffs: { heading: t('sectionTradeoffs'), body: t('confidentialityNote') },
-    safeguards: { heading: t('sectionSafeguards'), body: t('confidentialityNote') },
-    outcomes: { heading: t('sectionOutcomes'), body: project.description },
-    evidence: { heading: t('evidenceScope'), body: t('confidentialityNote') },
-  };
-}
-
 export default async function ProjectPage({ params }) {
   const { locale, slug } = await params;
   const language = locale === 'fa' ? 'fa' : 'en';
-  const project = await getProjectContent(language, slug);
+  const project = getProjectContent(language, slug);
   if (!project) notFound();
-
   const t = await getTranslations({ locale: language, namespace: 'projects' });
   const caseStudy = getProjectCaseStudy(project.slug, language);
-  const sections = caseStudy?.sections || fallbackSections(project, t);
+  if (!caseStudy) notFound();
+
+  const narrativeSections = Object.entries(caseStudy.sections)
+    .filter(([key, section]) => !['outcomes', 'evidence'].includes(key) && section?.body?.trim());
+  const evidenceBoundary = caseStudy.sections.evidence?.body;
   const url = `${siteUrl}/${language}/projects/${project.slug}`;
-  const related = (caseStudy?.relatedWriting || [])
+  const related = (caseStudy.relatedWriting || [])
     .map(relatedSlug => getLocalBlogBySlug(relatedSlug, language))
     .filter(Boolean);
   const jsonLd = {
@@ -87,13 +78,14 @@ export default async function ProjectPage({ params }) {
     '@graph': [
       {
         '@type': 'CreativeWork',
-        '@id': `${url}#project`,
+        '@id': `${url}#case-study`,
         name: project.name,
         description: project.description,
         url,
         inLanguage: language === 'fa' ? 'fa-IR' : 'en-US',
         author: { '@id': `${siteUrl}/#person` },
         keywords: project.tools.join(', '),
+        about: caseStudy.category,
         isPartOf: { '@id': `${siteUrl}/#website` },
       },
       {
@@ -120,7 +112,7 @@ export default async function ProjectPage({ params }) {
 
       <header className="brand-route__header brand-case-brief__header">
         <div>
-          <p className="brand-route__eyebrow">{t('architectureBrief')} / {String(project.id).padStart(2, '0')}</p>
+          <p className="brand-route__eyebrow">{t('caseStudyLabel')}</p>
           <h1 className="brand-route__title">{project.name}</h1>
         </div>
         <p className="brand-route__lead">{project.description}</p>
@@ -134,7 +126,7 @@ export default async function ProjectPage({ params }) {
             height={720}
             sizes="(max-width: 768px) 100vw, 1216px"
             priority
-            alt={language === 'en' ? `${project.name} delivery evidence` : `شواهد تحویل ${project.name}`}
+            alt={caseStudy.visualAlt}
             className="h-auto w-full object-cover"
           />
         ) : (
@@ -142,12 +134,12 @@ export default async function ProjectPage({ params }) {
             <ProjectVisual
               projectId={project.id}
               visualKind={project.visualKind}
-              briefLabel={t('architectureBrief')}
-              categoryLabel={t(`visualKinds.${project.visualKind}`)}
+              briefLabel={t('caseStudyLabel')}
+              categoryLabel={caseStudy.category}
             />
           </div>
         )}
-        <figcaption>{t('evidenceCaption')} · {project.role}</figcaption>
+        <figcaption>{caseStudy.visualCaption}</figcaption>
       </figure>
 
       <section className="brand-case-brief__facts" aria-label={t('projectFacts')}>
@@ -158,19 +150,31 @@ export default async function ProjectPage({ params }) {
         <div className="brand-case-brief__fact">
           <h2>{t('technology')}</h2>
           <ul aria-label={t('technology')}>
-            {project.tools.map(tool => <li key={tool}><bdi>{tool}</bdi></li>)}
+            {project.tools.map(tool => <li key={tool}><bdi dir="ltr">{tool}</bdi></li>)}
           </ul>
         </div>
       </section>
 
       <div className="brand-case-study-grid">
-        {Object.entries(sections).map(([key, section]) => (
+        {narrativeSections.map(([key, section]) => (
           <section key={key} className={`brand-route__section brand-case-study-section brand-case-study-section--${key}`} aria-labelledby={`${key}-heading`}>
-            <p className="brand-route__eyebrow">{String(Object.keys(sections).indexOf(key) + 1).padStart(2, '0')}</p>
             <h2 id={`${key}-heading`} className="brand-route__section-title">{section.heading}</h2>
             <p>{section.body}</p>
           </section>
         ))}
+
+        <section className="brand-route__section brand-case-study-section brand-case-study-section--outcomes" aria-labelledby="outcomes-heading">
+          <p className="brand-content-type">{t(`outcomeTypes.${project.outcomeType}`)}</p>
+          <h2 id="outcomes-heading" className="brand-route__section-title">{t('sectionOutcomes')}</h2>
+          <p>{project.outcome}</p>
+        </section>
+
+        {evidenceBoundary && (
+          <section className="brand-route__section brand-case-study-section brand-case-study-section--evidence" aria-labelledby="evidence-heading">
+            <h2 id="evidence-heading" className="brand-route__section-title">{t('evidenceBoundary')}</h2>
+            <p>{evidenceBoundary}</p>
+          </section>
+        )}
       </div>
 
       {related.length > 0 && (
@@ -185,7 +189,6 @@ export default async function ProjectPage({ params }) {
       )}
 
       <section className="brand-route__cta" aria-labelledby="project-contact-heading">
-        <p className="brand-route__eyebrow">{t('nextConversation')}</p>
         <h2 id="project-contact-heading">{t('discussSimilarWork')}</h2>
         <ConversionLink
           eventName="project_case_study_contact"

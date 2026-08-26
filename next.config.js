@@ -1,20 +1,24 @@
 const path = require('path')
 const createNextIntlPlugin = require('next-intl/plugin');
+const { PROJECT_PUBLICATION_TYPES, projectPublicationManifest } = require('./utils/data/project-publication-manifest.cjs');
  
 const withNextIntl = createNextIntlPlugin('./i18n.js');
 
 module.exports = withNextIntl({
   async redirects() {
-    return [
-      { source: '/:locale/projects/1', destination: '/:locale/projects/ai-hologram-realtime-backend', permanent: true },
-      { source: '/:locale/projects/2', destination: '/:locale/projects/investment-analytics-platform', permanent: true },
-      { source: '/:locale/projects/3', destination: '/:locale/projects/crypto-fiat-payment-gateway', permanent: true },
-      { source: '/:locale/projects/4', destination: '/:locale/projects/realtime-game-platform', permanent: true },
-      { source: '/:locale/projects/5', destination: '/:locale/projects/embedded-linux-ota', permanent: true },
-      { source: '/:locale/projects/6', destination: '/:locale/projects/learning-platform', permanent: true },
-      { source: '/:locale/projects/7', destination: '/:locale/projects/transaction-ledger-system', permanent: true },
-      { source: '/:locale/projects/8', destination: '/:locale/projects/blockchain-backend-platform', permanent: true },
-    ];
+    const locales = ['en', 'fa'];
+    return locales.flatMap(locale => projectPublicationManifest.flatMap(project => {
+      const destination = project.publicationType === PROJECT_PUBLICATION_TYPES.caseStudy
+        ? `/${locale}/projects/${project.slug}`
+        : `/${locale}/projects#project-${project.slug}`;
+      const redirects = [
+        { source: `/${locale}/projects/${project.id}`, destination, permanent: true },
+      ];
+      if (project.publicationType === PROJECT_PUBLICATION_TYPES.projectSnapshot) {
+        redirects.push({ source: `/${locale}/projects/${project.slug}`, destination, permanent: true });
+      }
+      return redirects;
+    }));
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],

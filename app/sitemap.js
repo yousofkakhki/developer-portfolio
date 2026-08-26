@@ -1,7 +1,7 @@
 import { locales } from '@/i18n';
 import { getAvailableBlogLocales, getLocalBlogs } from '@/utils/data/local-blogs';
 import { getActivePillarSlugs } from '@/utils/data/blog-pillars';
-import { projectCatalog } from '@/utils/data/project-catalog';
+import { caseStudyProjects } from '@/utils/data/project-catalog';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 const STATIC_LAST_MODIFIED = new Date('2026-07-28');
@@ -39,7 +39,7 @@ export default function sitemap() {
     };
   });
 
-  const projectEntries = projectCatalog.flatMap(project => {
+  const projectEntries = caseStudyProjects.flatMap(project => {
     const languages = locales.reduce((acc, locale) => {
       acc[locale] = `${siteUrl}/${locale}/projects/${project.slug}`;
       return acc;

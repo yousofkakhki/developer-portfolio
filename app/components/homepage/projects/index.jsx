@@ -1,26 +1,13 @@
-// @flow strict
-"use client";
-
-import { useTranslations } from 'next-intl';
-import { memo, useMemo, useState } from 'react';
-import { projectCatalog } from '@/utils/data/project-catalog';
+import Link from 'next/link';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { caseStudyProjects, getLocalizedProject } from '@/utils/data/project-catalog';
 import ProjectCard from './project-card';
 
-const featuredProjectCount = 3;
-
-const Projects = () => {
-  const t = useTranslations('projects');
-  const [expanded, setExpanded] = useState(false);
-  const projects = useMemo(
-    () => projectCatalog.map((project) => {
-      const localizedProject = t.raw(String(project.id));
-      return localizedProject
-        ? { ...localizedProject, ...project, tools: localizedProject.tools || [] }
-        : null;
-    }).filter(Boolean),
-    [t],
-  );
-  const visibleProjects = expanded ? projects : projects.slice(0, featuredProjectCount);
+export default async function Projects() {
+  const locale = await getLocale();
+  const language = locale === 'fa' ? 'fa' : 'en';
+  const t = await getTranslations({ locale: language, namespace: 'projects' });
+  const projects = caseStudyProjects.map(project => getLocalizedProject(project, language));
 
   return (
     <section id="projects" className="brand-section" aria-labelledby="projects-heading">
@@ -32,28 +19,16 @@ const Projects = () => {
           <p className="leading-relaxed text-slate-400">{t('featuredIntro')}</p>
         </div>
 
-        <div id="project-list" className="space-y-8">
-          {visibleProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+        <div className="space-y-8">
+          {projects.map(project => <ProjectCard key={project.id} project={project} />)}
         </div>
 
-        {projects.length > featuredProjectCount && (
-          <div className="mt-8 flex justify-center">
-            <button
-              type="button"
-              aria-expanded={expanded}
-              aria-controls="project-list"
-              onClick={() => setExpanded(value => !value)}
-              className="brand-button min-h-[44px]"
-            >
-              {expanded ? t('showFewerProjects') : t('viewAllProjects')}
-            </button>
-          </div>
-        )}
+        <div className="mt-8 flex justify-center">
+          <Link href={`/${language}/projects`} className="brand-button min-h-[44px]">
+            {t('viewAllProjects')}
+          </Link>
+        </div>
       </div>
     </section>
   );
-};
-
-export default memo(Projects);
+}
