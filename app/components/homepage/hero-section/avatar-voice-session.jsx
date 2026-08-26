@@ -141,7 +141,7 @@ export function AvatarVoiceSession({ onStateChange }) {
   const vadRestartPendingRef = useRef(false);
   const vadControlsRef = useRef(null);
   const vadReadyRef = useRef(false);
-  const connectionStateRef = useRef('connecting');
+  const connectionStateRef = useRef('starting');
   const responseTimeoutRef = useRef(null);
   const startGenerationRef = useRef(0);
   const playbackBlockedRef = useRef(false);
@@ -487,8 +487,8 @@ export function AvatarVoiceSession({ onStateChange }) {
       }
       autoSessionRef.current = true;
       if (socketRef.current && !socketRef.current.connected) {
-        connectionStateRef.current = 'connecting';
-        setVoiceState('connecting');
+        connectionStateRef.current = 'starting';
+        setVoiceState('starting');
         socketRef.current.connect();
         return;
       }
@@ -569,7 +569,7 @@ export function AvatarVoiceSession({ onStateChange }) {
     socket.on('audio-response', handleAssistantCompletion);
     socket.on('responseCompleted', handleAssistantCompletion);
     socket.on('error', handlePlaybackError);
-    setVoiceState('connecting');
+    setVoiceState('starting');
     socket.connect();
 
     return () => {

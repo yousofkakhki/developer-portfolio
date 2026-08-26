@@ -64,9 +64,10 @@ function Navbar() {
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: reduceMotion ? 'auto' : 'smooth'
       });
       window.history.replaceState(null, '', targetUrl.hash);
     }
@@ -109,7 +110,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="brand-nav">
+    <nav className="brand-nav" aria-label={t('primaryNavigation')}>
       <div className="brand-nav__inner flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -126,43 +127,43 @@ function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:items-center lg:gap-1">
-          <NavLink href={`/${locale}/projects`} section="projects">{t('work')}</NavLink>
-          <NavLink href={`/${locale}#experience`} section="experience">{t('experience')}</NavLink>
-          <NavLink href={`/${locale}/blog`} section="blog">{t('writing')}</NavLink>
-          <NavLink href={`/${locale}#about`} section="about">{t('about')}</NavLink>
-          <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
-          <Link
-            href={`/${locale}/work-with-me`}
-            className="brand-nav__link px-3 text-sm font-medium text-cyan-300 hover:text-cyan-100 transition-colors"
-          >
-            {t('discussRole')}
-          </Link>
-          <Link
-            href={careerFacts.resume.publicUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="brand-nav__link px-3 text-sm text-slate-400 hover:text-slate-100 transition-colors"
-          >
-            {t('resume')}
-          </Link>
-          <div className="ms-4">
+        <div className="flex items-center gap-2">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex lg:items-center lg:gap-1">
+            <NavLink href={`/${locale}/projects`} section="projects">{t('work')}</NavLink>
+            <NavLink href={`/${locale}#experience`} section="experience">{t('experience')}</NavLink>
+            <NavLink href={`/${locale}/blog`} section="blog">{t('writing')}</NavLink>
+            <NavLink href={`/${locale}#about`} section="about">{t('about')}</NavLink>
+            <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
+            <Link
+              href={`/${locale}/work-with-me`}
+              className="brand-nav__link px-3 text-sm font-medium text-cyan-300 hover:text-cyan-100 transition-colors"
+            >
+              {t('discussRole')}
+            </Link>
+            <Link
+              href={careerFacts.resume.publicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="brand-nav__link px-3 text-sm text-slate-400 hover:text-slate-100 transition-colors"
+            >
+              {t('resume')}
+            </Link>
+          </div>
+
+          <div className="ms-1 lg:ms-3">
             <LanguageSwitcher />
           </div>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-3 lg:hidden">
-          <LanguageSwitcher />
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? t('closeMenu') : t('openMenu')}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200"
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200 lg:hidden"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" focusable="false" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {isOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (

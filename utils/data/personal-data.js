@@ -1,4 +1,7 @@
 import { careerFacts, localized } from './career-facts';
+import profileConfig from './external-profiles.cjs';
+
+const { externalProfiles } = profileConfig;
 
 export const personalData = {
   name: "Yousef Kakhki",
@@ -14,9 +17,9 @@ I am currently targeting senior backend, platform, and technical-lead roles in t
   email: 'me@kakhki.me',
   phone: '+989038158460',
   address: 'Tehran, Iran',
-  github: 'https://github.com/yousofkakhki',
+  github: externalProfiles.github.url,
   facebook: 'https://www.facebook.com/joseph_reborn/',
-  linkedIn: 'https://www.linkedin.com/in/yousefkakhki/', // Corrected LinkedIn URL
+  linkedIn: externalProfiles.linkedIn.url,
   twitter: 'https://twitter.com/',
   stackOverflow: 'asdf',
   leetcode: "asdf",

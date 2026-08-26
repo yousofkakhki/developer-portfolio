@@ -16,7 +16,7 @@ test('primary navigation is outside the main landmark and skip target is focusab
 test('skip-link and voice-state announcements are localized in every supported language', () => {
   const layout = read('app/[locale]/layout.js');
   const avatar = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
-  const voiceStates = ['connecting', 'requestingMic', 'listening', 'processing', 'playing', 'speaking', 'paused', 'ready', 'blocked', 'error'];
+  const voiceStates = ['starting', 'requestingMic', 'listening', 'processing', 'playing', 'speaking', 'paused', 'ready', 'blocked', 'error'];
 
   assert.match(layout, /aria-label=\{skipToMain\}/);
   assert.ok(avatar.includes("useTranslations('accessibility')"));
@@ -35,6 +35,8 @@ test('section navigation lets cross-route links navigate normally and mobile men
   assert.match(navbar, /aria-controls="mobile-navigation"/);
   assert.match(navbar, /id="mobile-navigation"/);
   assert.match(navbar, /min-h-\[44px\] min-w-\[44px\]/);
+  assert.equal((navbar.match(/<LanguageSwitcher \/>/g) || []).length, 1);
+  assert.match(navbar, /prefers-reduced-motion: reduce/);
 });
 
 test('public hero, navigation, blog, contact, and footer copy is localized in both languages', () => {
@@ -57,6 +59,9 @@ test('language controls, form feedback, and motion preferences meet audited inte
   const contact = read('app/components/homepage/contact/index.jsx');
   const styles = read('app/css/globals.scss');
   assert.match(switcher, /min-h-\[44px\] min-w-\[44px\]/);
+  assert.match(switcher, /data-language-switcher/);
+  assert.match(switcher, /href=\{englishTarget\.href\}/);
+  assert.match(switcher, /href=\{persianTarget\.href\}/);
   assert.match(contact, /aria-invalid/);
   assert.match(contact, /aria-describedby/);
   assert.match(contact, /role="alert"/);

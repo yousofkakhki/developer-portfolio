@@ -24,7 +24,7 @@ const copy = {
     rolesTitle: 'Best-fit roles',
     roles: careerFacts.targetRoles,
     approachTitle: 'How I work',
-    methodLabel: 'Method / 01',
+    methodLabel: 'Working method',
     approach: 'I am most useful where architecture and implementation meet: defining boundaries, making trade-offs explicit, diagnosing failure modes, and continuing to contribute directly to production code.',
     cta: 'Discuss a role or engineering problem',
     email: 'Email directly',
@@ -51,7 +51,7 @@ const copy = {
     rolesTitle: 'فرصت‌های مهندسی مناسب',
     roles: ['مهندس ارشد بک‌اند', 'مهندس Staff یا رهبر بک‌اند', 'مهندس پلتفرم', 'مهندس رسانهٔ بلادرنگ', 'معمار راهکار'],
     approachTitle: 'شیوهٔ همکاری من',
-    methodLabel: 'روش همکاری / ۰۱',
+    methodLabel: 'روش همکاری',
     approach: 'بیشترین ارزش را در نقطهٔ اتصال معماری و پیاده‌سازی ایجاد می‌کنم: تعریف مرزها، شفاف‌کردن مصالحه‌ها، تحلیل حالت‌های خرابی و مشارکت مستقیم در کد تولید.',
     cta: 'گفتگو دربارهٔ موقعیت یا مسئلهٔ مهندسی',
     email: 'ارسال ایمیل مستقیم',
@@ -182,15 +182,15 @@ export default async function WorkWithMePage({ params }) {
 
       <section className="brand-route__section" aria-labelledby="evidence-heading">
         <h2 id="evidence-heading" className="brand-route__section-title">{text.evidenceTitle}</h2>
-        <div className="brand-evidence-sheet">
+        <ol className="brand-evidence-sheet">
           {text.evidence.map(([title, detail], index) => (
-            <article key={title} className="brand-evidence-sheet__row">
+            <li key={title} className="brand-evidence-sheet__row">
               <span className="brand-evidence-sheet__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <h3>{title}</h3>
               <p>{detail}</p>
-            </article>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       <section className="brand-route__section brand-recruiter__split">
@@ -211,19 +211,18 @@ export default async function WorkWithMePage({ params }) {
 
       <section className="brand-route__section" aria-labelledby="consulting-heading">
         <div className="brand-route__section-heading">
-          <p className="brand-route__eyebrow">{text.methodLabel}</p>
           <h2 id="consulting-heading" className="brand-route__section-title">{text.consultingTitle}</h2>
           <p className="brand-route__lead">{text.consultingIntro}</p>
         </div>
-        <div className="brand-evidence-sheet">
+        <ul className="brand-evidence-sheet">
           {text.consulting.map((service, index) => (
-            <article key={service.title} className="brand-evidence-sheet__row">
+            <li key={service.title} className="brand-evidence-sheet__row">
               <span className="brand-evidence-sheet__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <h3>{service.title}</h3>
               <p><strong>{language === 'fa' ? 'خروجی:' : 'Output:'}</strong> {service.output}</p>
-            </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section className="brand-route__cta" aria-labelledby="recruiter-contact-heading">

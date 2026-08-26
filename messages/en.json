@@ -22,6 +22,7 @@
     "discussRole": "Discuss a role",
     "resume": "Résumé",
     "home": "Yousef Kakhki — Home",
+    "primaryNavigation": "Primary navigation",
     "brandTagline": "Systems, in the field.",
     "workWithMe": "Work with me",
     "openMenu": "Open menu",
@@ -270,6 +271,7 @@
     "description": "Senior backend engineer and technical lead with 10+ years of experience across distributed systems, WebRTC, Node.js, Go, PostgreSQL, Kafka/NATS, Linux, and real-time platforms."
   },
   "footer": {
+    "profileLinks": "Contact and profile links",
     "tagline": "Distributed systems, real-time media, and backend platforms.",
     "resumePdf": "Résumé (PDF)",
     "githubProfile": "GitHub profile",
@@ -291,7 +293,7 @@
     "stopVoiceIntroduction": "Stop voice",
     "voiceState": "Voice state: {state}",
     "voiceStates": {
-      "connecting": "connecting",
+      "starting": "starting voice session",
       "requestingMic": "requesting microphone access",
       "listening": "listening",
       "processing": "processing",

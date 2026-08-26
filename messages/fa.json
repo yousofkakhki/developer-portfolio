@@ -22,6 +22,7 @@
     "discussRole": "گفتگو دربارهٔ موقعیت",
     "resume": "رزومه",
     "home": "یوسف کاخکی — خانه",
+    "primaryNavigation": "ناوبری اصلی",
     "brandTagline": "سیستم‌ها، در میدان عمل.",
     "workWithMe": "همکاری",
     "openMenu": "باز کردن منو",
@@ -270,6 +271,7 @@
     "description": "مهندس ارشد بک‌اند و رهبر فنی با بیش از ۱۰ سال تجربه در سیستم‌های توزیع‌شده، WebRTC، Node.js، Go، PostgreSQL، Kafka/NATS، لینوکس و پلتفرم‌های بلادرنگ."
   },
   "footer": {
+    "profileLinks": "پیوندهای تماس و پروفایل",
     "tagline": "سیستم‌های توزیع‌شده، رسانهٔ بلادرنگ و پلتفرم‌های بک‌اند.",
     "resumePdf": "رزومه (PDF)",
     "githubProfile": "پروفایل گیت‌هاب",
@@ -291,7 +293,7 @@
     "stopVoiceIntroduction": "توقف صدا",
     "voiceState": "وضعیت صدا: {state}",
     "voiceStates": {
-      "connecting": "در حال اتصال",
+      "starting": "در حال شروع نشست صوتی",
       "requestingMic": "در حال درخواست دسترسی میکروفون",
       "listening": "در حال گوش دادن",
       "processing": "در حال پردازش",

@@ -1,5 +1,7 @@
-import { personalData } from '@/utils/data/personal-data';
 import { careerFacts, localized } from '@/utils/data/career-facts';
+import profileConfig from '@/utils/data/external-profiles.cjs';
+
+const { getApprovedGlobalProfiles } = profileConfig;
 
 export default function StructuredData({ locale }) {
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
@@ -22,7 +24,7 @@ export default function StructuredData({ locale }) {
           url: `${siteUrl}/avatar-page-background.webp`,
           contentUrl: `${siteUrl}/avatar-page-background.webp`,
         },
-        sameAs: [personalData.github, personalData.linkedIn].filter(Boolean),
+        sameAs: getApprovedGlobalProfiles().map(profile => profile.url),
         alumniOf: {
           '@type': 'CollegeOrUniversity',
           name: 'Amirkabir University of Technology (Tehran Polytechnic)',

@@ -973,7 +973,6 @@ html[dir="rtl"] .blog-content blockquote {
 .brand-home {
   position: relative;
   z-index: 0;
-  counter-reset: system-section;
 }
 
 .brand-home::before {
@@ -998,10 +997,6 @@ html[dir="rtl"] .blog-content blockquote {
   to { opacity: 0.9; }
 }
 
-.brand-home section:not(#hero) {
-  counter-increment: system-section;
-}
-
 .brand-section {
   position: relative;
   scroll-margin-top: 5.5rem;
@@ -1023,7 +1018,7 @@ html[dir="rtl"] .blog-content blockquote {
 
 .brand-section__title {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   align-items: end;
   gap: 0.8rem 1.25rem;
   margin-bottom: clamp(2rem, 4vw, 3.25rem);
@@ -1033,16 +1028,6 @@ html[dir="rtl"] .blog-content blockquote {
   line-height: 1.03;
   letter-spacing: -0.04em;
   color: var(--color-mineral);
-}
-
-.brand-section__title::before {
-  content: "0" counter(system-section) " /";
-  align-self: center;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  color: var(--color-signal);
 }
 
 .brand-section__title::after {

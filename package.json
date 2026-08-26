@@ -14,7 +14,8 @@
     "content:integrity": "node scripts/content-integrity-check.cjs",
     "resume:check": "node scripts/resume-check.cjs",
     "seo:health": "node scripts/seo-health-check.cjs --json",
-    "viewport:check": "node scripts/viewport-check.cjs"
+    "viewport:check": "node scripts/viewport-check.cjs",
+    "a11y:check": "node scripts/accessibility-check.cjs"
   },
   "dependencies": {
     "@pixiv/three-vrm": "^2.0.7",

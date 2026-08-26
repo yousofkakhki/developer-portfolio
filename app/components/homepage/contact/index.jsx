@@ -7,8 +7,10 @@ import { useState, memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { ConversionLink, trackConversion } from '../../analytics/conversion-link';
 import { BiLogoLinkedin } from "react-icons/bi";
-import { IoLogoGithub } from "react-icons/io";
 import { MdAlternateEmail } from "react-icons/md";
+import profileConfig from '@/utils/data/external-profiles.cjs';
+
+const { getApprovedGlobalProfiles } = profileConfig;
 
 const EMPTY_INPUT = { name: "", email: "", message: "" };
 
@@ -159,7 +161,7 @@ function ContactForm() {
       </button>
 
       {status.message && (
-        <p role="status" aria-live="polite" className={`mt-3 text-sm ${status.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+        <p role={status.type === 'error' ? 'alert' : 'status'} aria-live="polite" className={`mt-3 text-sm ${status.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
           {status.message}
         </p>
       )}
@@ -171,6 +173,7 @@ function ContactForm() {
 function Contact() {
   const t = useTranslations('contact');
   const tCommon = useTranslations('common');
+  const approvedProfiles = getApprovedGlobalProfiles();
 
   return (
     <section id="contact" className="brand-section">
@@ -197,37 +200,29 @@ function Contact() {
               </ConversionLink>
             </div>
 
-            <div>
-              <h3 className="mb-3 text-sm font-mono uppercase tracking-wide text-slate-400">{t('profiles')}</h3>
-              <div className="flex items-center gap-3">
-                {personalData.github && (
-                  <ConversionLink
-                    eventName="github_click"
-                    source="homepage_contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={personalData.github}
-                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors hover:text-slate-200"
-                    aria-label={`${t('githubProfile')} (${tCommon('opensInNewTab')})`}
-                  >
-                    <IoLogoGithub size={24} />
-                  </ConversionLink>
-                )}
-                {personalData.linkedIn && (
-                  <ConversionLink
-                    eventName="linkedin_click"
-                    source="homepage_contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={personalData.linkedIn}
-                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors hover:text-slate-200"
-                    aria-label={`${t('linkedinProfile')} (${tCommon('opensInNewTab')})`}
-                  >
-                    <BiLogoLinkedin size={24} />
-                  </ConversionLink>
-                )}
+            {approvedProfiles.length > 0 && (
+              <div>
+                <h3 className="mb-3 text-sm font-mono uppercase tracking-wide text-slate-400">{t('profiles')}</h3>
+                <ul className="flex flex-wrap items-center gap-3">
+                  {approvedProfiles.map(profile => (
+                    <li key={profile.id}>
+                      <ConversionLink
+                        eventName={`${profile.id}_click`}
+                        source="homepage_contact"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={profile.url}
+                        className="inline-flex min-h-[44px] items-center gap-2 border border-slate-700 px-3 text-slate-400 transition-colors hover:border-cyan-400 hover:text-slate-200"
+                        aria-label={`${t(`${profile.id}Profile`)} (${tCommon('opensInNewTab')})`}
+                      >
+                        {profile.id === 'linkedin' && <BiLogoLinkedin size={20} aria-hidden="true" />}
+                        <span>{t(`${profile.id}Profile`)}</span>
+                      </ConversionLink>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
+            )}
 
             <div>
               <h3 className="mb-3 text-sm font-mono uppercase tracking-wide text-slate-400">{t('location')}</h3>

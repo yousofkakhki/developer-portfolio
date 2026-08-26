@@ -1,10 +1,13 @@
 // @flow strict
 import Image from 'next/image';
 import Link from 'next/link';
-import { BsGithub, BsLinkedin } from 'react-icons/bs';
+import { BsLinkedin } from 'react-icons/bs';
 import { getTranslations } from 'next-intl/server';
 import { personalData } from '@/utils/data/personal-data';
 import { careerFacts } from '@/utils/data/career-facts';
+import profileConfig from '@/utils/data/external-profiles.cjs';
+
+const { getApprovedGlobalProfiles } = profileConfig;
 
 async function Footer() {
   const tCommon = await getTranslations('common');
@@ -12,6 +15,7 @@ async function Footer() {
   const tNav = await getTranslations('nav');
   const tHero = await getTranslations('hero');
   const tPersonal = await getTranslations('personal');
+  const approvedProfiles = getApprovedGlobalProfiles();
 
   return (
     <footer className="brand-footer relative z-10 text-white">
@@ -27,42 +31,40 @@ async function Footer() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <a
-              href={careerFacts.resume.publicUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brand-button min-h-[44px]"
-            >
-              {tFooter('resumePdf')}
-            </a>
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href={personalData.github}
-              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center border border-slate-700 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
-              aria-label={`${tFooter('githubProfile')} (${tCommon('opensInNewTab')})`}
-            >
-              <BsGithub size={20} aria-hidden="true" />
-              <span>{tFooter('githubProfile')}</span>
-            </Link>
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href={personalData.linkedIn}
-              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center border border-slate-700 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
-              aria-label={`${tFooter('linkedinProfile')} (${tCommon('opensInNewTab')})`}
-            >
-              <BsLinkedin size={20} aria-hidden="true" />
-              <span>{tFooter('linkedinProfile')}</span>
-            </Link>
-            <a
-              href={`mailto:${personalData.email}`}
-              className="inline-flex min-h-[48px] items-center gap-2 border border-slate-700 px-3 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
-            >
-              <span>{personalData.email}</span>
-            </a>
-          </div>
+          <ul className="flex flex-wrap items-center gap-2" aria-label={tFooter('profileLinks')}>
+            <li>
+              <a
+                href={careerFacts.resume.publicUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brand-button min-h-[44px]"
+              >
+                {tFooter('resumePdf')}
+              </a>
+            </li>
+            {approvedProfiles.map(profile => (
+              <li key={profile.id}>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={profile.url}
+                  className="inline-flex min-h-[48px] items-center gap-2 border border-slate-700 px-3 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
+                  aria-label={`${tFooter(`${profile.id}Profile`)} (${tCommon('opensInNewTab')})`}
+                >
+                  {profile.id === 'linkedin' && <BsLinkedin size={20} aria-hidden="true" />}
+                  <span>{tFooter(`${profile.id}Profile`)}</span>
+                </Link>
+              </li>
+            ))}
+            <li>
+              <a
+                href={`mailto:${personalData.email}`}
+                className="inline-flex min-h-[48px] items-center gap-2 border border-slate-700 px-3 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
+              >
+                <span>{personalData.email}</span>
+              </a>
+            </li>
+          </ul>
         </div>
 
         <div className="flex flex-col gap-2 pt-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">

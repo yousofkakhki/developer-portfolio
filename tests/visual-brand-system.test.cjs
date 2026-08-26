@@ -22,7 +22,8 @@ test('the systems-documentation identity has a restrained dark token system', ()
   assert.match(css, /\.brand-panel/);
   assert.match(css, /\.brand-chip/);
   assert.match(css, /\.brand-button--primary/);
-  assert.match(css, /section:not\(#hero\)[\s\S]*?counter-increment/i);
+  assert.doesNotMatch(css, /counter-(?:reset|increment):\s*system-section/i);
+  assert.doesNotMatch(css, /content:\s*"0"\s*counter\(system-section\)/i);
 });
 
 test('the shared shell exposes the branded navigation, page canvas, and footer', () => {

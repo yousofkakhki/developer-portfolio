@@ -87,9 +87,10 @@ test('contact uses native fetch and accessible inline status', () => {
   const source = read('app/components/homepage/contact/index.jsx');
   assert.doesNotMatch(source, /axios|react-toastify|toast\./);
   assert.match(source, /fetch\(['"]\/api\/contact/);
-  assert.match(source, /role="status"/);
-  assert.match(source, /aria-label=\{`\$\{t\('githubProfile'\)\}/);
-  assert.match(source, /aria-label=\{`\$\{t\('linkedinProfile'\)\}/);
+  assert.match(source, /role=\{status\.type === 'error' \? 'alert' : 'status'\}/);
+  assert.match(source, /getApprovedGlobalProfiles/);
+  assert.match(source, /<ul className="flex flex-wrap items-center gap-3">/);
+  assert.match(source, /<span>\{t\(`\$\{profile\.id\}Profile`\)\}<\/span>/);
 });
 
 test('icon controls and visible abbreviations have accessible names', () => {

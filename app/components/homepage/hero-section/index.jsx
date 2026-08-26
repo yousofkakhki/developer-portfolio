@@ -1,17 +1,20 @@
 // @flow strict
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import { BsGithub, BsLinkedin } from 'react-icons/bs';
-import { personalData } from '@/utils/data/personal-data';
+import { BsLinkedin } from 'react-icons/bs';
 import { careerFacts, getPublishableMetric, localized } from '@/utils/data/career-facts';
+import profileConfig from '@/utils/data/external-profiles.cjs';
 import { ConversionLink } from '../../analytics/conversion-link';
 import { AvatarFaceOverlay } from './avatar-face-overlay';
+
+const { getApprovedGlobalProfiles } = profileConfig;
 
 async function HeroSection() {
   const t = await getTranslations();
   const locale = await getLocale();
   const platformConcurrency = careerFacts.metrics.platformConcurrency;
   const backendExperience = careerFacts.metrics.backendExperience;
+  const approvedProfiles = getApprovedGlobalProfiles();
 
   const proofPoints = [
     {
@@ -85,34 +88,25 @@ async function HeroSection() {
               {t('hero.resumePdf')}
             </ConversionLink>
 
-            <div className="hero-socials flex items-center">
-              {personalData.github && (
-                <ConversionLink
-                  eventName="github_click"
-                  source="homepage_hero"
-                  href={personalData.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
-                  aria-label={`${t('hero.githubProfile')} (${t('common.opensInNewTab')})`}
-                >
-                  <BsGithub size={21} />
-                </ConversionLink>
-              )}
-              {personalData.linkedIn && (
-                <ConversionLink
-                  eventName="linkedin_click"
-                  source="homepage_hero"
-                  href={personalData.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
-                  aria-label={`${t('hero.linkedinProfile')} (${t('common.opensInNewTab')})`}
-                >
-                  <BsLinkedin size={21} />
-                </ConversionLink>
-              )}
-            </div>
+            {approvedProfiles.length > 0 && (
+              <ul className="hero-socials flex items-center" aria-label={t('contact.profiles')}>
+                {approvedProfiles.map(profile => (
+                  <li key={profile.id}>
+                    <ConversionLink
+                      eventName={`${profile.id}_click`}
+                      source="homepage_hero"
+                      href={profile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
+                      aria-label={`${t(`hero.${profile.id}Profile`)} (${t('common.opensInNewTab')})`}
+                    >
+                      {profile.id === 'linkedin' && <BsLinkedin size={21} aria-hidden="true" />}
+                    </ConversionLink>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className="hero-portrait-column flex shrink-0 justify-center">

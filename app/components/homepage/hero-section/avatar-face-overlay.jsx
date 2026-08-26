@@ -9,7 +9,7 @@ const AVATAR_TRANSITION_DELAY_MS = 3200;
 const AVATAR_TRANSITION_DURATION_MS = 900;
 
 const VOICE_STATUS_STYLES = {
-  connecting: {
+  starting: {
     dotClass: 'bg-amber-300',
     ringClass: 'border-amber-300/40 bg-slate-950/80 text-amber-100',
   },
@@ -113,7 +113,7 @@ export function AvatarFaceOverlay() {
 
   const startVoiceSession = useCallback(() => {
     setVoiceActive(true);
-    setVoiceState('connecting');
+    setVoiceState('starting');
     import('./avatar-voice-session')
       .then(({ AvatarVoiceSession: Session, default: DefaultSession }) => {
         setAvatarVoiceSession(() => Session || DefaultSession);
@@ -138,7 +138,7 @@ export function AvatarFaceOverlay() {
   }, []);
 
   const retryVoiceSession = useCallback(() => {
-    setVoiceState('connecting');
+    setVoiceState('starting');
     if (AvatarVoiceSession) {
       setVoiceSessionKey(key => key + 1);
       return;
