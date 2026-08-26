@@ -2,6 +2,7 @@ export const revalidate = 60;
 export const dynamicParams = false;
 
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { getLocalBlogs } from '@/utils/data/local-blogs';
 import { PILLARS, getActivePillarSlugs, getPillarForTags } from '@/utils/data/blog-pillars';
@@ -42,6 +43,7 @@ export default async function PillarPage({ params }) {
   if (locale !== 'en' || !meta) notFound();
 
   const allBlogs = getLocalBlogs(locale);
+  const t = await getTranslations({ locale: 'en', namespace: 'blog' });
   const posts = allBlogs.filter(blog => getPillarForTags(blog.tag_list || []) === pillar);
   if (posts.length === 0) notFound();
 
@@ -92,6 +94,7 @@ export default async function PillarPage({ params }) {
             <Link href={`/en/blog/${post.slug}`}>
               <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <div>
+                <p className={`brand-article-type brand-article-type--${post.article_type}`}>{t(`articleTypes.${post.article_type}`)}</p>
                 <h2>{post.title}</h2>
                 <p>{post.description}</p>
               </div>

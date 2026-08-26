@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import blogLocaleHelpers from './blog-locales.cjs';
+import articleTypeHelpers from './article-types.cjs';
 
 const { availableBlogLocales, hasCompleteTranslation } = blogLocaleHelpers;
+const { isArticleType } = articleTypeHelpers;
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blogs');
 
@@ -15,6 +17,12 @@ function loadAll() {
       catch { return null; }
     })
     .filter(b => b && b.publishedAt && !b.draft && b.published !== false)
+    .map(blog => {
+      if (!isArticleType(blog.articleType)) {
+        throw new Error(`Published article ${blog.slug || '(missing slug)'} has an invalid articleType.`);
+      }
+      return blog;
+    })
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 }
 
@@ -39,6 +47,8 @@ function normalize(blog, locale = 'en') {
     updated_at: blog.updatedAt || blog.publishedAt,
     reading_time_minutes: blog.reading_time_minutes || blog.readingTimeMinutes || 5,
     content: localized(blog.content, locale),
+    article_type: blog.articleType,
+    content_id: blog.contentId || blog.slug,
     isLocal: true,
   };
 }

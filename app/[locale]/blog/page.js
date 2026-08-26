@@ -5,6 +5,7 @@ export const dynamicParams = true;
 import { getTranslations } from 'next-intl/server';
 import { getLocalBlogs } from "@/utils/data/local-blogs";
 import { PILLARS, getActivePillarSlugs } from '@/utils/data/blog-pillars';
+import Link from 'next/link';
 import BlogPageClient from "./blog-page-client";
 
 export async function generateMetadata({ params }) {
@@ -40,7 +41,8 @@ export default async function BlogPage({ params }) {
 
   const blogs = getLocalBlogs(locale);
   const activePillars = locale === 'en' ? getActivePillarSlugs(blogs) : [];
-  const allTags = [...new Set(blogs.flatMap(blog => blog?.tag_list || []))].slice(0, 10);
+  const allTags = [...new Set(blogs.flatMap(blog => blog?.tag_list || []))]
+    .sort((left, right) => left.localeCompare(right, locale));
 
   return (
     <div className="brand-route brand-publications">
@@ -63,6 +65,15 @@ export default async function BlogPage({ params }) {
           </nav>
         )}
       </header>
+
+      {locale === 'fa' && (
+        <aside className="brand-language-notice">
+          <p>{t('persianLibraryNotice')}</p>
+          <Link href="/en/blog" hrefLang="en" lang="en" dir="ltr">
+            {t('viewEnglishLibrary')} <span className="brand-language-badge">English</span>
+          </Link>
+        </aside>
+      )}
 
       <BlogPageClient
         blogs={blogs}

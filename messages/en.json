@@ -31,6 +31,15 @@
   "blog": {
     "title": "Engineering Writing",
     "minRead": "min",
+    "articleMeta": "Article date and reading time",
+    "articleTypes": {
+      "production-case-study": "Production case study",
+      "design-guide": "Design guide",
+      "reference-architecture": "Reference architecture",
+      "architecture-essay": "Architecture essay",
+      "design-hypothesis": "Design hypothesis",
+      "site-engineering": "Site engineering"
+    },
     "backToBlogs": "All articles",
     "tags": "Article tags",
     "readMore": "Read article",
@@ -56,7 +65,9 @@
     "translationNoticeEyebrow": "Language availability",
     "translationNoticeTitle": "This article is available in English",
     "translationNoticeDescription": "A Persian translation is not published for this article yet. The English version is the canonical source.",
-    "readEnglishArticle": "Read the English article"
+    "readEnglishArticle": "Read the English article",
+    "persianLibraryNotice": "This index contains selected Persian translations. The complete engineering-writing library is available in English.",
+    "viewEnglishLibrary": "View the complete library"
   },
   "hero": {
     "hello": "Hello, I'm",

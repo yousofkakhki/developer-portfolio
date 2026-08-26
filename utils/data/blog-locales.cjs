@@ -1,5 +1,5 @@
 function hasCompleteTranslation(blog, locale) {
-  return ['title', 'description', 'content'].every(
+  return ['title', 'description', 'seoTitle', 'seoDescription', 'content'].every(
     field => typeof blog?.[field]?.[locale] === 'string' && blog[field][locale].trim().length > 0
   );
 }

@@ -7,7 +7,7 @@ const withNextIntl = createNextIntlPlugin('./i18n.js');
 module.exports = withNextIntl({
   async redirects() {
     const locales = ['en', 'fa'];
-    return locales.flatMap(locale => projectPublicationManifest.flatMap(project => {
+    const projectRedirects = locales.flatMap(locale => projectPublicationManifest.flatMap(project => {
       const destination = project.publicationType === PROJECT_PUBLICATION_TYPES.caseStudy
         ? `/${locale}/projects/${project.slug}`
         : `/${locale}/projects#project-${project.slug}`;
@@ -19,6 +19,12 @@ module.exports = withNextIntl({
       }
       return redirects;
     }));
+    const thinPillarRedirects = locales.flatMap(locale => [
+      { source: `/${locale}/blog/pillar/pwa-product`, destination: `/${locale}/blog`, permanent: true },
+      { source: `/${locale}/blog/pillar/systems-edge`, destination: `/${locale}/blog`, permanent: true },
+      { source: `/${locale}/blog/pillar/site-engineering`, destination: `/${locale}/blog`, permanent: true },
+    ]);
+    return [...projectRedirects, ...thinPillarRedirects];
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],

@@ -4,12 +4,12 @@ import { getLocalBlogs, getLocalBlogBySlug } from "@/utils/data/local-blogs";
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getPillarForTags, PILLARS } from '@/utils/data/blog-pillars';
+import { getActivePillarSlugs, getPillarForTags, PILLARS } from '@/utils/data/blog-pillars';
 import { ConversionLink } from '@/app/components/analytics/conversion-link';
 import { renderMarkdown } from '@/utils/render-markdown.cjs';
 
 export const revalidate = 60;
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 function getArticleImage(blog, siteUrl) {
   if (typeof blog.cover_image === 'string' && blog.cover_image.endsWith('.png')) {
@@ -31,19 +31,7 @@ export async function generateMetadata({ params }) {
   const { slug, locale } = await params;
   const blog = getLocalBlogBySlug(slug, locale);
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
-  if (!blog) {
-    const englishBlog = getLocalBlogBySlug(slug, 'en');
-    if (!englishBlog) return {};
-    return {
-      title: englishBlog.seo_title,
-      description: englishBlog.seo_description,
-      alternates: {
-        canonical: `${siteUrl}/en/blog/${slug}`,
-        languages: { en: `${siteUrl}/en/blog/${slug}`, 'x-default': `${siteUrl}/en/blog/${slug}` },
-      },
-      robots: { index: false, follow: true },
-    };
-  }
+  if (!blog) return {};
   const articleUrl = `${siteUrl}/${locale}/blog/${slug}`;
   const languages = {};
   if (getLocalBlogBySlug(slug, 'en')) languages.en = `${siteUrl}/en/blog/${slug}`;
@@ -72,9 +60,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export async function generateStaticParams({ params } = {}) {
-  const blogs = getLocalBlogs(params?.locale || 'en');
-  return blogs.map(blog => ({ slug: blog.slug }));
+export function generateStaticParams() {
+  return ['en', 'fa'].flatMap(locale => getLocalBlogs(locale).map(blog => ({ locale, slug: blog.slug })));
 }
 
 function getRelatedPosts(blog, locale, limit = 3) {
@@ -93,30 +80,18 @@ function getRelatedPosts(blog, locale, limit = 3) {
 export default async function BlogPost({ params }) {
   const { slug, locale } = await params;
   const blog = getLocalBlogBySlug(slug, locale);
-  const t = await getTranslations('blog');
+  const t = await getTranslations({ locale, namespace: 'blog' });
 
-  if (!blog) {
-    const englishBlog = getLocalBlogBySlug(slug, 'en');
-    if (englishBlog && locale === 'fa') {
-      return (
-        <div className="brand-route brand-route--reading brand-translation-notice" role="status">
-          <p className="brand-route__eyebrow">{t('translationNoticeEyebrow')}</p>
-          <h1>{t('translationNoticeTitle')}</h1>
-          <p>{t('translationNoticeDescription')}</p>
-          <Link href={`/en/blog/${slug}`} className="brand-button brand-button--primary">
-            {t('readEnglishArticle')}
-          </Link>
-        </div>
-      );
-    }
-    notFound();
-  }
+  if (!blog) notFound();
 
   const related = getRelatedPosts(blog, locale);
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   const articleUrl = `${siteUrl}/${locale}/blog/${slug}`;
   const personId = `${siteUrl}/#person`;
-  const pillarSlug = getPillarForTags(blog.tag_list);
+  const candidatePillar = getPillarForTags(blog.tag_list);
+  const activePillars = locale === 'en' ? getActivePillarSlugs(getLocalBlogs('en')) : [];
+  const pillarSlug = activePillars.includes(candidatePillar) ? candidatePillar : null;
+  const articleTypeLabel = t(`articleTypes.${blog.article_type}`);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -131,6 +106,7 @@ export default async function BlogPost({ params }) {
         dateModified: blog.updated_at,
         inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
         keywords: blog.tag_list?.join(', '),
+        genre: blog.article_type,
         author: { '@id': personId },
         publisher: { '@id': personId },
         isPartOf: { '@id': `${siteUrl}/#website` },
@@ -161,7 +137,7 @@ export default async function BlogPost({ params }) {
 
       <article>
         <header className="brand-article__header">
-          <p className="brand-route__eyebrow">{t('articleEyebrow')}</p>
+          <p className={`brand-article-type brand-article-type--${blog.article_type}`}>{articleTypeLabel}</p>
           <h1>{blog.title}</h1>
           <div className="brand-article__meta">
             <time dateTime={blog.published_at}>

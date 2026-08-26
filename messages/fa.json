@@ -31,6 +31,15 @@
   "blog": {
     "title": "نوشته‌های مهندسی",
     "minRead": "دقیقه",
+    "articleMeta": "تاریخ مقاله و زمان مطالعه",
+    "articleTypes": {
+      "production-case-study": "مطالعهٔ موردی تولید",
+      "design-guide": "راهنمای طراحی",
+      "reference-architecture": "معماری مرجع",
+      "architecture-essay": "جستار معماری",
+      "design-hypothesis": "فرضیهٔ طراحی",
+      "site-engineering": "مهندسی سایت"
+    },
     "backToBlogs": "همهٔ مقاله‌ها",
     "tags": "برچسب‌های مقاله",
     "readMore": "مطالعه مقاله",
@@ -56,7 +65,9 @@
     "translationNoticeEyebrow": "دسترسی زبانی",
     "translationNoticeTitle": "این مقاله به زبان انگلیسی در دسترس است",
     "translationNoticeDescription": "ترجمهٔ فارسی این مقاله هنوز منتشر نشده است. نسخهٔ انگلیسی منبع اصلی محتواست.",
-    "readEnglishArticle": "مطالعهٔ مقالهٔ انگلیسی"
+    "readEnglishArticle": "مطالعهٔ مقالهٔ انگلیسی",
+    "persianLibraryNotice": "این نمایه شامل گزیده‌ای از ترجمه‌های فارسی است. مجموعهٔ کامل نوشته‌های مهندسی به زبان انگلیسی در دسترس است.",
+    "viewEnglishLibrary": "مشاهدهٔ مجموعهٔ کامل"
   },
   "hero": {
     "hello": "سلام، من",

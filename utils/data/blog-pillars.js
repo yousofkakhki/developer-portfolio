@@ -14,10 +14,10 @@ export const PILLARS = {
     description: 'Linux performance, observability, embedded systems, and reliable delivery patterns for constrained edge hardware.',
     tags: ['linux', 'kernel', 'embedded', 'edge', 'ota', 'ebpf', 'systems', 'performance'], color: '#F97316',
   },
-  'pwa-product': {
-    title: 'PWA & Applied Product Engineering',
-    description: 'Offline-first architecture, web sensors, service workers, WASM, and practical product-engineering trade-offs.',
-    tags: ['pwa', 'sensors', 'web-sensors', 'offline', 'offline-first', 'service-worker', 'wasm', 'product', 'indexeddb', 'next.js', 'react', 'i18n', 'portfolio'], color: '#A855F7',
+  'site-engineering': {
+    title: 'Site Engineering',
+    description: 'Implementation notes about this portfolio, bilingual routing, accessibility, and deployment boundaries.',
+    tags: ['nextjs', 'next.js', 'react', 'i18n', 'portfolio', 'site-engineering'], color: '#64748B',
   },
   'leadership-eu': {
     title: 'Engineering Leadership & EU Journey',
@@ -27,6 +27,7 @@ export const PILLARS = {
 };
 
 export const PILLAR_SLUGS = Object.keys(PILLARS);
+export const MIN_INDEXABLE_PILLAR_ARTICLES = 3;
 
 export function getPillarForTags(tags = []) {
   const normalized = tags.map(tag => tag.toLowerCase());
@@ -34,6 +35,10 @@ export function getPillarForTags(tags = []) {
 }
 
 export function getActivePillarSlugs(blogs = []) {
-  const active = new Set(blogs.map(blog => getPillarForTags(blog.tag_list || blog.tags || [])).filter(Boolean));
-  return PILLAR_SLUGS.filter(slug => active.has(slug));
+  const counts = blogs.reduce((result, blog) => {
+    const pillar = getPillarForTags(blog.tag_list || blog.tags || []);
+    if (pillar) result.set(pillar, (result.get(pillar) || 0) + 1);
+    return result;
+  }, new Map());
+  return PILLAR_SLUGS.filter(slug => (counts.get(slug) || 0) >= MIN_INDEXABLE_PILLAR_ARTICLES);
 }

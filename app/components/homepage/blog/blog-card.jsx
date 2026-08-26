@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { memo } from 'react';
 
-function BlogCard({ blog, index = 0 }) {
+function BlogCard({ blog }) {
   const t = useTranslations('blog');
   const locale = useLocale();
   
-  const blogSlug = blog?.slug || blog?.id || Math.random().toString(36).substring(7);
+  const blogSlug = blog?.slug || blog?.id;
+  if (!blogSlug) return null;
   const blogUrl = `/${locale}/blog/${blogSlug}`;
   const isSvgCover = typeof blog?.cover_image === 'string' && blog.cover_image.endsWith('.svg');
 
@@ -34,13 +35,13 @@ function BlogCard({ blog, index = 0 }) {
 
         {/* Content */}
         <div className="p-4">
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
-            <time dateTime={blog?.published_at}>
-              {timeConverter(blog?.published_at, locale)}
-            </time>
-            <span>•</span>
-            <span>{blog?.reading_time_minutes || 5} {t('minRead')}</span>
-          </div>
+          <p className={`brand-article-type brand-article-type--${blog.article_type}`}>
+            {t(`articleTypes.${blog.article_type}`)}
+          </p>
+          <ul className="mb-2 mt-2 flex items-center gap-2 text-xs text-slate-400" aria-label={t('articleMeta')}>
+            <li><time dateTime={blog?.published_at}>{timeConverter(blog?.published_at, locale)}</time></li>
+            <li>{blog?.reading_time_minutes || 5} {t('minRead')}</li>
+          </ul>
 
           <h3 className="text-base font-medium text-slate-200 line-clamp-2 group-hover:text-slate-50 transition-colors">
             {blog?.title}
