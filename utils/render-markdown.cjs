@@ -15,6 +15,22 @@ function renderInline(value) {
     .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]*)\)/g, '<a href="$2">$1</a>');
 }
 
+function parseTableRow(line) {
+  const value = String(line || '').trim();
+  if (!value.includes('|')) return null;
+  const withoutOuterPipes = value.replace(/^\|/, '').replace(/\|$/, '');
+  return withoutOuterPipes.split('|').map(cell => cell.trim());
+}
+
+function isTableDivider(line, expectedCells) {
+  const cells = parseTableRow(line);
+  return Boolean(
+    cells
+    && cells.length === expectedCells
+    && cells.every(cell => /^:?-{3,}:?$/.test(cell))
+  );
+}
+
 function renderMarkdown(content) {
   const lines = String(content || '').replace(/\r\n?/g, '\n').split('\n');
   const output = [];
@@ -43,7 +59,8 @@ function renderMarkdown(content) {
     output.push(`<${type}>`);
   };
 
-  for (const line of lines) {
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
     const fence = line.match(/^```([A-Za-z0-9_-]*)\s*$/);
     if (fence) {
       if (!inCode) {
@@ -64,6 +81,26 @@ function renderMarkdown(content) {
 
     if (inCode) {
       codeLines.push(line);
+      continue;
+    }
+
+    const tableHeaders = parseTableRow(line);
+    if (tableHeaders && isTableDivider(lines[index + 1], tableHeaders.length)) {
+      flushParagraph();
+      closeList();
+      const rows = [];
+      index += 2;
+      while (index < lines.length) {
+        const row = parseTableRow(lines[index]);
+        if (!row || row.length !== tableHeaders.length || isTableDivider(lines[index], tableHeaders.length)) break;
+        rows.push(row);
+        index += 1;
+      }
+      index -= 1;
+      output.push('<div class="blog-table-scroll" dir="ltr"><table>');
+      output.push(`<thead><tr>${tableHeaders.map(cell => `<th scope="col">${renderInline(cell)}</th>`).join('')}</tr></thead>`);
+      output.push(`<tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`);
+      output.push('</table></div>');
       continue;
     }
 

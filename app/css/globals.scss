@@ -2945,6 +2945,41 @@ html[dir="rtl"] .blog-content h3 {
   color: var(--reverse-ink);
 }
 
+.blog-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 1.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+}
+
+.blog-content table {
+  width: 100%;
+  min-width: 46rem;
+  border-collapse: collapse;
+  color: var(--graphite);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.blog-content th,
+.blog-content td {
+  padding: 0.8rem 0.9rem;
+  border-block-end: 1px solid var(--rule);
+  text-align: start;
+  vertical-align: top;
+}
+
+.blog-content th {
+  background: var(--night-surface);
+  color: var(--carbon);
+  font-weight: 700;
+}
+
+.blog-content tbody tr:last-child td {
+  border-block-end: 0;
+}
+
 .brand-article__topic {
   display: grid;
   grid-template-columns: 10rem 1fr;

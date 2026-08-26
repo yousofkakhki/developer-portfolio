@@ -42,7 +42,7 @@ test('flagship WebRTC case study is published and constrained to verified facts'
   const article = JSON.parse(read(caseStudyPath));
   assert.equal(article.published, true);
   assert.equal(article.draft, false);
-  assert.match(article.title.en, /5,000 Concurrent Users/);
+  assert.match(article.title.en, /5,000\+ Concurrent Platform Users/);
   assert.match(article.content.en, /HonarAmoozesh/);
   assert.match(article.content.en, /LiveKit/);
   assert.match(article.content.en, /NATS JetStream/);
@@ -69,4 +69,18 @@ test('local Markdown renders semantic headings and grouped lists', () => {
   assert.match(persianList, /<ol>\s*<li>اول<\/li>\s*<li>دوم<\/li>\s*<\/ol>/);
   assert.match(read('app/[locale]/blog/[slug]/page.js'), /className="blog-content"/);
   assert.match(read('app/css/globals.scss'), /\.blog-content[\s\S]*list-style: disc outside/);
+});
+
+test('local Markdown renders a scroll-contained semantic data table', () => {
+  const html = renderMarkdown([
+    '| Session need | Proposed path |',
+    '| --- | --- |',
+    '| Live interaction | WebRTC |',
+    '| Playback later | HLS |',
+  ].join('\n'));
+  assert.match(html, /<div class="blog-table-scroll" dir="ltr">/);
+  assert.match(html, /<table>/);
+  assert.match(html, /<th scope="col">Session need<\/th>/);
+  assert.match(html, /<td>Live interaction<\/td><td>WebRTC<\/td>/);
+  assert.doesNotMatch(html, /<p>\|/);
 });
