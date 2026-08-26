@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 const API_SECURITY_HEADERS = {
   'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
-  'Permissions-Policy': 'geolocation=(), microphone=(self "https://ai.kakhki.me"), camera=()',
+  'Permissions-Policy': 'geolocation=(), microphone=(self), camera=()',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
   'X-Content-Type-Options': 'nosniff',

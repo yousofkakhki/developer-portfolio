@@ -37,16 +37,31 @@ test('ERP copy is bilingual and frames three months as delivery rather than tota
   assert.match(fa.capabilities.crmAddon.description, /توسعه.*سفارشی‌سازی.*افزونه‌های CRM.*تیم (?:Odoo )?CRM.*هلو/);
 });
 
-test('homepage renders a semantic ERP section after Experience and before Skills', () => {
+test('homepage keeps ERP semantic and below the primary evidence narrative', () => {
   const page = read('app/[locale]/page.js');
   const section = read('app/components/homepage/erp-expertise/index.jsx');
 
   assert.match(page, /import ERPExpertise/);
-  assert.ok(page.indexOf('<Experience />') < page.indexOf('<ERPExpertise />'));
-  assert.ok(page.indexOf('<ERPExpertise />') < page.indexOf('<Skills />'));
+  const orderedSections = [
+    '<HeroSection />',
+    '<Projects />',
+    '<Experience />',
+    '<Blog blogs={blogs} />',
+    '<AboutSection />',
+    '<Skills />',
+    '<ERPExpertise />',
+    '<Education />',
+    '<EngagementCta />',
+    '<ContactSection />',
+  ];
+  for (let index = 1; index < orderedSections.length; index += 1) {
+    assert.ok(page.indexOf(orderedSections[index - 1]) < page.indexOf(orderedSections[index]));
+  }
   assert.match(section, /<section[^>]+id="erp-expertise"[^>]+aria-labelledby="erp-expertise-heading"/);
   assert.match(section, /<h2 id="erp-expertise-heading"/);
-  assert.match(section, /<article/);
+  assert.match(section, /<ul/);
+  assert.match(section, /<li/);
+  assert.doesNotMatch(section, /capabilityIndexes/);
   assert.match(section, /erpExpertise\.capabilities\.map/);
 });
 
@@ -58,9 +73,8 @@ test('ERP remains discoverable without competing with the primary work navigatio
   assert.match(navbar, /\/projects/);
   assert.doesNotMatch(navbar, /#erp-expertise/);
   assert.doesNotMatch(navbar, /['"]erp-expertise['"]/);
-  assert.match(skills, /key:\s*['"]erpBusinessSystems['"]/);
-  assert.match(skills, /['"]Odoo Enterprise['"]/);
-  assert.match(skills, /['"]Custom CRM Addons['"]/);
+  assert.match(skills, /careerFacts\.technologyGroups\.map/);
+  assert.doesNotMatch(skills, /Odoo Enterprise|Custom CRM Addons/);
   assert.match(work, /ERP and business systems/);
   assert.match(work, /Odoo Enterprise/);
   assert.match(work, /Holoo Corp/);

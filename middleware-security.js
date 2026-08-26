@@ -11,7 +11,7 @@ export function securityHeaders(request, response = null) {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(self "https://ai.kakhki.me"), camera=()');
+  response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(self), camera=()');
   // Next.js emits inline hydration data, so nonce-based CSP is a separate migration.
   // ONNX Runtime Web requires this WebAssembly-only directive; ordinary eval is never allowed.
   // Keep the exact directive visible for the security regression test and separate
@@ -43,4 +43,3 @@ export function securityHeaders(request, response = null) {
   
   return response;
 }
-

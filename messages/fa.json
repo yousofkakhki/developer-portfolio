@@ -29,7 +29,7 @@
     "erp": "ERP"
   },
   "blog": {
-    "title": "وبلاگ",
+    "title": "نوشته‌های مهندسی",
     "minRead": "دقیقه",
     "backToBlogs": "همهٔ مقاله‌ها",
     "tags": "برچسب‌های مقاله",
@@ -61,8 +61,9 @@
   "hero": {
     "hello": "سلام، من",
     "a": "یک",
-    "eyebrow": "مستندات سیستم / ۰۱",
+    "eyebrow": "مستندات سیستم",
     "focusAreas": "سیستم‌های توزیع‌شده • رسانهٔ بلادرنگ • مهندسی پلتفرم • لینوکس",
+    "credentials": "گزیدهٔ تخصص‌ها و فناوری‌های مهندسی",
     "metricConcurrentUsers": "همزمانی در سطح پلتفرم",
     "metricExperienceValue": "۱۰+ سال",
     "metricBackendEngineering": "مهندسی بک‌اند",
@@ -221,6 +222,11 @@
     "messageRequired": "پیام خود را وارد کنید.",
     "formHasErrors": "فیلدهای مشخص‌شده را بررسی و دوباره تلاش کنید."
   },
+  "engagementCta": {
+    "title": "استخدام یا پشتیبانی معماری",
+    "description": "نقش‌های هدف، شرایط جابه‌جایی و خدمات مشاورهٔ پروژه‌ای با خروجی‌های مشخص را ببینید.",
+    "action": "روش‌های همکاری را ببینید"
+  },
   "notFound": {
     "title": "۴۰۴",
     "pageNotFound": "صفحه یافت نشد",
@@ -313,6 +319,10 @@
   },
   "accessibility": {
     "skipToMain": "رفتن به محتوای اصلی",
+    "voiceControls": "کنترل‌های معرفی صوتی",
+    "startVoiceIntroduction": "شروع معرفی صوتی",
+    "retryVoiceIntroduction": "تلاش دوباره",
+    "stopVoiceIntroduction": "توقف صدا",
     "voiceState": "وضعیت صدا: {state}",
     "voiceStates": {
       "connecting": "در حال اتصال",

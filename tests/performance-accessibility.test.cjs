@@ -67,6 +67,7 @@ test('3D avatar remains available as a gated post-load enhancement', () => {
   assert.match(canvas, /VRMUtils\.deepDispose/);
   assert.doesNotMatch(canvas, /VRMUtils\.(removeUnnecessaryVertices|combineSkeletons)/);
   assert.match(securityHeaders, /connect-src[^"\n]*blob:/);
+  assert.match(securityHeaders, /microphone=\(self\)/);
   assert.ok(fs.existsSync(path.join(root, 'public/avatar/kakhki-robot.vrm')));
 });
 

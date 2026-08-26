@@ -1334,6 +1334,8 @@ html[dir="rtl"] .hero-designation {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 2rem;
   border-block: 1px solid var(--color-line);
+  padding: 0;
+  list-style: none;
 }
 
 .hero-proof {
@@ -1376,9 +1378,13 @@ html[dir="rtl"] .hero-designation {
   grid-area: credentials;
   gap: 0.65rem 0.9rem;
   margin-top: 1.35rem;
+  padding: 0;
+  list-style: none;
 }
 
-.hero-credentials span[aria-hidden='true'] {
+.hero-credentials li + li::before {
+  content: '•';
+  margin-inline-end: 0.9rem;
   color: var(--color-copper);
 }
 
@@ -1396,6 +1402,29 @@ html[dir="rtl"] .hero-designation {
 .hero-socials a:hover {
   border-color: var(--color-line);
   color: var(--color-signal);
+}
+
+.brand-voice-control {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.7rem;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  border-radius: 0.6rem;
+  color: #f3f7fb;
+  background: rgba(8, 17, 31, 0.9);
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.brand-voice-control:hover,
+.brand-voice-control:focus-visible {
+  border-color: #22d3ee;
+  background: #0d1a2b;
 }
 
 .hero-portrait-column {

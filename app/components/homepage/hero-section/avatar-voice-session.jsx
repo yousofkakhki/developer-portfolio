@@ -145,7 +145,6 @@ export function AvatarVoiceSession({ onStateChange }) {
   const responseTimeoutRef = useRef(null);
   const startGenerationRef = useRef(0);
   const playbackBlockedRef = useRef(false);
-  const userInteractedRef = useRef(false);
   const pageVisibleRef = useRef(
     typeof document === 'undefined' || document.visibilityState === 'visible',
   );
@@ -309,7 +308,7 @@ export function AvatarVoiceSession({ onStateChange }) {
     }
     clearResponseTimeout();
     awaitingResponseRef.current = false;
-    if (playbackBlockedRef.current && !userInteractedRef.current) {
+    if (playbackBlockedRef.current) {
       autoSessionRef.current = false;
       setVoiceState('blocked');
       return;
@@ -478,6 +477,7 @@ export function AvatarVoiceSession({ onStateChange }) {
         autoSessionRef.current = false;
         vadRestartPendingRef.current = false;
         stopVad();
+        socketRef.current?.disconnect();
         setVoiceState('paused');
         return;
       }
@@ -486,6 +486,12 @@ export function AvatarVoiceSession({ onStateChange }) {
         return;
       }
       autoSessionRef.current = true;
+      if (socketRef.current && !socketRef.current.connected) {
+        connectionStateRef.current = 'connecting';
+        setVoiceState('connecting');
+        socketRef.current.connect();
+        return;
+      }
       if (
         !awaitingResponseRef.current &&
         connectionStateRef.current === 'connected'
@@ -511,27 +517,6 @@ export function AvatarVoiceSession({ onStateChange }) {
       window.removeEventListener('pageshow', handlePageShow);
     };
   }, [setVoiceState, startListening, stopVad]);
-
-  useEffect(() => {
-    const resumeFromGesture = () => {
-      if (!pageVisibleRef.current) {
-        return;
-      }
-      userInteractedRef.current = true;
-      playbackBlockedRef.current = false;
-      autoSessionRef.current = true;
-      playbackQueue.resumePlayback();
-      if (socketRef.current && !socketRef.current.connected) {
-        connectionStateRef.current = 'connecting';
-        socketRef.current.connect();
-        return;
-      }
-      void startListening();
-    };
-    const events = ['pointerdown', 'touchstart', 'keydown'];
-    events.forEach((event) => window.addEventListener(event, resumeFromGesture, { capture: true, passive: true }));
-    return () => events.forEach((event) => window.removeEventListener(event, resumeFromGesture, { capture: true }));
-  }, [playbackQueue, startListening]);
 
   useEffect(() => {
     const socket = io(SOCKET_URL, {
@@ -562,7 +547,9 @@ export function AvatarVoiceSession({ onStateChange }) {
       clearResponseTimeout();
       stopVad();
       playbackQueue.reset();
-      setVoiceState(pageVisibleRef.current ? 'error' : 'paused');
+      if (mountedRef.current) {
+        setVoiceState(pageVisibleRef.current ? 'error' : 'paused');
+      }
     });
     socket.on('connect_error', () => {
       connectionStateRef.current = 'disconnected';
@@ -582,12 +569,15 @@ export function AvatarVoiceSession({ onStateChange }) {
     socket.on('audio-response', handleAssistantCompletion);
     socket.on('responseCompleted', handleAssistantCompletion);
     socket.on('error', handlePlaybackError);
+    setVoiceState('connecting');
+    socket.connect();
 
     return () => {
       mountedRef.current = false;
       connectionStateRef.current = 'disconnected';
       clearResponseTimeout();
       stopVad();
+      socket.removeAllListeners();
       socket.disconnect();
       playbackQueue.reset();
       clearVoiceAnalyser();

@@ -2,13 +2,10 @@
 import { getTranslations } from 'next-intl/server';
 import { erpExpertise } from '@/utils/data/erp-expertise';
 
-const capabilityIndexes = ['01', '02', '03'];
-
 export default async function ERPExpertise() {
   const t = await getTranslations('erpExpertise');
-  const capabilities = erpExpertise.capabilities.map((key, index) => ({
+  const capabilities = erpExpertise.capabilities.map(key => ({
     key,
-    index: capabilityIndexes[index],
     title: t(`capabilities.${key}.title`),
     description: t(`capabilities.${key}.description`),
   }));
@@ -37,25 +34,21 @@ export default async function ERPExpertise() {
           {t('intro')}
         </p>
 
-        <div className="grid gap-5 md:grid-cols-3">
+        <ul className="grid gap-5 md:grid-cols-3">
           {capabilities.map(capability => (
-            <article
+            <li
               key={capability.key}
               className="brand-panel group p-5"
             >
-              <div className="mb-5 flex items-center justify-between">
-                <span className="font-mono text-xs text-cyan-400">{capability.index}</span>
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-cyan-400/70 transition-transform group-hover:scale-125" />
-              </div>
               <h3 className="mb-3 text-lg font-medium text-slate-100">
                 {capability.title}
               </h3>
               <p className="text-sm leading-relaxed text-slate-400">
                 {capability.description}
               </p>
-            </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

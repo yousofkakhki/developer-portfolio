@@ -48,24 +48,31 @@ test('AI head uses a calibrated whole-head host and beard-line attachment', () =
   assert.match(canvas, /translate\(\$\{FACE_TRANSLATE_X\}px, \$\{FACE_TRANSLATE_Y\}px\)/);
 });
 
-test('VRM head replacement is enabled by default with an explicit opt-out while voice stays independent', () => {
+test('VRM head replacement remains passive while voice loads only after explicit activation', () => {
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
 
   assert.match(overlay, /NEXT_PUBLIC_ENABLE_VRM_AVATAR/);
   assert.match(overlay, /const AVATAR_VISUAL_ENABLED = process\.env\.NEXT_PUBLIC_ENABLE_VRM_AVATAR !== 'false'/);
   const fallbackGuards = overlay.match(/!AVATAR_VISUAL_ENABLED \|\| reducedMotion \|\| saveData/g) || [];
   assert.equal(fallbackGuards.length, 2, 'both loading and transition effects must honor visual fallback');
-  assert.match(overlay, /loadVoiceSession\(\)/);
+  assert.match(overlay, /const startVoiceSession = useCallback/);
+  assert.match(overlay, /onClick=\{startVoiceSession\}/);
+  assert.match(overlay, /import\(['"]\.\/avatar-voice-session['"]\)/);
+  assert.doesNotMatch(overlay, /const voiceSessionImport = import/);
+  assert.doesNotMatch(overlay, /useEffect\(\(\) => \{\s*startVoiceSession\(\)/);
 });
 
-test('avatar publishes a compact visible color-coded VAD state indicator as well as assistive status', () => {
+test('avatar publishes voice status only after activation and provides retry and stop controls', () => {
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
 
   assert.match(overlay, /VOICE_STATUS_STYLES/);
   assert.match(overlay, /data-vad-indicator/);
+  assert.match(overlay, /voiceActive && AvatarVoiceSession/);
   assert.match(overlay, /role="status"/);
   assert.match(overlay, /bg-emerald-400/);
   assert.match(overlay, /bg-rose-400/);
   assert.match(overlay, /voiceStates\.\$\{voiceState\}/);
   assert.match(overlay, /aria-live="polite"/);
+  assert.match(overlay, /retryVoiceSession/);
+  assert.match(overlay, /stopVoiceSession/);
 });

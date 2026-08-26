@@ -29,7 +29,7 @@
     "erp": "ERP"
   },
   "blog": {
-    "title": "Architectural Case Studies",
+    "title": "Engineering Writing",
     "minRead": "min",
     "backToBlogs": "All articles",
     "tags": "Article tags",
@@ -61,8 +61,9 @@
   "hero": {
     "hello": "Hello, I'm",
     "a": "a",
-    "eyebrow": "Systems Documentation / 01",
+    "eyebrow": "Systems documentation",
     "focusAreas": "Distributed Systems • Real-Time Media • Platform Engineering • Linux",
+    "credentials": "Selected engineering credentials and technologies",
     "metricConcurrentUsers": "Platform Concurrency",
     "metricExperienceValue": "10+ Years",
     "metricBackendEngineering": "Backend Engineering",
@@ -221,6 +222,11 @@
     "messageRequired": "Enter a message.",
     "formHasErrors": "Check the highlighted fields and try again."
   },
+  "engagementCta": {
+    "title": "Hiring or architecture support",
+    "description": "Review the roles I am targeting, relocation context, and bounded consulting services with concrete deliverables.",
+    "action": "Explore ways to work together"
+  },
   "notFound": {
     "title": "404",
     "pageNotFound": "Page Not Found",
@@ -313,6 +319,10 @@
   },
   "accessibility": {
     "skipToMain": "Skip to main content",
+    "voiceControls": "Voice introduction controls",
+    "startVoiceIntroduction": "Start voice introduction",
+    "retryVoiceIntroduction": "Retry voice",
+    "stopVoiceIntroduction": "Stop voice",
     "voiceState": "Voice state: {state}",
     "voiceStates": {
       "connecting": "connecting",

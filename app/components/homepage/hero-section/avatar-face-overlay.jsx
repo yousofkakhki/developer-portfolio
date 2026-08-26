@@ -7,7 +7,6 @@ const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const AVATAR_VISUAL_ENABLED = process.env.NEXT_PUBLIC_ENABLE_VRM_AVATAR !== 'false';
 const AVATAR_TRANSITION_DELAY_MS = 3200;
 const AVATAR_TRANSITION_DURATION_MS = 900;
-const voiceSessionImport = import('./avatar-voice-session');
 
 const VOICE_STATUS_STYLES = {
   connecting: {
@@ -58,15 +57,16 @@ export function AvatarFaceOverlay() {
   const [AvatarVoiceSession, setAvatarVoiceSession] = useState(null);
   const [stage, setStage] = useState('waiting');
   const [visualState, setVisualState] = useState('portrait');
-  const [voiceState, setVoiceState] = useState('connecting');
-  const voiceLoadStartedRef = useRef(false);
+  const [voiceActive, setVoiceActive] = useState(false);
+  const [voiceSessionKey, setVoiceSessionKey] = useState(0);
+  const [voiceState, setVoiceState] = useState(null);
   const stageReadyRef = useRef(false);
   const delayElapsedRef = useRef(false);
   const visualStateRef = useRef('portrait');
   const transitionDelayRef = useRef(null);
   const transitionCompleteRef = useRef(null);
-  const voiceStatus = VOICE_STATUS_STYLES[voiceState] || VOICE_STATUS_STYLES.error;
-  const voiceLabel = t(`voiceStates.${voiceState}`);
+  const voiceStatus = voiceState ? (VOICE_STATUS_STYLES[voiceState] || VOICE_STATUS_STYLES.error) : null;
+  const voiceLabel = voiceState ? t(`voiceStates.${voiceState}`) : null;
 
   useEffect(() => {
     visualStateRef.current = visualState;
@@ -111,13 +111,10 @@ export function AvatarFaceOverlay() {
     }, AVATAR_TRANSITION_DURATION_MS);
   }, []);
 
-  const loadVoiceSession = useCallback(() => {
-    if (voiceLoadStartedRef.current) {
-      return;
-    }
-
-    voiceLoadStartedRef.current = true;
-    voiceSessionImport
+  const startVoiceSession = useCallback(() => {
+    setVoiceActive(true);
+    setVoiceState('connecting');
+    import('./avatar-voice-session')
       .then(({ AvatarVoiceSession: Session, default: DefaultSession }) => {
         setAvatarVoiceSession(() => Session || DefaultSession);
       })
@@ -134,9 +131,20 @@ export function AvatarFaceOverlay() {
     }
   }, [beginReveal]);
 
-  useEffect(() => {
-    loadVoiceSession();
-  }, [loadVoiceSession]);
+  const stopVoiceSession = useCallback(() => {
+    setVoiceActive(false);
+    setAvatarVoiceSession(null);
+    setVoiceState(null);
+  }, []);
+
+  const retryVoiceSession = useCallback(() => {
+    setVoiceState('connecting');
+    if (AvatarVoiceSession) {
+      setVoiceSessionKey(key => key + 1);
+      return;
+    }
+    startVoiceSession();
+  }, [AvatarVoiceSession, startVoiceSession]);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
@@ -292,7 +300,7 @@ export function AvatarFaceOverlay() {
   }, [beginReveal, clearVisualTimers]);
 
   return (
-    <div className="pointer-events-none absolute inset-0" data-voice-state={voiceState}>
+    <div className="pointer-events-none absolute inset-0" data-voice-state={voiceState || 'off'}>
       <div
         aria-hidden="true"
         data-avatar-stage={stage}
@@ -304,22 +312,42 @@ export function AvatarFaceOverlay() {
         ) : null}
       </div>
 
-      {AvatarVoiceSession ? <AvatarVoiceSession onStateChange={setVoiceState} /> : null}
+      {voiceActive && AvatarVoiceSession ? (
+        <AvatarVoiceSession key={voiceSessionKey} onStateChange={setVoiceState} />
+      ) : null}
 
-      <div
-        data-vad-indicator
-        role="status"
-        aria-live="polite"
-        aria-label={t('voiceState', { state: voiceLabel })}
-        className={`absolute bottom-2 left-2 inline-flex max-w-[calc(100%-1rem)] items-center gap-1.5 rounded-full border px-2 py-1 text-[8px] font-mono font-medium uppercase tracking-[0.08em] shadow-sm ${voiceStatus.ringClass}`}
-      >
-        <span aria-hidden="true" className={`h-1.5 w-1.5 shrink-0 rounded-full ${voiceStatus.dotClass}`} />
-        <span className="truncate">{voiceLabel}</span>
+      <div className="pointer-events-auto absolute inset-x-2 bottom-2 flex flex-wrap items-center gap-1.5" role="group" aria-label={t('voiceControls')}>
+        {!voiceActive ? (
+          <button type="button" onClick={startVoiceSession} className="brand-voice-control">
+            {t('startVoiceIntroduction')}
+          </button>
+        ) : (
+          <>
+            {voiceStatus && (
+              <div
+                data-vad-indicator
+                role="status"
+                aria-live="polite"
+                aria-label={t('voiceState', { state: voiceLabel })}
+                className={`inline-flex min-h-[32px] min-w-0 flex-1 items-center gap-1.5 rounded-full border px-2 py-1 text-[8px] font-mono font-medium uppercase tracking-[0.08em] shadow-sm ${voiceStatus.ringClass}`}
+              >
+                <span aria-hidden="true" className={`h-1.5 w-1.5 shrink-0 rounded-full ${voiceStatus.dotClass}`} />
+                <span className="truncate">{voiceLabel}</span>
+              </div>
+            )}
+            {(voiceState === 'blocked' || voiceState === 'error') && (
+              <button type="button" onClick={retryVoiceSession} className="brand-voice-control">
+                {t('retryVoiceIntroduction')}
+              </button>
+            )}
+            <button type="button" onClick={stopVoiceSession} className="brand-voice-control">
+              {t('stopVoiceIntroduction')}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 export default AvatarFaceOverlay;
-
-// The indicator remains intentionally compact; the avatar stays hands-free and has no microphone button.

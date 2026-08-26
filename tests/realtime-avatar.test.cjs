@@ -40,18 +40,22 @@ test('uses the installed V5 VAD API and self-hosted runtime assets', async () =>
   }
 });
 
-test('mounts voice independently of humanoid readiness and renders no microphone button', () => {
+test('voice is opt-in and its heavy runtime is absent before the activation control is used', () => {
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
 
-  assert.match(overlay, /const voiceSessionImport = import\(['"]\.\/avatar-voice-session['"]\)/);
-  assert.match(overlay, /useEffect\(\(\) => \{\s*loadVoiceSession\(\);/);
+  assert.match(overlay, /const \[voiceActive, setVoiceActive\] = useState\(false\)/);
+  assert.match(overlay, /const \[voiceState, setVoiceState\] = useState\(null\)/);
+  assert.match(overlay, /onClick=\{startVoiceSession\}/);
+  assert.match(overlay, /startVoiceIntroduction/);
+  assert.match(overlay, /voiceActive && AvatarVoiceSession/);
+  assert.doesNotMatch(overlay, /const voiceSessionImport = import/);
   assert.match(overlay, /const handleAvatarReady = useCallback\(\(\) => \{[\s\S]*?setStage\(['"]ready['"]\);[\s\S]*?\}, \[beginReveal\]\);/);
   assert.match(overlay, /AvatarVoiceSession/);
   assert.doesNotMatch(overlay, /useMicVAD|socket\.io-client|onnxruntime-web/);
-  assert.doesNotMatch(overlay, /<button|FaMicrophone|toggleListening/);
+  assert.doesNotMatch(overlay, /FaMicrophone|toggleListening/);
 });
 
-test('hands-free session preserves the guest websocket contract and strict turn gates', () => {
+test('activated voice session preserves the guest websocket contract and strict turn gates', () => {
   const session = read('app/components/homepage/hero-section/avatar-voice-session.jsx');
 
   assert.match(session, /wss:\/\/ai\.kakhki\.me\/ai\?guest=true/);
@@ -70,6 +74,10 @@ test('hands-free session preserves the guest websocket contract and strict turn 
   assert.match(session, /visibilitychange/);
   assert.match(session, /pagehide/);
   assert.match(session, /pageVisibleRef/);
+  assert.match(session, /socket\.connect\(\)/);
+  assert.match(session, /socket\.removeAllListeners\(\)/);
+  assert.match(session, /socketRef\.current\?\.disconnect\(\)/);
+  assert.doesNotMatch(session, /\['pointerdown', 'touchstart', 'keydown'\]/);
   assert.doesNotMatch(session, /connectionStateRef\.current !== ['"]connected['"]/);
   assert.doesNotMatch(session, /<button|toggleListening/);
 });

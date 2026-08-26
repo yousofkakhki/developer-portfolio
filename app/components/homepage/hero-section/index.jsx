@@ -128,7 +128,6 @@ async function HeroSection() {
                 <AvatarFaceOverlay />
               </div>
               <div className="hero-portrait-meta" aria-hidden="true">
-                <span>Portrait / 01</span>
                 <span>YK · Systems</span>
               </div>
             </div>
@@ -143,26 +142,23 @@ async function HeroSection() {
             ))}
           </ol>
 
-          <div className="hero-proof-grid" aria-label={t('hero.focusAreas')}>
+          <ul className="hero-proof-grid" aria-label={t('hero.focusAreas')}>
             {proofPoints.map(point => (
-              <div className="hero-proof" key={point.index}>
+              <li className="hero-proof" key={point.index}>
                 <span className="hero-proof-index" aria-hidden="true">{point.index}</span>
                 <div className="hero-metric-value font-mono font-semibold">{point.value}</div>
                 <div className="hero-metric-label text-sm">{point.label}</div>
                 <div className="hero-metric-detail text-xs font-mono">{point.detail}</div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <div className="hero-credentials flex flex-wrap text-sm text-slate-400">
-            <span>{localized(careerFacts.identity.primaryTitle, locale)}</span>
-            <span aria-hidden="true">•</span>
-            <span>WebRTC · LiveKit</span>
-            <span aria-hidden="true">•</span>
-            <span>NATS · Kafka</span>
-            <span aria-hidden="true">•</span>
-            <span>PostgreSQL</span>
-          </div>
+          <ul className="hero-credentials flex flex-wrap text-sm text-slate-400" aria-label={t('hero.credentials')}>
+            <li>{localized(careerFacts.identity.primaryTitle, locale)}</li>
+            <li><bdi dir="ltr">WebRTC · LiveKit</bdi></li>
+            <li><bdi dir="ltr">NATS · Kafka</bdi></li>
+            <li><bdi dir="ltr">PostgreSQL</bdi></li>
+          </ul>
         </div>
       </div>
     </section>

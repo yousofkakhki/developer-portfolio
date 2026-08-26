@@ -77,11 +77,33 @@ export const careerFacts = Object.freeze({
     },
   },
 
-  technologyGroups: {
-    backend: ['Node.js', 'Go', 'Python', 'PostgreSQL'],
-    distributed: ['Kafka', 'NATS JetStream', 'Docker', 'Linux'],
-    realtime: ['WebRTC', 'LiveKit', 'delayed HLS playback'],
-  },
+  technologyGroups: [
+    {
+      id: 'distributed-backend',
+      label: { en: 'Distributed backend', fa: 'بک‌اند توزیع‌شده' },
+      technologies: ['Node.js', 'Go', 'PostgreSQL', 'Redis', 'Kafka', 'NATS JetStream'],
+    },
+    {
+      id: 'realtime-media',
+      label: { en: 'Real-time media', fa: 'رسانهٔ بلادرنگ' },
+      technologies: ['WebRTC', 'LiveKit', 'HLS'],
+    },
+    {
+      id: 'transactional-systems',
+      label: { en: 'Transactional systems', fa: 'سامانه‌های تراکنشی' },
+      technologies: ['Ledgers', 'Idempotency', 'Reconciliation'],
+    },
+    {
+      id: 'linux-edge',
+      label: { en: 'Linux and edge', fa: 'لینوکس و سامانه‌های لبه' },
+      technologies: ['Embedded Linux', 'OTA', 'Networking'],
+    },
+    {
+      id: 'delivery-operations',
+      label: { en: 'Delivery and operations', fa: 'تحویل و عملیات' },
+      technologies: ['Docker', 'CI/CD', 'Observability'],
+    },
+  ],
 
   relocation: {
     statement: {
