@@ -32,6 +32,7 @@ function Experience() {
           {visibleExperiences.map(exp => (
             <article
               key={exp.id}
+              data-fact-id={`role.${exp.id}`}
               className="brand-panel brand-experience-card p-6"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
@@ -53,7 +54,7 @@ function Experience() {
                   <ul className="flex flex-wrap gap-2" aria-label={t('experience.technologyLabel')}>
                     {exp.technologies.map(technology => (
                       <li key={technology} className="brand-chip font-mono text-slate-300">
-                        <bdi>{technology}</bdi>
+                        <bdi dir="ltr">{technology}</bdi>
                       </li>
                     ))}
                   </ul>

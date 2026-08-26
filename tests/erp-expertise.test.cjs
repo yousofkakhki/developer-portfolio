@@ -81,13 +81,12 @@ test('ERP remains discoverable without competing with the primary work navigatio
 });
 
 test('Capitalino experience no longer claims the Holoo ERP delivery', () => {
-  for (const locale of ['en', 'fa']) {
-    const capitalino = messages(locale).experiences['2'];
-    assert.doesNotMatch(capitalino.tech, /Odoo|ERP/i);
-    assert.doesNotMatch(capitalino.description.join(' '), /Odoo|ERP/i);
-  }
-
-  const legacy = read('utils/data/experience.js');
-  const capitalinoBlock = legacy.match(/company: ["']Capitalino["'][\s\S]*?\n  \},/)?.[0] || '';
+  const canonicalFacts = read('utils/data/career-facts.js');
+  const capitalinoBlock = canonicalFacts.match(/id: ['"]capitalino['"][\s\S]*?\n    \},/)?.[0] || '';
+  assert.ok(capitalinoBlock);
   assert.doesNotMatch(capitalinoBlock, /Odoo|ERP/);
+
+  const legacyAdapter = read('utils/data/experience.js');
+  assert.match(legacyAdapter, /careerFacts\.roles\.map/);
+  assert.doesNotMatch(legacyAdapter, /company: ["']Capitalino["']/);
 });

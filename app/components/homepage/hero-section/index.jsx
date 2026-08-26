@@ -15,18 +15,21 @@ async function HeroSection() {
 
   const proofPoints = [
     {
+      id: platformConcurrency.id,
       index: '01',
       value: getPublishableMetric(platformConcurrency, 'homepage') ? localized(platformConcurrency.localizedValue, locale) : '—',
       label: localized(platformConcurrency.label, locale),
       detail: t('hero.metricConcurrentDetail'),
     },
     {
+      id: backendExperience.id,
       index: '02',
       value: getPublishableMetric(backendExperience, 'homepage') ? localized(backendExperience.localizedValue, locale) : '—',
       label: localized(backendExperience.label, locale),
       detail: t('hero.metricBackendDetail'),
     },
     {
+      id: 'education.msc-computer-science',
       index: '03',
       value: t('hero.metricDegree'),
       label: t('hero.metricComputerScience'),
@@ -144,7 +147,7 @@ async function HeroSection() {
 
           <ul className="hero-proof-grid" aria-label={t('hero.focusAreas')}>
             {proofPoints.map(point => (
-              <li className="hero-proof" key={point.index}>
+              <li className="hero-proof" data-fact-id={point.id} key={point.id}>
                 <span className="hero-proof-index" aria-hidden="true">{point.index}</span>
                 <div className="hero-metric-value font-mono font-semibold">{point.value}</div>
                 <div className="hero-metric-label text-sm">{point.label}</div>

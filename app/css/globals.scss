@@ -1226,6 +1226,13 @@ html[dir="rtl"] .brand-nav__link::after {
   border-radius: 1px;
 }
 
+.brand-language__fallback {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 /* Hero */
 .hero-shell {
   min-height: min(52rem, calc(100svh - 4.75rem));

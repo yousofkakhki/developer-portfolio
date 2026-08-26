@@ -118,7 +118,12 @@ export default async function ProjectsIndex({ params }) {
           );
 
           return (
-            <li id={`project-${project.slug}`} key={project.slug} className="brand-project-index__item scroll-mt-28">
+            <li
+              id={`project-${project.slug}`}
+              key={project.slug}
+              className="brand-project-index__item scroll-mt-28"
+              data-fact-ids={project.factIds.join(' ')}
+            >
               {isCaseStudy ? (
                 <Link href={`/${language}/projects/${project.slug}`} className="brand-project-index__link">
                   {content}

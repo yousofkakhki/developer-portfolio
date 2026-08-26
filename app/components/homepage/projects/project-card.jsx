@@ -15,7 +15,10 @@ function ProjectCard({ project }) {
   const showImage = Boolean(firstImage) && mediaStatus !== 'failed';
 
   return (
-    <article className="brand-panel brand-panel--interactive overflow-hidden">
+    <article
+      className="brand-panel brand-panel--interactive overflow-hidden"
+      data-fact-ids={project.factIds?.join(' ')}
+    >
       <div
         data-project-media-state={mediaStatus}
         className="relative h-48 overflow-hidden border-b border-slate-700/70 bg-slate-950"

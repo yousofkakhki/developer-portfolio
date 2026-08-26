@@ -28,8 +28,8 @@ test('public profile does not publish contradicted scale or payment-volume claim
 });
 
 test('public profile uses the verified WebRTC concurrency figure', () => {
-  const english = fs.readFileSync(path.join(root, 'messages/en.json'), 'utf8');
-  const persian = fs.readFileSync(path.join(root, 'messages/fa.json'), 'utf8');
-  assert.match(english, /5,000\+? concurrent users/);
-  assert.match(persian, /۵[٬،,]?۰۰۰ کاربر همزمان/);
+  const canonical = fs.readFileSync(path.join(root, 'utils/data/career-facts.js'), 'utf8');
+  assert.match(canonical, /value:\s*['"]5,000\+['"]/);
+  assert.match(canonical, /en:\s*['"]platform-level concurrent users['"]/);
+  assert.match(canonical, /fa:\s*['"]کاربر همزمان در سطح پلتفرم['"]/);
 });

@@ -98,8 +98,8 @@ test('icon controls and visible abbreviations have accessible names', () => {
   const switcher = read('app/components/language-switcher.jsx');
   assert.match(scroll, /aria-label=\{t\('scrollToTop'\)\}/);
   assert.match(nav, /aria-label=\{t\('home'\)\}/);
-  assert.match(switcher, /aria-label="EN — English"/);
-  assert.match(switcher, /aria-label="FA — فارسی"/);
+  assert.match(switcher, /aria-label=\{englishTarget\.exact \? t\('englishLabel'\) : t\('englishIndexFallback'\)\}/);
+  assert.match(switcher, /aria-label=\{persianTarget\.exact \? t\('persianLabel'\) : t\('persianIndexFallback'\)\}/);
 });
 
 test('footer is server rendered', () => {

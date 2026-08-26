@@ -116,8 +116,8 @@ TELEGRAM_CHAT_ID=your-chat-id
 
 Edit the following files in `utils/data/`:
 - `personal-data.js` - Your personal information
-- `experience.js` - Work experience
-- `projects-data.js` - Portfolio projects
+- `career-facts.js` - Canonical professional facts and evidence status
+- `project-catalog.js` - Project publication copy backed by shared fact IDs
 - `skills.js` - Your skills
 - `educations.js` - Education history
 

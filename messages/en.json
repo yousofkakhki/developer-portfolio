@@ -251,59 +251,6 @@
     "description": "Senior backend engineer and technical lead working across distributed systems, real-time media, platform engineering, and Linux.",
     "about": "I am a hands-on senior backend engineer and technical lead with 10+ years of experience across distributed systems, real-time media, fintech, and embedded Linux. I work with Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC, LiveKit, and Linux.\n\nMy strongest work sits where architecture and implementation meet: defining ownership, failure modes, consistency requirements, and operational constraints before scaling the system. I have led engineering teams while continuing to contribute directly to production code.\n\nI am currently targeting senior backend, platform, and technical-lead roles in the EU, with employer-supported relocation to Germany or the Netherlands and selected remote engineering or architecture engagements."
   },
-  "experiences": {
-    "1": {
-      "title": "Solutions Architect",
-      "company": "HonarAmoozesh (Remote/Contract)",
-      "duration": "(2025 · project contract)",
-      "tech": "WebRTC (LiveKit), delayed HLS playback, NATS JetStream, Go",
-      "description": [
-        "Architected live WebRTC delivery for 5,000+ concurrent users at platform level.",
-        "Used NATS JetStream and Go for application coordination; delayed HLS playback was available hours after the live session, not as a current-session fallback."
-      ]
-    },
-    "2": {
-      "title": "Head of Software & AI Development",
-      "company": "Capitalino",
-      "duration": "(Oct 2023 - Jun 2025)",
-      "tech": "Node.js, Kafka, PostgreSQL, Docker Swarm, Python (AI)",
-      "description": [
-        "Led a 4-person team in building and deploying a crypto-to-fiat payment gateway.",
-        "Winner of Best Booth at ITEX 2024 for the AI Hologram Project.",
-        "Directed internal network security."
-      ]
-    },
-    "3": {
-      "title": "Senior Backend Engineer",
-      "company": "Avin Avisa",
-      "duration": "(Apr 2021 - Sep 2023)",
-      "tech": "Node.js, Web3.js, PostgreSQL, Redis, Go",
-      "description": [
-        "Worked on P2P order matching and idempotent ledger semantics.",
-        "Implemented ACID-compliant ledgers for high-frequency trading."
-      ]
-    },
-    "4": {
-      "title": "Systems Engineer (Embedded Linux)",
-      "company": "Batna",
-      "duration": "(Sep 2019 - Mar 2021)",
-      "tech": "Yocto, C++, Linux Kernel",
-      "description": [
-        "Designed atomic OTA update pipelines for an IoT device fleet.",
-        "Built Yocto-based custom Linux images with PREEMPT_RT patches for hard real-time sensor processing."
-      ]
-    },
-    "5": {
-      "title": "Android Systems Developer",
-      "company": "Azma Data Structure",
-      "duration": "(Apr 2016 - Aug 2019)",
-      "tech": "Android NDK, C++, Java",
-      "description": [
-        "Developed native C++ modules for GPS sensor fusion.",
-        "Engineered offline-first state synchronization engines."
-      ]
-    }
-  },
   "testimonials": {
     "title": "Testimonials",
     "readFullLetter": "Read Full Letter →",
@@ -327,6 +274,14 @@
     "resumePdf": "Résumé (PDF)",
     "githubProfile": "GitHub profile",
     "linkedinProfile": "LinkedIn profile"
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Change language",
+    "englishLabel": "English",
+    "persianLabel": "Persian",
+    "englishIndexFallback": "English writing index; this page has no English equivalent",
+    "persianIndexFallback": "Persian writing index; this article has no Persian translation",
+    "writingIndexShort": "index"
   },
   "accessibility": {
     "skipToMain": "Skip to main content",
