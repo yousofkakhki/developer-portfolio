@@ -19,25 +19,37 @@ const bannedPublicPatterns = [
   /این پورتفولیو متن‌باز است/,
 ];
 
+const bannedRepositoryPatterns = [
+  /under\s+80\s*ms/i,
+  /کمتر از\s*۸۰\s*میلی[‌\s-]*ثانیه/,
+  /200\+\s*exhibitors/i,
+  /unsupported latency figures are intentionally omitted/i,
+  /this is an award claim/i,
+  /selected public facts are evidence-bounded/i,
+  /10\+\s+across/i,
+  /(?:10|۱۰)\+\s*تجربه/,
+  /System Architect & Technical Lead/i,
+];
+
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
 }
 
-function checkText(relativePath, text, violations) {
-  for (const pattern of bannedPublicPatterns) {
+function checkText(relativePath, text, violations, patterns = bannedPublicPatterns) {
+  for (const pattern of patterns) {
     if (pattern.test(text)) violations.push(`${relativePath}: ${pattern}`);
   }
 }
 
-function checkDirectory(relativePath, extensions, violations) {
+function checkDirectory(relativePath, extensions, violations, patterns = bannedPublicPatterns) {
   const directory = path.join(root, relativePath);
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
     const child = path.join(relativePath, entry.name);
     if (entry.isDirectory()) {
-      checkDirectory(child, extensions, violations);
+      checkDirectory(child, extensions, violations, patterns);
     } else if (extensions.some(extension => entry.name.endsWith(extension))) {
       if (child === 'utils/data/career-facts.js') continue;
-      checkText(child, read(child), violations);
+      checkText(child, read(child), violations, patterns);
     }
   }
 }
@@ -54,14 +66,21 @@ function checkPublishedBlogs(violations) {
 
 function run() {
   const violations = [];
+  const careerFacts = read('utils/data/career-facts.js');
+  const factCheck = read('docs/content-fact-check.md');
 
   checkDirectory('app', ['.js', '.jsx', '.ts', '.tsx', '.json'], violations);
   checkDirectory('messages', ['.json'], violations);
   checkDirectory('utils/data', ['.js', '.jsx', '.json'], violations);
   checkPublishedBlogs(violations);
 
-  const careerFacts = read('utils/data/career-facts.js');
-  const factCheck = read('docs/content-fact-check.md');
+  checkDirectory('app', ['.js', '.jsx', '.ts', '.tsx', '.json'], violations, bannedRepositoryPatterns);
+  checkDirectory('messages', ['.json'], violations, bannedRepositoryPatterns);
+  checkDirectory('utils', ['.js', '.jsx', '.ts', '.tsx', '.json'], violations, bannedRepositoryPatterns);
+  checkDirectory('content', ['.json', '.md'], violations, bannedRepositoryPatterns);
+  checkDirectory('public', ['.svg', '.txt', '.xml', '.json', '.webmanifest'], violations, bannedRepositoryPatterns);
+  checkText('utils/data/career-facts.js', careerFacts, violations, bannedRepositoryPatterns);
+
   if (!careerFacts.includes("en: 'Senior Backend Engineer & Technical Lead'")) {
     violations.push('canonical primary title is missing');
   }

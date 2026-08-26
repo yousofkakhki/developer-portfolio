@@ -145,7 +145,7 @@
     "demoNotAvailable": "Demo not available",
     "1": {
       "name": "Award-Winning AI Hologram Project",
-      "description": "Designed the AI backend for a real-time hologram installation: camera feed → pose estimation pipeline → WebSocket projection control, all under 80ms end-to-end. Demonstrated at ITEX 2024, winning Best Booth against 200+ exhibitors.",
+      "description": "Led backend and AI integration for an interactive hologram installation presented at ITEX 2024. The installation received the event’s Best Booth award.",
       "role": "Technical & AI Team Lead",
       "tools": [
         "Python",
@@ -159,7 +159,7 @@
     },
     "2": {
       "name": "Digital Investment Management Dashboard",
-      "description": "Architected and coded the heavy computational logic for a data-intensive investor dashboard, providing real-time analytics and portfolio management features for Capitalino's clients.",
+      "description": "Designed the backend computational workflows for an investor dashboard, separating portfolio logic and background processing from the presentation layer.",
       "role": "Lead Backend Architect",
       "tools": [
         "Node.js",
@@ -174,7 +174,7 @@
     },
     "3": {
       "name": "Crypto-to-Fiat Payment Gateway",
-      "description": "Architected and deployed a crypto-to-fiat gateway integrating blockchain transactions with fiat payment workflows. Designed secure backend services, transaction state handling, and the supporting operational infrastructure.",
+      "description": "Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.",
       "role": "Technical Architect",
       "tools": [
         "Node.js",
@@ -202,7 +202,7 @@
     },
     "5": {
       "name": "Secure Over-the-Air (OTA) Update System",
-      "description": "Built an atomic OTA update system for 5,000+ IoT edge devices: delta compression, rollback on checksum failure, A/B partition switching. Reduced kernel boot time by 40% via PREEMPT_RT tuning and eliminating unnecessary initrd stages.",
+      "description": "Worked on atomic OTA workflows for embedded Linux, including A/B partitioning, rollback safeguards, firmware delivery, and release-pipeline integration.",
       "role": "Systems Engineer",
       "tools": [
         "Linux",
@@ -351,7 +351,7 @@
     "designation": "Senior Backend Engineer & Technical Lead",
     "title": "Distributed systems, real-time media, and backend platforms.",
     "description": "Senior backend engineer and technical lead working across distributed systems, real-time media, platform engineering, and Linux.",
-    "about": "I am a hands-on senior backend engineer and technical lead with 10+ years across distributed systems, real-time media, fintech, and embedded Linux. I work with Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC, LiveKit, and Linux.\n\nMy strongest work sits where architecture and implementation meet: defining ownership, failure modes, consistency requirements, and operational constraints before scaling the system. I have led engineering teams while continuing to contribute directly to production code.\n\nI am currently targeting senior backend, platform, and technical-lead roles in the EU, with employer-supported relocation to Germany or the Netherlands and selected remote engineering or architecture engagements."
+    "about": "I am a hands-on senior backend engineer and technical lead with 10+ years of experience across distributed systems, real-time media, fintech, and embedded Linux. I work with Node.js, Go, Python, PostgreSQL, Kafka, NATS JetStream, WebRTC, LiveKit, and Linux.\n\nMy strongest work sits where architecture and implementation meet: defining ownership, failure modes, consistency requirements, and operational constraints before scaling the system. I have led engineering teams while continuing to contribute directly to production code.\n\nI am currently targeting senior backend, platform, and technical-lead roles in the EU, with employer-supported relocation to Germany or the Netherlands and selected remote engineering or architecture engagements."
   },
   "experiences": {
     "1": {
@@ -422,7 +422,7 @@
   },
   "metadata": {
     "title": "Yousef Kakhki | Senior Backend Engineer & Technical Lead",
-    "description": "Senior backend engineer and technical lead with 10+ years across distributed systems, WebRTC, Node.js, Go, PostgreSQL, Kafka/NATS, Linux, and real-time platforms."
+    "description": "Senior backend engineer and technical lead with 10+ years of experience across distributed systems, WebRTC, Node.js, Go, PostgreSQL, Kafka/NATS, Linux, and real-time platforms."
   },
   "footer": {
     "tagline": "Distributed systems, real-time media, and backend platforms.",

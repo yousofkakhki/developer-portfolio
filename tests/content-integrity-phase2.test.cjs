@@ -13,6 +13,38 @@ const legacyUnsafeSlugs = [
   'sfu-first-webrtc-scaling-in-frankfurt-for-1k',
 ];
 
+const publicSourceRoots = ['app', 'utils', 'messages', 'content', 'public'];
+const publicTextExtensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.json', '.md', '.svg', '.txt', '.xml', '.webmanifest']);
+
+function collectPublicSource(directory, collected = []) {
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const absolute = path.join(directory, entry.name);
+    if (entry.isDirectory()) collectPublicSource(absolute, collected);
+    else if (publicTextExtensions.has(path.extname(entry.name))) collected.push(fs.readFileSync(absolute, 'utf8'));
+  }
+  return collected;
+}
+
+test('public sources reject unsupported and internal editorial wording', () => {
+  const publicSource = publicSourceRoots
+    .flatMap(relative => collectPublicSource(path.join(root, relative)))
+    .join('\n');
+
+  for (const pattern of [
+    /under\s+80\s*ms/i,
+    /کمتر از\s*۸۰\s*میلی[‌\s-]*ثانیه/,
+    /200\+\s*exhibitors/i,
+    /unsupported latency figures are intentionally omitted/i,
+    /this is an award claim/i,
+    /selected public facts are evidence-bounded/i,
+    /10\+\s+across/i,
+    /(?:10|۱۰)\+\s*تجربه/,
+    /System Architect & Technical Lead/i,
+  ]) {
+    assert.doesNotMatch(publicSource, pattern);
+  }
+});
+
 test('legacy unsupported case-study drafts cannot be published if reintroduced', () => {
   const bySlug = new Map(fs.readdirSync(blogsDir)
     .filter(file => file.endsWith('.json'))

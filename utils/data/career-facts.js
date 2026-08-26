@@ -59,14 +59,6 @@ export const careerFacts = Object.freeze({
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
       publish: { homepage: true, work: true, resume: true, caseStudy: true, metadata: false },
     },
-    hologramLatency: {
-      id: 'hologramLatency',
-      value: 'under 80 ms',
-      localizedValue: { en: 'under 80 ms', fa: 'کمتر از ۸۰ میلی‌ثانیه' },
-      label: { en: 'end-to-end hologram path', fa: 'مسیر کامل هولوگرام' },
-      evidenceStatus: EVIDENCE_STATUS.unconfirmed,
-      publish: { homepage: false, work: false, resume: false, caseStudy: false },
-    },
     orderMatchingLatency: {
       id: 'orderMatchingLatency',
       value: 'sub-100 ms',
@@ -133,11 +125,11 @@ export const careerFacts = Object.freeze({
       summary: {
         en: [
           'Led a four-person team delivering a crypto-to-fiat payment gateway and AI hologram installation.',
-          'Won Best Booth at ITEX 2024 for the AI Hologram project; this is an award claim, not a payment-volume or reliability metric.',
+          'Led a four-person team across backend engineering, infrastructure, and event delivery. The AI hologram installation received the Best Booth award at ITEX 2024.',
         ],
         fa: [
           'رهبری تیمی چهار نفره برای تحویل درگاه پرداخت رمزارز به فیات و نصب هولوگرام هوش مصنوعی.',
-          'پروژهٔ هولوگرام هوش مصنوعی در ITEX 2024 برندهٔ جایزهٔ بهترین غرفه شد؛ این ادعای جایزه است، نه شاخص حجم پرداخت یا قابلیت اطمینان.',
+          'رهبری تیمی چهار نفره در مهندسی بک‌اند، زیرساخت و تحویل رویداد. نصب هولوگرام هوش مصنوعی در ITEX 2024 جایزهٔ بهترین غرفه را دریافت کرد.',
         ],
       },
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
@@ -153,11 +145,11 @@ export const careerFacts = Object.freeze({
       summary: {
         en: [
           'Built backend workflows for trading and transactional systems with PostgreSQL, Redis, and Web3.js.',
-          'Worked on matching and ledger semantics; unsupported latency figures are intentionally omitted from public profile copy.',
+          'Worked on matching workflows, order-book recovery, and transactional ledger semantics.',
         ],
         fa: [
           'ساخت جریان‌های بک‌اند برای سامانه‌های معاملاتی و تراکنشی با PostgreSQL، Redis و Web3.js.',
-          'کار روی منطق تطبیق سفارش و دفترکل؛ اعداد تأخیرِ بدون سند عمداً از متن عمومی حذف شده‌اند.',
+          'کار روی جریان‌های تطبیق سفارش، بازیابی دفتر سفارش و منطق دفترکل تراکنشی.',
         ],
       },
       evidenceStatus: EVIDENCE_STATUS.verifiedPublic,

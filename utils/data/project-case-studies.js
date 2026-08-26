@@ -202,8 +202,8 @@ export const projectCaseStudies = {
       outcomes: {
         heading: { en: 'Outcomes', fa: 'نتایج' },
         body: {
-          en: 'A crypto-to-fiat gateway and its supporting backend/operations path were architected and deployed. Regulatory-production status and business metrics are intentionally not claimed.',
-          fa: 'یک درگاه رمزارز به فیات و مسیر پشتیبان بک‌اند/عملیات آن معماری و مستقر شد. وضعیت بهره‌برداری قانون‌گذاری‌شده و شاخص‌های کسب‌وکار عمداً ادعا نمی‌شوند.',
+          en: 'Designed and implemented the backend and operational workflow for a crypto-to-fiat payment gateway, including idempotency, transaction boundaries, and reconciliation.',
+          fa: 'بک‌اند و جریان عملیاتی یک درگاه رمزارز به فیات، شامل idempotency، مرزهای تراکنش و تطبیق، طراحی و پیاده‌سازی شد.',
         },
       },
       evidence: {

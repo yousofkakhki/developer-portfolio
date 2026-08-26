@@ -16,7 +16,7 @@ const copy = {
     evidenceTitle: 'What I bring',
     evidence: [
       ['Real-time media', 'Architecture experience with LiveKit, WebRTC, delayed HLS playback, NATS JetStream, and Go on an educational platform serving {platformConcurrency} at platform level.'],
-      ['Backend and platforms', '{backendExperience} across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.'],
+      ['Backend and platforms', '{backendExperience} years across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.'],
       ['Technical leadership', 'Hands-on architecture and engineering leadership across backend, infrastructure, embedded Linux, and cross-functional delivery.'],
       ['ERP and business systems', 'Delivered self-hosted Odoo Enterprise, Persian/Jalali and Hijri calendar localization, and further CRM-addon development and customization for the Odoo CRM team at Holoo Corp.'],
     ],
@@ -28,7 +28,7 @@ const copy = {
     cta: 'Discuss a role or engineering problem',
     email: 'Email directly',
     contactLabel: 'Contact / Direct',
-    consultingTitle: 'Consulting and fractional architecture',
+    consultingTitle: 'Consulting and project-based architecture support',
     consultingIntro: 'Bounded reviews for teams that need a clear architecture decision, risk register, or implementation path.',
   },
   fa: {
@@ -42,7 +42,7 @@ const copy = {
     evidenceTitle: 'تجربه‌ای که ارائه می‌کنم',
     evidence: [
       ['رسانهٔ بلادرنگ', 'تجربهٔ معماری با LiveKit، WebRTC، بازپخش HLS با تأخیر، NATS JetStream و Go در یک پلتفرم آموزشی با {platformConcurrency} در سطح پلتفرم.'],
-      ['بک‌اند و پلتفرم', '{backendExperience} تجربه با Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.'],
+      ['بک‌اند و پلتفرم', 'بیش از ۱۰ سال تجربه در Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.'],
       ['رهبری فنی', 'معماری و رهبری مهندسی همراه با مشارکت عملی در بک‌اند، زیرساخت، لینوکس نهفته و تحویل بین‌تیمی.'],
       ['ERP و سامانه‌های کسب‌وکار', 'تحویل Odoo Enterprise خودمیزبان، بومی‌سازی تقویم‌های فارسی/جلالی و هجری، و توسعه و سفارشی‌سازی بیشتر افزونه‌های CRM برای تیم Odoo CRM شرکت هلو.'],
     ],
@@ -54,7 +54,7 @@ const copy = {
     cta: 'گفتگو دربارهٔ موقعیت یا مسئلهٔ مهندسی',
     email: 'ارسال ایمیل مستقیم',
     contactLabel: 'تماس / مستقیم',
-    consultingTitle: 'مشاوره و معماری کسری',
+    consultingTitle: 'مشاورهٔ معماری سامانه به‌صورت پروژه‌ای یا پاره‌وقت',
     consultingIntro: 'بازبینی‌های محدود و مشخص برای تیم‌هایی که به تصمیم معماری، دفتر ثبت ریسک یا مسیر پیاده‌سازی روشن نیاز دارند.',
   },
 };
