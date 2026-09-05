@@ -84,16 +84,16 @@ test('contact uses native fetch and accessible inline status', () => {
   assert.doesNotMatch(source, /axios|react-toastify|toast\./);
   assert.match(source, /fetch\(['"]\/api\/contact/);
   assert.match(source, /role="status"/);
-  assert.match(source, /aria-label="GitHub profile"/);
-  assert.match(source, /aria-label="LinkedIn profile"/);
+  assert.match(source, /aria-label=\{`\$\{t\('githubProfile'\)\}/);
+  assert.match(source, /aria-label=\{`\$\{t\('linkedinProfile'\)\}/);
 });
 
 test('icon controls and visible abbreviations have accessible names', () => {
   const scroll = read('app/components/helper/scroll-to-top.jsx');
   const nav = read('app/components/navbar.jsx');
   const switcher = read('app/components/language-switcher.jsx');
-  assert.match(scroll, /aria-label="Scroll to top"/);
-  assert.match(nav, /aria-label="Yousef Kakhki — Home"/);
+  assert.match(scroll, /aria-label=\{t\('scrollToTop'\)\}/);
+  assert.match(nav, /aria-label=\{t\('home'\)\}/);
   assert.match(switcher, /aria-label="EN — English"/);
   assert.match(switcher, /aria-label="FA — فارسی"/);
 });

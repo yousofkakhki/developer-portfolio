@@ -31,12 +31,12 @@ function Blog({ blogs }) {
                 href={`/${locale}/blog`}
                 className="text-slate-400 hover:text-slate-200 transition-colors text-sm"
               >
-                View all posts →
+                {t('blog.viewAllPosts')} →
               </Link>
             </div>
           </>
         ) : (
-          <p className="text-slate-400">No posts yet.</p>
+          <p className="text-slate-400">{t('blog.noPostsYet')}</p>
         )}
       </div>
     </section>

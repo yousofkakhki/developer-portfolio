@@ -228,6 +228,6 @@ test('recoverable playback blocking preserves the active response turn', () => {
   assert.ok(handler, 'playback error handler should be present');
   assert.match(
     handler,
-    /if \(isAutoplayError\(error\)\) \{(?:(?!awaitingResponseRef\.current = false)[\s\S])*?setVoiceState\(['"]blocked['"]\);[\s\S]*?return;\s*\}\s*clearResponseTimeout\(\);\s*awaitingResponseRef\.current = false;/,
+    /if \(isRecoverableAudioAccessError\(error\)\) \{(?:(?!awaitingResponseRef\.current = false)[\s\S])*?setVoiceState\(['"]blocked['"]\);[\s\S]*?return;\s*\}\s*clearResponseTimeout\(\);\s*awaitingResponseRef\.current = false;/,
   );
 });

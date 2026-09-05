@@ -28,8 +28,14 @@ function decodeBase64(base64Audio) {
   return bytes.buffer;
 }
 
-function isAutoplayError(error) {
-  return error?.name === 'NotAllowedError' || error?.name === 'SecurityError';
+function isRecoverableAudioAccessError(error) {
+  return [
+    'AbortError',
+    'NotAllowedError',
+    'NotFoundError',
+    'NotReadableError',
+    'SecurityError',
+  ].includes(error?.name);
 }
 
 async function prepareAudioOutput(contextRef) {
@@ -241,10 +247,16 @@ export function AvatarVoiceSession({ onStateChange }) {
       awaitingResponseRef.current = false;
       turnCompletedRef.current = true;
       playbackQueueRef.current?.reset();
-      console.error('Failed to start hands-free voice session:', error);
-      playbackBlockedRef.current = isAutoplayError(error);
-      setVoiceState(isAutoplayError(error) ? 'blocked' : 'error');
-      autoSessionRef.current = isAutoplayError(error) ? false : true;
+      const playbackBlocked = isRecoverableAudioAccessError(error);
+      if (playbackBlocked) {
+        // Microphone and autoplay permission are device decisions, not page failures.
+        console.info('Hands-free voice session is awaiting microphone or audio permission.');
+      } else {
+        console.error('Failed to start hands-free voice session:', error);
+      }
+      playbackBlockedRef.current = playbackBlocked;
+      setVoiceState(playbackBlocked ? 'blocked' : 'error');
+      autoSessionRef.current = playbackBlocked ? false : true;
     }
   }, [setVoiceState]);
 
@@ -252,7 +264,7 @@ export function AvatarVoiceSession({ onStateChange }) {
     if (!mountedRef.current) {
       return;
     }
-    if (isAutoplayError(error)) {
+    if (isRecoverableAudioAccessError(error)) {
       playbackBlockedRef.current = true;
       autoSessionRef.current = false;
       setVoiceState('blocked');
@@ -289,7 +301,7 @@ export function AvatarVoiceSession({ onStateChange }) {
   if (!playbackQueueRef.current) {
     playbackQueueRef.current = createAudioChunkQueue({
       play: (audio) => createPlayback(audio, audioContextRef),
-      isRecoverableError: isAutoplayError,
+      isRecoverableError: isRecoverableAudioAccessError,
       onPlaybackStart: () => setVoiceState('playing'),
       onPlaybackComplete: handlePlaybackComplete,
       onError: handlePlaybackError,

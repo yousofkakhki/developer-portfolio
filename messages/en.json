@@ -2,7 +2,10 @@
   "common": {
     "contactMe": "Contact me",
     "getResume": "Get Resume",
-    "allRightsReserved": "All Rights Reserved"
+    "allRightsReserved": "All Rights Reserved",
+    "systemsBackbone": "Systems Backbone",
+    "opensInNewTab": "opens in a new tab",
+    "scrollToTop": "Scroll to top"
   },
   "nav": {
     "about": "About",
@@ -13,7 +16,12 @@
     "blogs": "Blog",
     "viewMore": "View More",
     "allBlogs": "All Blogs",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Yousef Kakhki — Home",
+    "brandTagline": "Systems Backbone",
+    "workWithMe": "Work with me",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "blog": {
     "title": "Architectural Case Studies",
@@ -25,21 +33,59 @@
     "allTags": "All",
     "noResults": "No articles found",
     "noResultsDescription": "Try adjusting your search or filter to find what you're looking for.",
-    "clearFilters": "Clear filters"
+    "clearFilters": "Clear filters",
+    "viewAllPosts": "View all posts",
+    "noPostsYet": "No posts published yet.",
+    "postImageAlt": "Article cover image"
   },
   "hero": {
     "hello": "Hello, I'm",
-    "a": "a"
+    "a": "a",
+    "eyebrow": "Systems Backbone / 01",
+    "focusAreas": "Distributed Systems • Real-Time Platforms • AI Systems • Infrastructure",
+    "metricConcurrentUsers": "Concurrent Users",
+    "metricExperienceValue": "10+ Years",
+    "metricBackendEngineering": "Backend Engineering",
+    "metricComputerScience": "Computer Science",
+    "metricUniversity": "Amirkabir University",
+    "credentialRole": "Senior Backend Engineer",
+    "viewArchitecture": "View architecture work ↓",
+    "workWithMe": "Work with me",
+    "resumePdf": "Download résumé (PDF)",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile",
+    "metricConcurrentValue": "5,000+",
+    "metricDegree": "M.Sc.",
+    "credentialRealtime": "Real-Time Platforms",
+    "credentialInfrastructure": "Cloud Infrastructure"
   },
   "about": {
     "title": "About",
-    "sidebar": "ABOUT ME"
+    "sidebar": "ABOUT ME",
+    "paragraph1": "Head of Software & System Architect with an M.Sc. in Computer Science (System Design) from Amirkabir University of Technology (Tehran Polytechnic). Expert in bridging hardware-level efficiency with cloud-scale architecture.",
+    "paragraph2": "Proven track record in leading cross-functional teams, optimizing Linux kernels, and architecting hybrid WebRTC/HLS infrastructures for high-concurrency fintech and media platforms. Career trajectory spans embedded systems (Linux kernel optimization, IoT firmware), high-frequency trading engines (sub-100ms matching with ACID compliance), to enterprise cloud infrastructure (Docker Swarm orchestration, ELK stacks, disaster recovery).",
+    "paragraph3": "Current focus: designing production-grade distributed systems that serve thousands of concurrent users while maintaining operational excellence (99.9%+ uptime, sub-100ms latency, measurable cost optimization).",
+    "awardTitle": "Best Booth Award – ITEX 2024",
+    "awardDescription": "AI Hologram Project Lead – Capitalino"
   },
   "experience": {
     "title": "Experience"
   },
   "skills": {
-    "title": "Skills"
+    "title": "Skills",
+    "categories": {
+      "languages": "Languages & Frameworks",
+      "systems": "Systems & Architecture",
+      "cloud": "Cloud & DevOps",
+      "realTime": "Real-Time & Media",
+      "databases": "Databases & Storage",
+      "management": "Leadership & Management",
+      "languagesRuntimes": "Languages & Runtimes",
+      "databasesMessaging": "Databases & Messaging",
+      "infrastructureDevops": "Infrastructure & DevOps",
+      "streamingRealtime": "Streaming & Real-Time",
+      "systemsEmbedded": "Systems & Embedded"
+    }
   },
   "projects": {
     "title": "Projects",
@@ -164,7 +210,8 @@
       ],
       "code": "",
       "demo": ""
-    }
+    },
+    "role": "Role:"
   },
   "education": {
     "title": "Education",
@@ -196,7 +243,18 @@
     "sendingMessage": "Sending Message...",
     "messageSentSuccess": "Message sent successfully!",
     "messageSendFailed": "Failed to send message. Please try again later.",
-    "sidebar": "CONTACT"
+    "sidebar": "CONTACT",
+    "directContact": "Direct contact",
+    "profiles": "Profiles",
+    "location": "Location",
+    "locationValue": "Tehran, Iran",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile",
+    "nameRequired": "Enter your name.",
+    "emailRequired": "Enter your email address.",
+    "emailInvalid": "Enter a valid email address.",
+    "messageRequired": "Enter a message.",
+    "formHasErrors": "Check the highlighted fields and try again."
   },
   "notFound": {
     "title": "404",
@@ -281,5 +339,27 @@
   "metadata": {
     "title": "Yousef Kakhki | System Architect & Technical Lead",
     "description": "Senior backend engineer and tech lead with 10 years of experience in WebRTC, Node.js, Go, Python, and distributed systems. M.Sc. in Computer Science."
+  },
+  "footer": {
+    "tagline": "Architecting solutions. Leading transformation.",
+    "resumePdf": "Résumé (PDF)",
+    "githubProfile": "GitHub profile",
+    "linkedinProfile": "LinkedIn profile"
+  },
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "voiceState": "Voice state: {state}",
+    "voiceStates": {
+      "connecting": "connecting",
+      "requestingMic": "requesting microphone access",
+      "listening": "listening",
+      "processing": "processing",
+      "playing": "playing response audio",
+      "speaking": "speaking",
+      "paused": "paused",
+      "ready": "ready",
+      "blocked": "microphone unavailable",
+      "error": "unavailable"
+    }
   }
 }

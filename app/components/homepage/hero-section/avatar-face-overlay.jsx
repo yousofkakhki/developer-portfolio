@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const voiceSessionImport = import('./avatar-voice-session');
 
 export function AvatarFaceOverlay() {
+  const t = useTranslations('accessibility');
   const [AvatarFaceCanvas, setAvatarFaceCanvas] = useState(null);
   const [AvatarVoiceSession, setAvatarVoiceSession] = useState(null);
   const [stage, setStage] = useState('waiting');
@@ -109,7 +111,7 @@ export function AvatarFaceOverlay() {
       }`}
     >
       <div className="absolute inset-0">
-        <span className="sr-only" aria-live="polite">Voice state: {voiceState}</span>
+        <span className="sr-only" aria-live="polite">{t('voiceState', { state: t(`voiceStates.${voiceState}`) })}</span>
 
         {AvatarFaceCanvas ? <AvatarFaceCanvas onReady={handleAvatarReady} /> : null}
         {AvatarVoiceSession ? <AvatarVoiceSession onStateChange={setVoiceState} /> : null}

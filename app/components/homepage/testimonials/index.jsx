@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 
 function Testimonials() {
   const t = useTranslations('testimonials');
+  const tCommon = useTranslations('common');
 
   const testimonials = [
     {
@@ -47,7 +48,9 @@ function Testimonials() {
               <Link
                 href={testimonial.letterUrl}
                 target="_blank"
-                className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                aria-label={`${t('readFullLetter')} (${tCommon('opensInNewTab')})`}
               >
                 {t('readFullLetter')}
               </Link>

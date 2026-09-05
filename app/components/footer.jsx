@@ -8,6 +8,7 @@ import { BsGithub, BsLinkedin } from 'react-icons/bs';
 export default async function Footer() {
   const tCommon = await getTranslations('common');
   const tPersonal = await getTranslations('personal');
+  const tFooter = await getTranslations('footer');
 
   return (
     <footer className="relative z-10 border-t border-slate-700/70 bg-slate-900 text-white">
@@ -16,7 +17,7 @@ export default async function Footer() {
           <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} className="h-8 w-8" />
           <div>
             <p className="font-display text-xs font-medium uppercase tracking-[0.18em] text-slate-100">Yousef Kakhki</p>
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">Architecting solutions. Leading transformation.</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">{tFooter('tagline')}</p>
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -28,16 +29,16 @@ export default async function Footer() {
               href="/files/yousef-kakhki-resume-2026-06.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+              className="inline-flex min-h-[44px] items-center text-sm text-slate-400 hover:text-slate-200 transition-colors"
             >
-              Résumé (PDF)
+              {tFooter('resumePdf')}
             </a>
             <Link target="_blank" rel="noopener noreferrer" href={personalData.github}
-              className="text-slate-400 hover:text-slate-200 transition-colors" aria-label="GitHub Profile">
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200 transition-colors" aria-label={`${tFooter('githubProfile')} (${tCommon('opensInNewTab')})`}>
               <BsGithub size={20} />
             </Link>
             <Link target="_blank" rel="noopener noreferrer" href={personalData.linkedIn}
-              className="text-slate-400 hover:text-slate-200 transition-colors" aria-label="LinkedIn Profile">
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200 transition-colors" aria-label={`${tFooter('linkedinProfile')} (${tCommon('opensInNewTab')})`}>
               <BsLinkedin size={20} />
             </Link>
           </div>

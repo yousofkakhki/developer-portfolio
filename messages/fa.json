@@ -2,7 +2,10 @@
   "common": {
     "contactMe": "تماس با من",
     "getResume": "دریافت رزومه",
-    "allRightsReserved": "تمام حقوق محفوظ است"
+    "allRightsReserved": "تمام حقوق محفوظ است",
+    "systemsBackbone": "هستهٔ سیستم‌ها",
+    "opensInNewTab": "باز شدن در زبانهٔ جدید",
+    "scrollToTop": "بازگشت به ابتدای صفحه"
   },
   "nav": {
     "about": "درباره من",
@@ -13,7 +16,12 @@
     "blogs": "وبلاگ",
     "viewMore": "مشاهده بیشتر",
     "allBlogs": "همه وبلاگ‌ها",
-    "contact": "تماس با من"
+    "contact": "تماس با من",
+    "home": "یوسف کاخکی — خانه",
+    "brandTagline": "هستهٔ سیستم‌ها",
+    "workWithMe": "همکاری",
+    "openMenu": "باز کردن منو",
+    "closeMenu": "بستن منو"
   },
   "blog": {
     "title": "وبلاگ",
@@ -25,21 +33,59 @@
     "allTags": "همه",
     "noResults": "مقاله‌ای یافت نشد",
     "noResultsDescription": "جستجو یا فیلتر خود را تغییر دهید.",
-    "clearFilters": "پاک کردن فیلترها"
+    "clearFilters": "پاک کردن فیلترها",
+    "viewAllPosts": "مشاهدهٔ همهٔ نوشته‌ها",
+    "noPostsYet": "هنوز نوشته‌ای منتشر نشده است.",
+    "postImageAlt": "تصویر جلد نوشته"
   },
   "hero": {
     "hello": "سلام، من",
-    "a": "یک"
+    "a": "یک",
+    "eyebrow": "هستهٔ سیستم‌ها / ۰۱",
+    "focusAreas": "سیستم‌های توزیع‌شده • پلتفرم‌های بلادرنگ • سامانه‌های هوش مصنوعی • زیرساخت",
+    "metricConcurrentUsers": "کاربر هم‌زمان",
+    "metricExperienceValue": "۱۰+ سال",
+    "metricBackendEngineering": "مهندسی بک‌اند",
+    "metricComputerScience": "علوم کامپیوتر",
+    "metricUniversity": "دانشگاه صنعتی امیرکبیر",
+    "credentialRole": "مهندس ارشد بک‌اند",
+    "viewArchitecture": "مشاهدهٔ تجربهٔ معماری ↓",
+    "workWithMe": "همکاری با من",
+    "resumePdf": "دریافت رزومه (PDF)",
+    "githubProfile": "پروفایل گیت‌هاب",
+    "linkedinProfile": "پروفایل لینکدین",
+    "metricConcurrentValue": "۵٬۰۰۰+",
+    "metricDegree": "کارشناسی ارشد",
+    "credentialRealtime": "پلتفرم‌های بلادرنگ",
+    "credentialInfrastructure": "زیرساخت ابری"
   },
   "about": {
     "title": "درباره من",
-    "sidebar": "درباره من"
+    "sidebar": "درباره من",
+    "paragraph1": "مدیر نرم‌افزار و معمار سیستم با مدرک کارشناسی ارشد علوم کامپیوتر (طراحی سیستم) از دانشگاه صنعتی امیرکبیر (پلی‌تکنیک تهران). متخصص در پیوند بهره‌وری در سطح سخت‌افزار با معماری در مقیاس ابری.",
+    "paragraph2": "دارای سابقهٔ اثبات‌شده در رهبری تیم‌های میان‌وظیفه‌ای، بهینه‌سازی هستهٔ لینوکس و طراحی زیرساخت‌های ترکیبی WebRTC/HLS برای پلتفرم‌های فین‌تک و رسانه با هم‌زمانی بالا. مسیر حرفه‌ای از سیستم‌های نهفته (بهینه‌سازی هستهٔ لینوکس و میان‌افزار IoT) و موتورهای معاملات با فرکانس بالا (تطبیق زیر ۱۰۰ میلی‌ثانیه با انطباق ACID) تا زیرساخت ابری سازمانی (ارکستراسیون Docker Swarm، پشته‌های ELK و بازیابی بحران) را در بر می‌گیرد.",
+    "paragraph3": "تمرکز فعلی: طراحی سیستم‌های توزیع‌شدهٔ آمادهٔ تولید که به هزاران کاربر هم‌زمان سرویس می‌دهند و در عین حال برتری عملیاتی (دسترس‌پذیری ۹۹٫۹٪+، تأخیر زیر ۱۰۰ میلی‌ثانیه و بهینه‌سازی قابل اندازه‌گیری هزینه) را حفظ می‌کنند.",
+    "awardTitle": "جایزهٔ بهترین غرفه – ITEX ۲۰۲۴",
+    "awardDescription": "رهبر پروژهٔ هولوگرام هوش مصنوعی – Capitalino"
   },
   "experience": {
     "title": "تجربیات"
   },
   "skills": {
-    "title": "مهارت‌ها"
+    "title": "مهارت‌ها",
+    "categories": {
+      "languages": "زبان‌ها و فریم‌ورک‌ها",
+      "systems": "سیستم‌ها و معماری",
+      "cloud": "رایانش ابری و DevOps",
+      "realTime": "بلادرنگ و رسانه",
+      "databases": "پایگاه داده و ذخیره‌سازی",
+      "management": "رهبری و مدیریت",
+      "languagesRuntimes": "زبان‌ها و ران‌تایم‌ها",
+      "databasesMessaging": "پایگاه داده و پیام‌رسانی",
+      "infrastructureDevops": "زیرساخت و DevOps",
+      "streamingRealtime": "استریم و بلادرنگ",
+      "systemsEmbedded": "سیستم‌ها و نهفته"
+    }
   },
   "projects": {
     "title": "پروژه‌ها",
@@ -133,7 +179,7 @@
         "گیمیفیکیشن",
         "NoSQL"
       ],
-      "code": "https://github.com/yourusername/greedylearner",
+      "code": "",
       "demo": ""
     },
     "7": {
@@ -164,7 +210,8 @@
       ],
       "code": "",
       "demo": ""
-    }
+    },
+    "role": "نقش:"
   },
   "education": {
     "title": "تحصیلات",
@@ -196,7 +243,18 @@
     "sendingMessage": "در حال ارسال...",
     "messageSentSuccess": "پیام با موفقیت ارسال شد!",
     "messageSendFailed": "ارسال پیام ناموفق بود. لطفاً دوباره تلاش کنید.",
-    "sidebar": "تماس"
+    "sidebar": "تماس",
+    "directContact": "تماس مستقیم",
+    "profiles": "پروفایل‌ها",
+    "location": "موقعیت",
+    "locationValue": "تهران، ایران",
+    "githubProfile": "پروفایل گیت‌هاب",
+    "linkedinProfile": "پروفایل لینکدین",
+    "nameRequired": "نام خود را وارد کنید.",
+    "emailRequired": "نشانی ایمیل خود را وارد کنید.",
+    "emailInvalid": "یک نشانی ایمیل معتبر وارد کنید.",
+    "messageRequired": "پیام خود را وارد کنید.",
+    "formHasErrors": "فیلدهای مشخص‌شده را بررسی و دوباره تلاش کنید."
   },
   "notFound": {
     "title": "۴۰۴",
@@ -281,5 +339,27 @@
   "metadata": {
     "title": "یوسف کاخکی | معمار سیستم و رهبر فنی",
     "description": "پورتفولیوی یوسف کاخکی – معمار سیستم و رهبر فنی. کارشناسی ارشد علوم کامپیوتر (گرایش طراحی سیستم). متخصص در استریم WebRTC/HLS، موتورهای معاملات فرکانس بالا، لینوکس تعبیه‌شده و DevOps."
+  },
+  "footer": {
+    "tagline": "معماری راهکارها، رهبری تحول.",
+    "resumePdf": "رزومه (PDF)",
+    "githubProfile": "پروفایل گیت‌هاب",
+    "linkedinProfile": "پروفایل لینکدین"
+  },
+  "accessibility": {
+    "skipToMain": "رفتن به محتوای اصلی",
+    "voiceState": "وضعیت صدا: {state}",
+    "voiceStates": {
+      "connecting": "در حال اتصال",
+      "requestingMic": "در حال درخواست دسترسی میکروفون",
+      "listening": "در حال گوش دادن",
+      "processing": "در حال پردازش",
+      "playing": "در حال پخش پاسخ",
+      "speaking": "در حال صحبت",
+      "paused": "متوقف شده",
+      "ready": "آماده",
+      "blocked": "میکروفون در دسترس نیست",
+      "error": "در دسترس نیست"
+    }
   }
 }

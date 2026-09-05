@@ -46,8 +46,16 @@ function Navbar() {
   }, [sections]);
 
   const handleNavClick = useCallback((e, href) => {
+    const targetUrl = new URL(href, window.location.origin);
+
+    // Let Next.js navigate normally when a section lives on another route.
+    if (targetUrl.pathname !== window.location.pathname) {
+      setIsOpen(false);
+      return;
+    }
+
     e.preventDefault();
-    const targetId = href.split('#')[1];
+    const targetId = targetUrl.hash.slice(1);
     const element = document.getElementById(targetId);
     
     if (element) {
@@ -59,6 +67,7 @@ function Navbar() {
         top: offsetPosition,
         behavior: 'smooth'
       });
+      window.history.replaceState(null, '', targetUrl.hash);
     }
     
     setIsOpen(false);
@@ -105,14 +114,14 @@ function Navbar() {
         <Link
           href={`/${locale}`}
           className="group flex items-center gap-3 text-slate-200 transition-colors"
-          aria-label="Yousef Kakhki — Home"
+          aria-label={t('home')}
         >
           <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded border border-slate-600 bg-slate-950/60 p-1 transition-colors group-hover:border-cyan-400">
             <Image src="/brand/yk-micro-icon.svg" alt="" aria-hidden="true" width={32} height={32} className="h-full w-full object-contain" />
           </span>
           <span className="hidden sm:block">
             <span className="block font-display text-sm font-medium uppercase tracking-[0.16em] text-slate-100">Yousef Kakhki</span>
-            <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">Systems Backbone</span>
+            <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-400">{t('brandTagline')}</span>
           </span>
         </Link>
 
@@ -127,10 +136,10 @@ function Navbar() {
             href={`/${locale}/work-with-me`}
             className="block py-2 px-3 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
           >
-            {locale === 'fa' ? 'همکاری' : 'Work with me'}
+            {t('workWithMe')}
           </Link>
           <NavLink href={`/${locale}#contact`} section="contact">{t('contact')}</NavLink>
-          <div className="ml-4">
+          <div className="ms-4">
             <LanguageSwitcher />
           </div>
         </div>
@@ -140,9 +149,10 @@ function Navbar() {
           <LanguageSwitcher />
           <button
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close Menu" : "Open Menu"}
+            aria-label={isOpen ? t('closeMenu') : t('openMenu')}
             aria-expanded={isOpen}
-            className="text-slate-400 hover:text-slate-200 p-2"
+            aria-controls="mobile-navigation"
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {isOpen ? (
@@ -157,7 +167,7 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900">
+        <div id="mobile-navigation" className="md:hidden border-t border-slate-800 bg-slate-900">
           <div className="py-2">
             <MobileNavLink href={`/${locale}#about`} section="about">{t('about')}</MobileNavLink>
             <MobileNavLink href={`/${locale}#experience`} section="experience">{t('experience')}</MobileNavLink>
@@ -169,7 +179,7 @@ function Navbar() {
               onClick={() => setIsOpen(false)}
               className="block py-3 px-4 text-sm text-cyan-300 hover:text-cyan-100 transition-colors"
             >
-              {locale === 'fa' ? 'همکاری' : 'Work with me'}
+              {t('workWithMe')}
             </Link>
             <MobileNavLink href={`/${locale}#contact`} section="contact">{t('contact')}</MobileNavLink>
           </div>

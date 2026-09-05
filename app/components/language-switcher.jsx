@@ -18,10 +18,10 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2 ml-4">
+    <div className="flex items-center gap-2 ms-4">
       <button
         onClick={() => switchLocale('en')}
-        className={`px-2 py-1 text-sm rounded transition-colors ${
+        className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded text-sm transition-colors ${
           locale === 'en'
             ? 'text-slate-100 bg-slate-700'
             : 'text-slate-400 hover:text-slate-200'
@@ -33,7 +33,7 @@ export default function LanguageSwitcher() {
       </button>
       <button
         onClick={() => switchLocale('fa')}
-        className={`px-2 py-1 text-sm rounded transition-colors ${
+        className={`inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded text-sm transition-colors ${
           locale === 'fa'
             ? 'text-slate-100 bg-slate-700'
             : 'text-slate-400 hover:text-slate-200'

@@ -20,7 +20,7 @@ async function HeroSection() {
           <div className="flex-1">
             <div className="mb-5 flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.24em] text-cyan-400">
               <span className="h-px w-10 bg-cyan-400" aria-hidden="true" />
-              <span>Systems Backbone / 01</span>
+              <span>{t('hero.eyebrow')}</span>
             </div>
             {locale === 'en' ? (
               <div className="mb-6 max-w-[560px]" data-brand-lockup>
@@ -48,31 +48,31 @@ async function HeroSection() {
               {t('personal.title')}
             </p>
             <div className="mt-5 hidden max-w-2xl border-t border-slate-700/70 pt-4 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400 sm:block">
-              Distributed Systems <span className="text-cyan-400">•</span> Real-Time Platforms <span className="text-cyan-400">•</span> AI Systems <span className="text-cyan-400">•</span> Infrastructure
+              {t('hero.focusAreas')}
             </div>
             
             {/* Key Metrics Strip */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">5,000+</div>
-                <div className="text-sm text-slate-400">Concurrent Users</div>
+                <div className="text-2xl font-semibold text-slate-50 font-mono">{t('hero.metricConcurrentValue')}</div>
+                <div className="text-sm text-slate-400">{t('hero.metricConcurrentUsers')}</div>
                 <div className="text-xs text-slate-400 font-mono">WebRTC/HLS</div>
               </div>
               <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">10+ Years</div>
-                <div className="text-sm text-slate-400">Backend Engineering</div>
+                <div className="text-2xl font-semibold text-slate-50 font-mono">{t('hero.metricExperienceValue')}</div>
+                <div className="text-sm text-slate-400">{t('hero.metricBackendEngineering')}</div>
                 <div className="text-xs text-slate-400 font-mono">Node.js · Go · Python</div>
               </div>
               <div className="border border-slate-700 bg-slate-800 p-4 rounded">
-                <div className="text-2xl font-semibold text-slate-50 font-mono">M.Sc.</div>
-                <div className="text-sm text-slate-400">Computer Science</div>
-                <div className="text-xs text-slate-400 font-mono">Amirkabir University</div>
+                <div className="text-2xl font-semibold text-slate-50 font-mono">{t('hero.metricDegree')}</div>
+                <div className="text-sm text-slate-400">{t('hero.metricComputerScience')}</div>
+                <div className="text-xs text-slate-400 font-mono">{t('hero.metricUniversity')}</div>
               </div>
             </div>
             
             {/* Credentials Strip */}
             <div className="flex flex-wrap gap-3 mb-8 text-sm text-slate-400">
-              <span>Senior Backend Engineer</span>
+              <span>{t('hero.credentialRole')}</span>
               <span>•</span>
               <span>WebRTC · LiveKit</span>
               <span>•</span>
@@ -85,18 +85,18 @@ async function HeroSection() {
             <div className="flex items-center gap-4 flex-wrap">
               <a 
                 href="#experience"
-                className="inline-block px-6 py-3 border border-slate-500 text-slate-100 rounded hover:bg-slate-800 transition-colors"
+                className="inline-flex min-h-[44px] items-center px-6 py-3 border border-slate-500 text-slate-100 rounded hover:bg-slate-800 transition-colors"
               >
-                View architecture work ↓
+                {t('hero.viewArchitecture')}
               </a>
               
               <ConversionLink
                 eventName="work_with_me_view"
                 source="homepage_hero"
                 href={`/${locale}/work-with-me`}
-                className="inline-block px-6 py-3 bg-cyan-700 text-white rounded hover:bg-cyan-600 transition-colors"
+                className="inline-flex min-h-[44px] items-center px-6 py-3 bg-cyan-700 text-white rounded hover:bg-cyan-600 transition-colors"
               >
-                {locale === 'fa' ? 'همکاری با من' : 'Work with me'}
+                {t('hero.workWithMe')}
               </ConversionLink>
 
               <ConversionLink
@@ -105,9 +105,9 @@ async function HeroSection() {
                 href="/files/yousef-kakhki-resume-2026-06.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 text-slate-400 hover:text-slate-200 transition-colors"
+                className="inline-flex min-h-[44px] items-center px-6 py-3 text-slate-400 hover:text-slate-200 transition-colors"
               >
-                Download Résumé (PDF)
+                {t('hero.resumePdf')}
               </ConversionLink>
               
               <div className="flex items-center gap-4">
@@ -118,8 +118,8 @@ async function HeroSection() {
                     href={personalData.github}
                     target='_blank'
                     rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-slate-200 transition-colors"
-                    aria-label="GitHub profile"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label={`${t('hero.githubProfile')} (${t('common.opensInNewTab')})`}
                   >
                     <BsGithub size={24} />
                   </ConversionLink>
@@ -131,8 +131,8 @@ async function HeroSection() {
                     href={personalData.linkedIn}
                     target='_blank'
                     rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-slate-200 transition-colors"
-                    aria-label="LinkedIn profile"
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label={`${t('hero.linkedinProfile')} (${t('common.opensInNewTab')})`}
                   >
                     <BsLinkedin size={24} />
                   </ConversionLink>

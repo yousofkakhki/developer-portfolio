@@ -8,6 +8,7 @@ import { memo, useMemo } from 'react';
 
 function ProjectCard({ project }) {
   const t = useTranslations('projects');
+  const tCommon = useTranslations('common');
   
   const hasDemo = useMemo(() => project.demo && project.demo.trim(), [project.demo]);
   const hasCode = useMemo(() => project.code && project.code.trim(), [project.code]);
@@ -40,8 +41,8 @@ function ProjectCard({ project }) {
         
         {project.role && (
           <div className="text-sm mb-4">
-            <span className="text-slate-400">Role:</span>
-            <span className="text-slate-300 ml-2">{project.role}</span>
+            <span className="text-slate-400">{t('role')}</span>
+            <span className="text-slate-300 ms-2">{project.role}</span>
           </div>
         )}
 
@@ -63,20 +64,24 @@ function ProjectCard({ project }) {
         <div className="flex items-center gap-4 text-sm">
           {hasDemo && (
             <Link 
-              href={project.demo} 
-              target='_blank' 
-              className="text-slate-400 hover:text-slate-200 transition-colors"
+              href={project.demo}
+              target='_blank'
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center text-slate-400 hover:text-slate-200 transition-colors"
+              aria-label={`${t('viewDemo')} — ${project.title} (${tCommon('opensInNewTab')})`}
             >
-              View Demo →
+              {t('viewDemo')} →
             </Link>
           )}
           {hasCode && (
             <Link 
-              href={project.code} 
-              target='_blank' 
-              className="text-slate-400 hover:text-slate-200 transition-colors"
+              href={project.code}
+              target='_blank'
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center text-slate-400 hover:text-slate-200 transition-colors"
+              aria-label={`${t('viewCode')} — ${project.title} (${tCommon('opensInNewTab')})`}
             >
-              View Code →
+              {t('viewCode')} →
             </Link>
           )}
         </div>

@@ -168,6 +168,8 @@ export default async function LocaleLayout({ children, params: { locale } }) {
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
+  const accessibility = messages.accessibility || {};
+  const skipToMain = accessibility.skipToMain || (locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content');
 
   // Determine text direction based on locale
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
@@ -188,18 +190,19 @@ export default async function LocaleLayout({ children, params: { locale } }) {
           <a 
             href="#main-content" 
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-slate-800 focus:text-slate-100 focus:rounded focus:border focus:border-slate-600"
-            aria-label="Skip to main content"
+            aria-label={skipToMain}
           >
-            {locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content'}
+            {skipToMain}
           </a>
 
+          <Navbar />
           <main 
             id="main-content" 
             className="min-h-screen relative mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] text-white overflow-x-hidden"
             role="main"
             aria-label={locale === 'fa' ? 'محتوای اصلی' : 'Main content'}
+            tabIndex={-1}
           >
-            <Navbar />
             {children}
             <ScrollToTop />
           </main>

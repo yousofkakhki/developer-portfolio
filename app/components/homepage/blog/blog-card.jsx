@@ -25,7 +25,7 @@ function BlogCard({ blog, index = 0 }) {
             src={blog?.cover_image}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            alt={blog?.title || "Blog post"}
+            alt={blog?.title || t('postImageAlt')}
             className="object-cover"
           />
         </div>
