@@ -2,93 +2,154 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [main]
   pull_request:
-    branches: [ main, master ]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
 
 jobs:
-  lint-and-test:
-    name: Lint and Test
+  verify:
+    name: Verify application
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      
+          node-version: "20"
+          cache: npm
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run ESLint
         run: npm run lint
-      
-      - name: Check build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check production build
         run: npm run build
         env:
-          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL || 'https://kakhki.ir' }}
-      
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: .next
-          retention-days: 1
+          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL || 'https://kakhki.me' }}
 
-  docker-build:
-    name: Build Docker Image
+      - name: Audit production dependency tree
+        run: npm audit --omit=dev --audit-level=high
+
+  build-image:
+    name: Build release image
     runs-on: ubuntu-latest
-    needs: lint-and-test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-    
+    needs: verify
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Build production image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile.prod
-          push: false
-          tags: portfolio:latest
+          tags: developer-portfolio:${{ github.sha }}
+          outputs: type=docker,dest=/tmp/developer-portfolio.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  security-scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
-        continue-on-error: true
-      
-      - name: Check for known vulnerabilities
-        run: |
-          npm audit --json > audit.json || true
-          if [ -s audit.json ]; then
-            echo "Vulnerabilities found. Review audit.json"
-          fi
+      - name: Compress release image
+        run: gzip -1 /tmp/developer-portfolio.tar
 
-  notify:
-    name: Notify on Failure
+      - name: Upload release image
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-image-${{ github.sha }}
+          path: /tmp/developer-portfolio.tar.gz
+          retention-days: 3
+          compression-level: 0
+
+  deploy:
+    name: Deploy to GCP VM
     runs-on: ubuntu-latest
-    needs: [lint-and-test, docker-build]
-    if: failure()
-    
+    needs: build-image
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    environment:
+      name: production
+      url: https://kakhki.me
+    permissions:
+      actions: read
+      contents: read
     steps:
-      - name: Notify failure
+      - name: Checkout deployment files
+        uses: actions/checkout@v4
+
+      - name: Download release image
+        uses: actions/download-artifact@v4
+        with:
+          name: portfolio-image-${{ github.sha }}
+          path: /tmp/release
+
+      - name: Configure pinned SSH access
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
         run: |
-          echo "CI/CD pipeline failed. Please check the logs."
-          # Add notification logic here (Slack, email, etc.)
+          set -euo pipefail
+          test -n "$DEPLOY_SSH_KEY"
+          test -n "$DEPLOY_KNOWN_HOSTS"
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/deploy_key"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/deploy_key" "$HOME/.ssh/known_hosts"
+
+      - name: Transfer release
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST"
+          test -n "$DEPLOY_USER"
+          image="/tmp/release/developer-portfolio.tar.gz"
+          scp -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+            "$image" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/developer-portfolio-$RELEASE_SHA.tar.gz"
+          scp -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+            deploy/docker-compose.gcp.yml "$DEPLOY_USER@$DEPLOY_HOST:/tmp/kakhki-compose-$RELEASE_SHA.yml"
+          ssh -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "RELEASE_SHA=$RELEASE_SHA bash -s" <<'REMOTE'
+          set -euo pipefail
+          image="/tmp/developer-portfolio-${RELEASE_SHA}.tar.gz"
+          compose="/tmp/kakhki-compose-${RELEASE_SHA}.yml"
+          trap 'rm -f "$image" "$compose"' EXIT
+
+          sudo -n install -d -o root -g root -m 0755 /opt/kakhki.me
+          sudo -n install -o root -g root -m 0644 "$compose" /opt/kakhki.me/docker-compose.yml
+          sudo -n docker load --input "$image"
+          printf 'PORTFOLIO_IMAGE=developer-portfolio:%s\n' "$RELEASE_SHA" | sudo -n tee /opt/kakhki.me/release.env >/dev/null
+          sudo -n chmod 600 /opt/kakhki.me/release.env
+          sudo -n docker compose --env-file /opt/kakhki.me/release.env \
+            -f /opt/kakhki.me/docker-compose.yml up -d --no-build --remove-orphans
+
+          status="starting"
+          for attempt in $(seq 1 30); do
+            status="$(sudo -n docker inspect --format '{{.State.Health.Status}}' developer-portfolio 2>/dev/null || true)"
+            [ "$status" = healthy ] && break
+            [ "$status" = unhealthy ] && { sudo -n docker logs --tail 80 developer-portfolio; exit 1; }
+            sleep 2
+          done
+          [ "$status" = healthy ]
+          sudo -n docker compose --env-file /opt/kakhki.me/release.env \
+            -f /opt/kakhki.me/docker-compose.yml ps
+          sudo -n docker image prune -af --filter until=168h
+          REMOTE
