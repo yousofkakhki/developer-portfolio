@@ -132,34 +132,12 @@ jobs:
           test -n "$DEPLOY_HOST"
           test -n "$DEPLOY_USER"
           image="/tmp/release/developer-portfolio.tar.gz"
-          scp -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+          scp -P 22 -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
             "$image" "$DEPLOY_USER@$DEPLOY_HOST:/tmp/developer-portfolio-$RELEASE_SHA.tar.gz"
-          scp -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+          scp -P 22 -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
             deploy/docker-compose.gcp.yml "$DEPLOY_USER@$DEPLOY_HOST:/tmp/kakhki-compose-$RELEASE_SHA.yml"
-          ssh -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
+          ssh -p 22 -i "$HOME/.ssh/deploy_key" -o IdentitiesOnly=yes -o BatchMode=yes \
             "$DEPLOY_USER@$DEPLOY_HOST" "RELEASE_SHA=$RELEASE_SHA bash -s" <<'REMOTE'
           set -euo pipefail
-          image="/tmp/developer-portfolio-${RELEASE_SHA}.tar.gz"
-          compose="/tmp/kakhki-compose-${RELEASE_SHA}.yml"
-          trap 'rm -f "$image" "$compose"' EXIT
-
-          sudo -n install -d -o root -g root -m 0755 /opt/kakhki.me
-          sudo -n install -o root -g root -m 0644 "$compose" /opt/kakhki.me/docker-compose.yml
-          sudo -n docker load --input "$image"
-          printf 'PORTFOLIO_IMAGE=developer-portfolio:%s\n' "$RELEASE_SHA" | sudo -n tee /opt/kakhki.me/release.env >/dev/null
-          sudo -n chmod 600 /opt/kakhki.me/release.env
-          sudo -n docker compose --env-file /opt/kakhki.me/release.env \
-            -f /opt/kakhki.me/docker-compose.yml up -d --no-build --remove-orphans
-
-          status="starting"
-          for attempt in $(seq 1 30); do
-            status="$(sudo -n docker inspect --format '{{.State.Health.Status}}' developer-portfolio 2>/dev/null || true)"
-            [ "$status" = healthy ] && break
-            [ "$status" = unhealthy ] && { sudo -n docker logs --tail 80 developer-portfolio; exit 1; }
-            sleep 2
-          done
-          [ "$status" = healthy ]
-          sudo -n docker compose --env-file /opt/kakhki.me/release.env \
-            -f /opt/kakhki.me/docker-compose.yml ps
-          sudo -n docker image prune -af --filter until=168h
+          sudo -n /usr/local/sbin/kakhki-release "$RELEASE_SHA"
           REMOTE

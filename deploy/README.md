@@ -8,7 +8,7 @@ image to the Debian VM. The VM does not build source code.
 The deploy job expects these repository or production-environment secrets:
 
 - `DEPLOY_HOST`: `35.209.91.226`
-- `DEPLOY_USER`: `blockchain.specialist.aut`
+- `DEPLOY_USER`: `kakhki-deploy`
 - `DEPLOY_SSH_KEY`: a dedicated private key whose public half is authorized on the VM
 - `DEPLOY_KNOWN_HOSTS`: the pinned `ssh-keyscan -H 35.209.91.226` output
 
