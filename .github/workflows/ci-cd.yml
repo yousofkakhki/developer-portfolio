@@ -41,6 +41,10 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL || 'https://kakhki.me' }}
+          NEXT_PUBLIC_GSC_VERIFICATION: ${{ vars.NEXT_PUBLIC_GSC_VERIFICATION }}
+          NEXT_PUBLIC_BING_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_BING_SITE_VERIFICATION }}
+          NEXT_PUBLIC_GTM: ${{ vars.NEXT_PUBLIC_GTM }}
+          NEXT_PUBLIC_ENABLE_VRM_AVATAR: ${{ vars.NEXT_PUBLIC_ENABLE_VRM_AVATAR || 'true' }}
 
       - name: Audit production dependency tree
         run: npm audit --omit=dev --audit-level=high
@@ -64,6 +68,12 @@ jobs:
           file: ./Dockerfile.prod
           tags: developer-portfolio:${{ github.sha }}
           outputs: type=docker,dest=/tmp/developer-portfolio.tar
+          build-args: |
+            NEXT_PUBLIC_APP_URL=${{ vars.NEXT_PUBLIC_APP_URL || 'https://kakhki.me' }}
+            NEXT_PUBLIC_GSC_VERIFICATION=${{ vars.NEXT_PUBLIC_GSC_VERIFICATION }}
+            NEXT_PUBLIC_BING_SITE_VERIFICATION=${{ vars.NEXT_PUBLIC_BING_SITE_VERIFICATION }}
+            NEXT_PUBLIC_GTM=${{ vars.NEXT_PUBLIC_GTM }}
+            NEXT_PUBLIC_ENABLE_VRM_AVATAR=${{ vars.NEXT_PUBLIC_ENABLE_VRM_AVATAR || 'true' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
