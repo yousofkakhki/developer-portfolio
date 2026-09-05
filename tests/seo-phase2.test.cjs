@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+const articleTypes = require('../utils/data/article-types.cjs');
 
 test('global schema uses a connected canonical graph', () => {
   const source = read('app/components/structured-data.jsx');
@@ -13,9 +14,11 @@ test('global schema uses a connected canonical graph', () => {
   assert.doesNotMatch(source, /kakhki\.ir/);
 });
 
-test('article schema is BlogPosting with breadcrumbs and stable references', () => {
+test('article schema follows the canonical article type with breadcrumbs and stable references', () => {
   const source = read('app/[locale]/blog/[slug]/page.js');
-  assert.match(source, /BlogPosting/);
+  assert.match(source, /getArticleSchemaType\(blog\.article_type\)/);
+  assert.equal(articleTypes.getArticleSchemaType(articleTypes.ARTICLE_TYPES.productionCaseStudy), 'TechArticle');
+  assert.equal(articleTypes.getArticleSchemaType(articleTypes.ARTICLE_TYPES.siteEngineering), 'BlogPosting');
   assert.match(source, /BreadcrumbList/);
   assert.match(source, /mainEntityOfPage/);
   assert.match(source, /dateModified/);

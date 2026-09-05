@@ -1,16 +1,80 @@
 import { EVIDENCE_STATUS, localized } from './career-facts';
 
 export const projectCaseStudies = {
+  'real-time-learning-platform': {
+    evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
+    category: { en: 'Real-time learning infrastructure', fa: 'زیرساخت آموزش بلادرنگ' },
+    relatedWriting: ['honar-amoozesh-5000-concurrent-webrtc-case-study'],
+    sections: {
+      context: {
+        heading: { en: 'Context', fa: 'زمینه' },
+        body: {
+          en: 'An educational media platform needed interactive live participation while serving more than 5,000 concurrent users across the platform.',
+          fa: 'یک پلتفرم رسانه‌ای آموزشی باید مشارکت تعاملی زنده را در کنار خدمت‌رسانی به بیش از ۵٬۰۰۰ کاربر همزمان در سطح کل پلتفرم فراهم می‌کرد.',
+        },
+      },
+      problem: {
+        heading: { en: 'Problem', fa: 'مسئله' },
+        body: {
+          en: 'Live interaction, application coordination, and later playback had different timing and reliability needs and could not be represented honestly as one interchangeable delivery path.',
+          fa: 'تعامل زنده، هماهنگی لایهٔ کاربرد و بازپخش بعدی نیازهای زمانی و قابلیت اطمینان متفاوتی داشتند و نمی‌شد آن‌ها را صادقانه یک مسیر تحویل قابل‌تعویض نشان داد.',
+        },
+      },
+      constraints: {
+        heading: { en: 'Constraints', fa: 'محدودیت‌ها' },
+        body: {
+          en: 'The verified public record establishes platform-level concurrency, not one 5,000-person room, 5,000 publishers, or one SFU. It does not establish public latency, uptime, cost, or load-test figures.',
+          fa: 'سابقهٔ عمومی تأییدشده همزمانی در سطح پلتفرم را اثبات می‌کند، نه یک اتاق ۵٬۰۰۰ نفره، ۵٬۰۰۰ ناشر یا یک SFU. همچنین عدد عمومی برای تأخیر، آپ‌تایم، هزینه یا آزمون بار ثبت نشده است.',
+        },
+      },
+      ownership: {
+        heading: { en: 'My role and ownership', fa: 'نقش و مالکیت من' },
+        body: {
+          en: 'As solutions architect, I shaped the backend and media boundaries and remained hands-on across LiveKit/WebRTC delivery, Go services, and NATS JetStream application coordination.',
+          fa: 'به‌عنوان معمار راهکار، مرزهای بک‌اند و رسانه را طراحی کردم و در تحویل LiveKit/WebRTC، سرویس‌های Go و هماهنگی کاربرد با NATS JetStream مشارکت عملی داشتم.',
+        },
+      },
+      architecture: {
+        heading: { en: 'Architecture', fa: 'معماری' },
+        body: {
+          en: 'Live session: interactive participation → WebRTC/LiveKit ↔ Go services and NATS JetStream coordination. Post-session: recorded output → processing and packaging → HLS playback available later.',
+          fa: 'نشست زنده: مشارکت تعاملی ← WebRTC/LiveKit ↔ سرویس‌های Go و هماهنگی NATS JetStream. پس از نشست: خروجی ضبط‌شده ← پردازش و بسته‌بندی ← بازپخش HLS که بعداً در دسترس قرار می‌گرفت.',
+        },
+      },
+      tradeoffs: {
+        heading: { en: 'Key decisions and trade-offs', fa: 'تصمیم‌ها و مصالحه‌های کلیدی' },
+        body: {
+          en: 'Keeping delayed playback separate from live participation made the operating boundary explicit. It avoided presenting HLS as a current-session fallback that the verified implementation did not provide.',
+          fa: 'جدا نگه‌داشتن بازپخش با تأخیر از مشارکت زنده، مرز عملیاتی را روشن کرد و از معرفی نادرست HLS به‌عنوان fallback همان نشست جلوگیری کرد.',
+        },
+      },
+      safeguards: {
+        heading: { en: 'Failure modes and safeguards', fa: 'حالت‌های خرابی و سازوکارهای حفاظتی' },
+        body: {
+          en: 'Application coordination and media delivery remained separate concerns. The public case study documents those boundaries without inventing failover behavior, measured service levels, or deployment topology.',
+          fa: 'هماهنگی کاربرد و تحویل رسانه دو دغدغهٔ جدا باقی ماندند. مطالعهٔ عمومی این مرزها را بدون ساختن رفتار failover، سطح خدمت اندازه‌گیری‌شده یا توپولوژی استقرار مستند می‌کند.',
+        },
+      },
+      evidence: {
+        heading: { en: 'Evidence boundary', fa: 'مرز شواهد' },
+        body: {
+          en: 'The diagram is a sanitized representation of the verified implementation boundary. It is not a benchmark, deployment map, or hypothetical live HLS architecture.',
+          fa: 'نمودار، نمایش پاک‌سازی‌شدهٔ مرز پیاده‌سازی تأییدشده است؛ نه بنچمارک، نقشهٔ استقرار یا معماری فرضی HLS زنده.',
+        },
+      },
+    },
+  },
+
   'ai-hologram-realtime-backend': {
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     category: { en: 'Real-time applied AI', fa: 'هوش مصنوعی بلادرنگ کاربردی' },
     visualAlt: {
-      en: 'Interactive hologram installation and delivery team at ITEX 2024',
-      fa: 'نصب هولوگرام تعاملی و تیم تحویل در ITEX 2024',
+      en: 'Sanitized architecture of the interactive hologram perception, control, projection, and fallback pipeline',
+      fa: 'معماری پاک‌سازی‌شدهٔ خط ادراک، کنترل، پروجکشن و fallback هولوگرام تعاملی',
     },
     visualCaption: {
-      en: 'ITEX 2024 installation and team context.',
-      fa: 'نمای نصب و تیم پروژه در ITEX 2024.',
+      en: 'Sanitized project-specific architecture; event photographs remain private pending explicit approval.',
+      fa: 'معماری پاک‌سازی‌شده و مختص پروژه؛ عکس‌های رویداد تا زمان تأیید صریح خصوصی باقی می‌مانند.',
     },
     sections: {
       context: {
@@ -65,8 +129,8 @@ export const projectCaseStudies = {
       evidence: {
         heading: { en: 'Evidence boundary', fa: 'مرز شواهد' },
         body: {
-          en: 'The event photograph documents delivery and team context. It is not presented as a product screenshot or a benchmark report.',
-          fa: 'عکس رویداد تحویل پروژه و زمینهٔ تیمی را مستند می‌کند. این تصویر به‌عنوان اسکرین‌شات محصول یا گزارش بنچمارک ارائه نمی‌شود.',
+          en: 'The public visuals are sanitized architecture diagrams grounded in the documented pipeline and failure boundaries. Event photographs are not published without explicit approval represented in the content model.',
+          fa: 'تصاویر عمومی نمودارهای معماری پاک‌سازی‌شده و مبتنی بر خط پردازش و مرزهای خرابی مستند هستند. عکس‌های رویداد بدون تأیید صریح ثبت‌شده در مدل محتوا منتشر نمی‌شوند.',
         },
       },
     },
@@ -143,6 +207,40 @@ export const projectCaseStudies = {
   'crypto-fiat-payment-gateway': {
     evidenceStatus: EVIDENCE_STATUS.verifiedPublic,
     category: { en: 'Payments and ledger workflows', fa: 'جریان‌های پرداخت و دفترکل' },
+    stateTransitions: {
+      title: { en: 'Payment state transitions', fa: 'گذارهای وضعیت پرداخت' },
+      columns: [
+        { en: 'Trigger', fa: 'محرک' },
+        { en: 'Durable state', fa: 'وضعیت پایدار' },
+        { en: 'Next action', fa: 'اقدام بعدی' },
+      ],
+      rows: [
+        {
+          id: 'initial-request',
+          trigger: { en: 'New request with an idempotency key', fa: 'درخواست جدید با کلید idempotency' },
+          state: { en: 'Persisted payment intent', fa: 'قصد پرداخت ذخیره‌شده' },
+          action: { en: 'Call the relevant external adapter', fa: 'فراخوانی آداپتور بیرونی مرتبط' },
+        },
+        {
+          id: 'duplicate-request',
+          trigger: { en: 'Repeated idempotency key', fa: 'کلید idempotency تکراری' },
+          state: { en: 'Existing intent state', fa: 'وضعیت قصد موجود' },
+          action: { en: 'Return persisted state without creating another intent', fa: 'بازگرداندن وضعیت ذخیره‌شده بدون ایجاد قصد جدید' },
+        },
+        {
+          id: 'provider-timeout',
+          trigger: { en: 'Provider timeout or uncertain response', fa: 'timeout ارائه‌دهنده یا پاسخ نامطمئن' },
+          state: { en: 'Pending reconciliation', fa: 'در انتظار تطبیق' },
+          action: { en: 'Reconcile before assigning a terminal state', fa: 'تطبیق پیش از تعیین وضعیت نهایی' },
+        },
+        {
+          id: 'classified-result',
+          trigger: { en: 'Classified provider result', fa: 'نتیجهٔ دسته‌بندی‌شدهٔ ارائه‌دهنده' },
+          state: { en: 'Retryable or terminal', fa: 'قابل تلاش مجدد یا نهایی' },
+          action: { en: 'Retry only retryable states; retain terminal states', fa: 'تلاش مجدد فقط برای وضعیت‌های مجاز و حفظ وضعیت‌های نهایی' },
+        },
+      ],
+    },
     visualAlt: { en: '', fa: '' },
     visualCaption: {
       en: 'Category illustration; provider and production details remain private.',
@@ -218,6 +316,16 @@ export function getProjectCaseStudy(slug, locale = 'en') {
     category: localized(caseStudy.category, locale),
     visualAlt: localized(caseStudy.visualAlt, locale),
     visualCaption: localized(caseStudy.visualCaption, locale),
+    stateTransitions: caseStudy.stateTransitions ? {
+      title: localized(caseStudy.stateTransitions.title, locale),
+      columns: caseStudy.stateTransitions.columns.map(column => localized(column, locale)),
+      rows: caseStudy.stateTransitions.rows.map(row => ({
+        id: row.id,
+        trigger: localized(row.trigger, locale),
+        state: localized(row.state, locale),
+        action: localized(row.action, locale),
+      })),
+    } : null,
     sections: Object.fromEntries(
       Object.entries(caseStudy.sections).map(([key, section]) => [key, {
         heading: localized(section.heading, locale),

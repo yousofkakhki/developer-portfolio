@@ -8,11 +8,11 @@ import Experience from "../components/homepage/experience";
 import HeroSection from "../components/homepage/hero-section";
 import Projects from "../components/homepage/projects";
 import Skills from "../components/homepage/skills";
-import { getLocalBlogs } from "@/utils/data/local-blogs";
+import { getHomepageBlogs } from "@/utils/data/local-blogs";
 
 export default async function Home({ params }) {
   const { locale } = await params;
-  const blogs = getLocalBlogs(locale);
+  const blogs = getHomepageBlogs(locale);
 
   return (
     <div suppressHydrationWarning className="brand-home min-h-screen">

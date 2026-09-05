@@ -13,4 +13,13 @@ function isArticleType(value) {
   return ARTICLE_TYPE_VALUES.includes(value);
 }
 
-module.exports = { ARTICLE_TYPES, ARTICLE_TYPE_VALUES, isArticleType };
+function getArticleSchemaType(value) {
+  return value === ARTICLE_TYPES.siteEngineering ? 'BlogPosting' : 'TechArticle';
+}
+
+module.exports = {
+  ARTICLE_TYPES,
+  ARTICLE_TYPE_VALUES,
+  getArticleSchemaType,
+  isArticleType,
+};

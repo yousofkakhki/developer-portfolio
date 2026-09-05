@@ -52,7 +52,14 @@ test('shared controls and identity assets use the Field Systems language at ever
     'public/brand/yk-micro-icon.svg',
     'public/brand/favicon.svg',
     'public/brand/app-icon.svg',
+  ];
+  const retiredAssets = [
     'public/brand/social-avatar.svg',
+    'public/brand/yk-horizontal-lockup.svg',
+    'public/brand/yk-master-lockup.svg',
+    'public/brand/yk-symbol-flat.svg',
+    'public/brand/yk-symbol-primary.svg',
+    'public/brand/yk-symbol-teal.svg',
   ];
 
   assert.match(nav, /hidden lg:flex/);
@@ -63,7 +70,7 @@ test('shared controls and identity assets use the Field Systems language at ever
   assert.doesNotMatch(footer, /Signal · Structure · Scale/);
   assert.match(scroll, /brand-scroll-top/);
   assert.doesNotMatch(scroll, /rounded-full|backdrop-blur|shadow-lg/);
-  assert.match(layout, /const ogImagePath = locale === 'fa' \? '\/og-fa\.png' : '\/og-en\.png';/);
+  assert.match(layout, /const ogImagePath = `\/\$\{locale\}\/opengraph-image`;/);
   assert.match(layout, /`\$\{siteUrl\}\$\{ogImagePath\}`/);
 
   for (const asset of assets) {
@@ -72,6 +79,9 @@ test('shared controls and identity assets use the Field Systems language at ever
     assert.match(svg, /#f3f7fb/i, `${asset} must use primary text`);
     assert.match(svg, /#22d3ee/i, `${asset} must use cyan`);
     assert.match(svg, /#f59e0b/i, `${asset} must use amber`);
+  }
+  for (const asset of retiredAssets) {
+    assert.equal(fs.existsSync(path.join(root, asset)), false, `${asset} must not remain public`);
   }
 });
 
@@ -109,17 +119,16 @@ test('the active Field Systems cascade is explicit, motion-safe, and free of neo
   assert.match(css, /\.hero-layout\s*\{[^}]*flex-direction:\s*column;/);
   assert.doesNotMatch(css, /\.hero-layout\s*\{[^}]*display:\s*contents/);
   assert.match(css, /html\[dir="rtl"\] \.hero-title\s*\{[\s\S]*?letter-spacing:\s*0;/);
-  assert.match(css, /grid-template-areas:[\s\S]*?"summary portrait"[\s\S]*?"trace portrait"[\s\S]*?"actions portrait"[\s\S]*?"proof portrait"[\s\S]*?"credentials portrait"/);
+  assert.match(css, /grid-template-areas:[\s\S]*?"summary portrait"[\s\S]*?"actions portrait"[\s\S]*?"proof portrait"[\s\S]*?"credential portrait"/);
   const mobileRegionOrder = [
     'hero-identity',
     'hero-action-row',
     'hero-portrait-column',
-    'hero-trace',
     'hero-proof-grid',
-    'hero-credentials',
+    'hero-degree-line',
   ].map(className => hero.indexOf(className));
   for (let index = 1; index < mobileRegionOrder.length; index += 1) {
-    assert.ok(mobileRegionOrder[index] > mobileRegionOrder[index - 1], 'hero DOM order must be summary, actions, portrait, trace, proof, credentials');
+    assert.ok(mobileRegionOrder[index] > mobileRegionOrder[index - 1], 'hero DOM order must be summary, actions, portrait, proof, degree');
   }
   assert.ok(
     css.lastIndexOf('@media (min-width: 768px) and (max-height: 700px)') > css.indexOf('Systems documentation'),
@@ -146,8 +155,8 @@ test('the hero uses human-first identity typography and proof-strip composition'
   assert.match(hero, /hero-designation/);
   assert.match(hero, /hero-proof-grid/);
   assert.match(hero, /hero-proof/);
-  assert.match(hero, /hero-trace/);
-  assert.match(hero, /hero-trace__step/);
+  assert.match(hero, /hero-degree-line/);
+  assert.doesNotMatch(hero, /hero-trace|hero-socials/);
   assert.match(hero, /hero-portrait-frame/);
   assert.match(hero, /hero-portrait-meta/);
   assert.doesNotMatch(hero, /yk-horizontal-lockup\.svg/);

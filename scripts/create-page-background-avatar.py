@@ -4,7 +4,7 @@ from collections import deque
 from pathlib import Path
 from PIL import Image, ImageFilter
 
-SOURCE = Path('public/avatar-512.webp')
+SOURCE = Path('assets/source/hero-portrait-source.webp')
 OUTPUT = Path('public/avatar-page-background.webp')
 SOURCE_BACKGROUND = (15, 23, 43)
 PAGE_BACKGROUND = (7, 16, 24)

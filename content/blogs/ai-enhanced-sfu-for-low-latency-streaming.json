@@ -1,6 +1,8 @@
 {
   "slug": "ai-enhanced-sfu-for-low-latency-streaming",
   "articleType": "architecture-essay",
+  "homepageFeatured": true,
+  "homepagePriority": 3,
   "title": {
     "en": "Where AI Actually Belongs in an SFU Stack",
     "fa": ""

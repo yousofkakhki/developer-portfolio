@@ -1,114 +1,154 @@
-# Security Implementation Summary
+# Security boundary
 
-## Security Measures Implemented
+This document summarizes controls implemented in the current repository and the limits of that evidence. Source review and automated tests are not a penetration test and are not a compliance certification. Production security also depends on deployment configuration, secret management, reverse-proxy behavior, patching, monitoring, and external services.
 
-### 1. Rate Limiting
-- **Implementation**: IP-based rate limiting
-- **Limits**: 5 requests per 15 minutes per IP address
-- **Response**: Returns HTTP 429 (Too Many Requests) with Retry-After header
-- **Storage**: In-memory Map (consider Redis for production scaling)
+## Implemented application controls
 
-### 2. Input Validation & Sanitization
-- **Email Validation**: RFC 5322 compliant regex + length checks
-- **Name Validation**: Length checks + pattern detection for malicious content
-- **Message Validation**: Length limits + XSS/SQL injection pattern detection
-- **Sanitization**: Removes null bytes, control characters, limits length
-- **HTML Escaping**: All user input is escaped before being used in email templates
+### Bounded public write endpoints
 
-### 3. Protection Against Common Attacks
+The contact, analytics, and revalidation endpoints apply explicit request-size checks and in-process rate limiting. Rejected requests use bounded JSON responses and rate-limit metadata.
 
-#### SQL Injection
-- ✅ Input sanitization removes SQL keywords
-- ✅ Parameterized queries (Nodemailer handles this)
-- ✅ Pattern detection for SQL injection attempts
+- `app/api/contact/route.js` validates and bounds contact input before transport.
+- `app/api/analytics/route.js` accepts only allowlisted non-personal event fields.
+- `app/api/revalidate/route.js` validates locale/slug input and compares `REVALIDATE_SECRET` using `timingSafeEqual`.
 
-#### XSS (Cross-Site Scripting)
-- ✅ HTML escaping in email templates
-- ✅ Content Security Policy headers
-- ✅ Input validation against script tags and event handlers
+The rate limiter is process-local. It is appropriate for the current single application process but is not a distributed quota service. A multi-instance deployment would need a shared, owner-approved store and a reviewed trust boundary for client IPs.
 
-#### CSRF (Cross-Site Request Forgery)
-- ✅ SameSite cookies (if using cookies)
-- ✅ Origin validation (can be added)
-- ✅ Honeypot field support
+### Contact transport
 
-#### DDoS Protection
-- ✅ Rate limiting per IP
-- ✅ Request timeout (10 seconds for email, 5 seconds for Telegram)
-- ✅ Connection pooling limits
-- ✅ Request size limits
+The contact endpoint:
 
-### 4. Security Headers
-- **X-Content-Type-Options**: nosniff
-- **X-Frame-Options**: DENY
-- **X-XSS-Protection**: 1; mode=block
-- **Referrer-Policy**: strict-origin-when-cross-origin
-- **Permissions-Policy**: Restricts geolocation, microphone, camera
-- **Content-Security-Policy**: Comprehensive CSP with allowed sources
-- **Strict-Transport-Security**: HSTS for HTTPS connections
+- reads transport configuration only from server-side environment variables;
+- supports an authenticated SMTP mode and an explicit Mailcow internal-relay mode;
+- permits `SMTP_AUTH_DISABLED=true` only for the constrained `postfix-mailcow` port-25 path;
+- requires TLS 1.2 or later when TLS is used;
+- sets transport connection, greeting, socket, and send timeouts;
+- disables Nodemailer file and URL access;
+- escapes user-controlled HTML before composing messages;
+- treats Telegram delivery as optional and bounded rather than a requirement for email success;
+- returns generic public errors rather than transport credentials or raw internal exceptions.
 
-### 5. Error Handling
-- ✅ Generic error messages (no information leakage)
-- ✅ Detailed logging on server side only
-- ✅ Timeout handling for external services
-- ✅ Graceful degradation (Telegram failures don't block email)
+No credential values belong in this repository. `.env.example` documents names and safe blanks only.
 
-### 6. SMTP Security
-- ✅ Connection verification before sending
-- ✅ Timeout configuration (10 seconds)
-- ✅ Connection pooling limits
-- ✅ TLS/SSL support
-- ✅ Error code handling for authentication issues
+### Input handling
 
-### 7. Additional Security Features
-- ✅ IP address extraction from various proxy headers
-- ✅ Request validation (JSON parsing with error handling)
-- ✅ Honeypot field support (ready for implementation)
-- ✅ Rate limit headers in responses
-- ✅ Request duration tracking
+Application validation provides:
 
-## Testing Recommendations
+- bounded name, email, and message lengths;
+- email-shape validation suitable for this contact workflow;
+- null/control-character cleanup;
+- rejection of known script/event-handler and obvious injection patterns;
+- server-side HTML escaping for contact content;
+- JSON parse/error handling;
+- query-free, allowlisted analytics payloads.
 
-### Manual Testing
-1. **Rate Limiting**: Send 6 requests quickly, verify 6th returns 429
-2. **Input Validation**: Try SQL injection, XSS, and invalid inputs
-3. **Email**: Verify emails are sent and received correctly
-4. **Error Handling**: Test with invalid SMTP credentials
+These controls reduce obvious abuse and output injection risk. They are not a claim of complete RFC email validation, a web application firewall, SQL-query protection for a database-backed contact flow, or comprehensive malicious-input detection.
 
-### Automated Testing (Recommended)
-- Use tools like OWASP ZAP or Burp Suite
-- Test for common vulnerabilities (OWASP Top 10)
-- Load testing to verify rate limiting works under pressure
-- Penetration testing for API endpoints
+### Security headers
 
-## Production Recommendations
+`middleware-security.js` defines the response policy, including:
 
-1. **Use Redis for Rate Limiting**: Current in-memory solution works but won't scale across multiple servers
-2. **Add CAPTCHA**: Consider adding reCAPTCHA v3 for additional bot protection
-3. **Monitor Logs**: Set up alerting for repeated rate limit violations
-4. **Backup Email Service**: Consider a backup SMTP provider
-5. **WAF (Web Application Firewall)**: Consider Cloudflare or similar for additional DDoS protection
-6. **Regular Security Audits**: Schedule periodic security reviews
+- Content Security Policy;
+- `object-src 'none'`;
+- `base-uri 'self'`;
+- `form-action 'self'`;
+- `frame-ancestors 'none'`;
+- HSTS;
+- `X-Content-Type-Options`;
+- `X-Frame-Options`;
+- Referrer Policy;
+- Cross-Origin resource/opener policies; and
+- Permissions Policy.
 
-## Environment Variables Required
+The Permissions Policy intentionally uses `microphone=(self)` because the owner-approved, explicit opt-in voice experience requires same-origin microphone access. Camera and geolocation remain disabled. The Content Security Policy includes the documented Next.js hydration/style exception and `wasm-unsafe-eval` for the self-hosted VAD runtime; production JavaScript `unsafe-eval` remains disallowed.
 
-```env
-SMTP_HOST=mail.kakhki.ir
-SMTP_PORT=587
-SMTP_USER=contact@kakhki.ir
-SMTP_PASSWORD=your_password
-RECEIVING_EMAIL=me@kakhki.ir
-TELEGRAM_BOT_TOKEN=optional
-TELEGRAM_CHAT_ID=optional
+### Progressive voice/avatar boundary
+
+The professional portrait is the complete default experience. Three.js/VRM, Socket.IO, VAD, ONNX/WASM, and microphone behavior are loaded only after the visitor uses the explicit voice-introduction control. Reduced-motion and Save-Data paths retain the static portrait. Permission denial, transport errors, and visual-render failures preserve a non-voice/non-WebGL path.
+
+### Container boundary
+
+The production Compose service is configured to:
+
+- bind on `127.0.0.1:3000`;
+- run the application as the non-root `node` user;
+- use a read-only root filesystem;
+- drop all Linux capabilities;
+- set `no-new-privileges`;
+- bound processes, memory, CPU, and log rotation;
+- mount content read-only; and
+- isolate writable analytics/cache paths.
+
+The Compose configuration references an existing Mailcow network and certificate mount. Their availability and permissions are operational prerequisites, not guarantees established by source tests.
+
+## Required environment-variable names
+
+Use `.env.example` as the canonical list. Security-relevant setting names include:
+
+- `NEXT_PUBLIC_APP_URL`
+- `NEXT_PUBLIC_ENABLE_VRM_AVATAR`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASSWORD`
+- `SMTP_AUTH_DISABLED`
+- `RECEIVING_EMAIL`
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `REVALIDATE_SECRET`
+
+Never commit real values. Rotate any value that has been exposed outside its intended secret store.
+
+## Validation evidence
+
+The canonical source gates are:
+
+```bash
+npm test
+npm run lint
+npm run content:integrity
+npm run resume:check
+npm run build
 ```
 
-## Known Issues & Fixes
+Relevant tests cover request bounds, rate limits, secret comparison, contact transport constraints, security headers, non-root/loopback container configuration, profile-link allowlisting, and opt-in heavy runtimes.
 
-### SMTP Authentication Error
-If you see "535 5.7.8 Error: authentication failed":
-1. Verify SMTP credentials in .env file
-2. Check if SMTP server requires different authentication method
-3. Verify port (587 for TLS, 465 for SSL)
-4. Check if IP whitelisting is required on mail server
-5. Try setting `secure: true` for port 465
+Built-origin checks add route, link, metadata, viewport, and accessibility evidence:
 
+```bash
+BASE_URL=http://127.0.0.1:3100 npm run links:check
+BASE_URL=http://127.0.0.1:3100 npm run seo:health
+BASE_URL=http://127.0.0.1:3100 npm run viewport:check
+BASE_URL=http://127.0.0.1:3100 npm run a11y:check
+```
+
+A passing run applies only to the tested revision and environment.
+
+## Residual risks and operational actions
+
+- Process-local rate limits do not coordinate across replicas or survive process restart.
+- Contact delivery depends on the configured SMTP/internal-relay boundary and certificate availability.
+- Public voice mode depends on browser permission, microphone hardware, the external realtime service, and autoplay policy.
+- CSP exceptions required by Next.js and ONNX/WASM should be reviewed when dependencies change.
+- Dependencies and base images require regular patching and vulnerability review.
+- Logs and analytics storage need owner-defined retention, backup, and access controls.
+- Reverse-proxy/CDN rate limiting, request limits, TLS, and abuse monitoring must be verified separately in production.
+- A professional penetration test is still required for penetration-test assurance.
+- Legal, privacy, financial, and regulatory compliance require separate qualified review.
+
+## Reporting a vulnerability
+
+Do not include credentials, private client data, exploit payloads against production, or sensitive logs in a public issue. Contact the site owner through the verified contact path on [kakhki.me](https://kakhki.me) with a minimal reproduction, affected route/version, and impact description. Coordinate disclosure before publishing technical details.
+
+## Secret-exposure response
+
+If a credential or private key is committed or otherwise exposed:
+
+1. revoke or rotate it at the provider immediately;
+2. identify every system and artifact that received it;
+3. remove it from the current tree;
+4. decide separately whether a coordinated Git-history sanitation is required;
+5. invalidate caches/releases/mirrors where possible; and
+6. verify replacement credentials and logs without publishing their values.
+
+Deleting a secret from the latest commit does not remove it from Git history.

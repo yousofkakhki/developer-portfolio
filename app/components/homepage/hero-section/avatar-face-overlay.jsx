@@ -62,15 +62,11 @@ export function AvatarFaceOverlay() {
   const [voiceState, setVoiceState] = useState(null);
   const stageReadyRef = useRef(false);
   const delayElapsedRef = useRef(false);
-  const visualStateRef = useRef('portrait');
+  const visualRequestedRef = useRef(false);
   const transitionDelayRef = useRef(null);
   const transitionCompleteRef = useRef(null);
   const voiceStatus = voiceState ? (VOICE_STATUS_STYLES[voiceState] || VOICE_STATUS_STYLES.error) : null;
   const voiceLabel = voiceState ? t(`voiceStates.${voiceState}`) : null;
-
-  useEffect(() => {
-    visualStateRef.current = visualState;
-  }, [visualState]);
 
   const clearVisualTimers = useCallback(() => {
     if (transitionDelayRef.current !== null) {
@@ -111,7 +107,41 @@ export function AvatarFaceOverlay() {
     }, AVATAR_TRANSITION_DURATION_MS);
   }, []);
 
+  const startAvatarVisual = useCallback(() => {
+    if (visualRequestedRef.current) return;
+    visualRequestedRef.current = true;
+
+    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+    const saveData = navigator.connection?.saveData === true;
+    if (!AVATAR_VISUAL_ENABLED || reducedMotion || saveData) {
+      enterFallback();
+      return;
+    }
+
+    clearVisualTimers();
+    stageReadyRef.current = false;
+    delayElapsedRef.current = false;
+    setStage('loading');
+    setVisualState('portrait');
+    transitionDelayRef.current = window.setTimeout(() => {
+      transitionDelayRef.current = null;
+      delayElapsedRef.current = true;
+      if (stageReadyRef.current && document.visibilityState === 'visible') {
+        beginReveal();
+      } else {
+        setVisualState('preparing');
+      }
+    }, AVATAR_TRANSITION_DELAY_MS);
+
+    import('./avatar-face-canvas')
+      .then(({ default: Canvas }) => {
+        setAvatarFaceCanvas(() => Canvas);
+      })
+      .catch(enterFallback);
+  }, [beginReveal, clearVisualTimers, enterFallback]);
+
   const startVoiceSession = useCallback(() => {
+    startAvatarVisual();
     setVoiceActive(true);
     setVoiceState('starting');
     import('./avatar-voice-session')
@@ -121,7 +151,7 @@ export function AvatarFaceOverlay() {
       .catch(() => {
         setVoiceState('error');
       });
-  }, []);
+  }, [startAvatarVisual]);
 
   const handleAvatarReady = useCallback(() => {
     stageReadyRef.current = true;
@@ -146,158 +176,7 @@ export function AvatarFaceOverlay() {
     startVoiceSession();
   }, [AvatarVoiceSession, startVoiceSession]);
 
-  useEffect(() => {
-    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-    const saveData = navigator.connection?.saveData === true;
-
-    if (!AVATAR_VISUAL_ENABLED || reducedMotion || saveData) {
-      enterFallback();
-      return undefined;
-    }
-
-    let cancelled = false;
-    let started = false;
-    let idleHandle;
-    let hardFallbackTimer;
-
-    const importAvatar = () => {
-      if (cancelled || started) {
-        return;
-      }
-
-      started = true;
-      setStage('loading');
-      if (hardFallbackTimer !== undefined) {
-        window.clearTimeout(hardFallbackTimer);
-      }
-
-      import('./avatar-face-canvas')
-        .then(({ default: Canvas }) => {
-          if (!cancelled) {
-            setAvatarFaceCanvas(() => Canvas);
-          }
-        })
-        .catch(() => {
-          if (!cancelled) {
-            enterFallback();
-          }
-        });
-    };
-
-    const scheduleImport = () => {
-      setStage('scheduled');
-      hardFallbackTimer = window.setTimeout(importAvatar, 3000);
-
-      if ('requestIdleCallback' in window) {
-        idleHandle = window.requestIdleCallback(importAvatar, { timeout: 2000 });
-      }
-    };
-
-    if (document.readyState === 'complete') {
-      scheduleImport();
-    } else {
-      window.addEventListener('load', scheduleImport, { once: true });
-    }
-
-    return () => {
-      cancelled = true;
-      window.removeEventListener('load', scheduleImport);
-      if (idleHandle !== undefined && 'cancelIdleCallback' in window) {
-        window.cancelIdleCallback(idleHandle);
-      }
-      if (hardFallbackTimer !== undefined) {
-        window.clearTimeout(hardFallbackTimer);
-      }
-    };
-  }, [enterFallback]);
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-    const saveData = navigator.connection?.saveData === true;
-
-    if (!AVATAR_VISUAL_ENABLED || reducedMotion || saveData) {
-      return undefined;
-    }
-
-    const markDelayElapsed = () => {
-      transitionDelayRef.current = null;
-      if (
-        document.visibilityState !== 'visible' ||
-        visualStateRef.current === 'avatar' ||
-        visualStateRef.current === 'fallback'
-      ) {
-        return;
-      }
-
-      delayElapsedRef.current = true;
-      if (stageReadyRef.current) {
-        beginReveal();
-      } else {
-        setVisualState('preparing');
-      }
-    };
-
-    const scheduleTransition = () => {
-      if (
-        document.visibilityState !== 'visible' ||
-        visualStateRef.current === 'avatar' ||
-        visualStateRef.current === 'fallback'
-      ) {
-        return;
-      }
-
-      clearVisualTimers();
-      delayElapsedRef.current = false;
-      setVisualState('portrait');
-      transitionDelayRef.current = window.setTimeout(markDelayElapsed, AVATAR_TRANSITION_DELAY_MS);
-    };
-
-    const updateVisibility = () => {
-      const visible = document.visibilityState === 'visible';
-      if (!visible) {
-        if (
-          visualStateRef.current !== 'avatar' &&
-          visualStateRef.current !== 'fallback'
-        ) {
-          clearVisualTimers();
-          delayElapsedRef.current = false;
-          setVisualState('portrait');
-        }
-        return;
-      }
-      scheduleTransition();
-    };
-
-    const handlePageHide = () => {
-      if (
-        visualStateRef.current !== 'avatar' &&
-        visualStateRef.current !== 'fallback'
-      ) {
-        clearVisualTimers();
-        delayElapsedRef.current = false;
-        setVisualState('portrait');
-      }
-    };
-    const handlePageShow = () => scheduleTransition();
-    const handleLoad = () => scheduleTransition();
-
-    document.addEventListener('visibilitychange', updateVisibility);
-    window.addEventListener('pagehide', handlePageHide);
-    window.addEventListener('pageshow', handlePageShow);
-    if (document.readyState === 'complete') {
-      scheduleTransition();
-    } else {
-      window.addEventListener('load', handleLoad, { once: true });
-    }
-
-    return () => {
-      clearVisualTimers();
-      document.removeEventListener('visibilitychange', updateVisibility);
-      window.removeEventListener('pagehide', handlePageHide);
-      window.removeEventListener('pageshow', handlePageShow);
-      window.removeEventListener('load', handleLoad);
-    };
-  }, [beginReveal, clearVisualTimers]);
+  useEffect(() => () => clearVisualTimers(), [clearVisualTimers]);
 
   return (
     <div className="pointer-events-none absolute inset-0" data-voice-state={voiceState || 'off'}>

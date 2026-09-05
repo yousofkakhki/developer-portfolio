@@ -1,0 +1,322 @@
+{
+  "scannedPaths": [
+    "avatar-page-background.webp",
+    "blog/hybrid-architecture-safe.svg",
+    "blog/portfolio-cover.svg",
+    "blog/systems-edge.svg",
+    "blog/webrtc-scale.svg",
+    "brand/app-icon.svg",
+    "brand/favicon.svg",
+    "brand/yk-micro-icon.svg",
+    "ota-1.jpg",
+    "project-media/atomic-ab-ota.svg",
+    "project-media/hologram-delivery-architecture.svg",
+    "project-media/hologram-fallback-states.svg",
+    "project-media/hologram-installation-readiness.svg",
+    "project-media/hologram-perception-control.svg",
+    "project-media/honar-live-post-session.svg",
+    "project-media/payment-idempotency-reconciliation.svg"
+  ],
+  "assets": [
+    {
+      "path": "avatar-page-background.webp",
+      "status": "published",
+      "purpose": "canonical-profile-portrait",
+      "format": "webp",
+      "byteSize": 132922,
+      "width": 1254,
+      "height": 1254,
+      "publishedReferences": [
+        "/{locale}",
+        "/{locale}#hero"
+      ],
+      "containsRecognizablePeople": true,
+      "approvalEvidence": {
+        "kind": "owner-provided-for-public-profile"
+      },
+      "provenance": {
+        "kind": "owner-provided-profile-portrait"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "blog/hybrid-architecture-safe.svg",
+      "status": "published",
+      "purpose": "published-article-cover",
+      "format": "svg",
+      "byteSize": 3676,
+      "width": 1200,
+      "height": 630,
+      "publishedReferences": [
+        "/{locale}/blog/hybrid-room-scalability-nats-livekit"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "blog/portfolio-cover.svg",
+      "status": "published",
+      "purpose": "published-article-cover",
+      "format": "svg",
+      "byteSize": 1447,
+      "width": 1200,
+      "height": 630,
+      "publishedReferences": [
+        "/{locale}/blog/building-bilingual-portfolio-nextjs"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "blog/systems-edge.svg",
+      "status": "published",
+      "purpose": "published-article-cover",
+      "format": "svg",
+      "byteSize": 4123,
+      "width": 1200,
+      "height": 630,
+      "publishedReferences": [
+        "/{locale}/blog/ebpf-probes-for-faster-ota-fault-detection"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "blog/webrtc-scale.svg",
+      "status": "published",
+      "purpose": "published-article-cover",
+      "format": "svg",
+      "byteSize": 4754,
+      "width": 1200,
+      "height": 630,
+      "publishedReferences": [
+        "/en/blog/ai-enhanced-sfu-for-low-latency-streaming",
+        "/{locale}/blog/eu-scale-livekit-sfu-clustering-in-frankfurt"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "brand/app-icon.svg",
+      "status": "published",
+      "purpose": "web-app-manifest-icon",
+      "format": "svg",
+      "byteSize": 1032,
+      "width": 1000,
+      "height": 1000,
+      "publishedReferences": [
+        "/manifest.webmanifest"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "brand/favicon.svg",
+      "status": "published",
+      "purpose": "site-icon",
+      "format": "svg",
+      "byteSize": 1024,
+      "width": 1000,
+      "height": 1000,
+      "publishedReferences": [
+        "/{locale}"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "brand/yk-micro-icon.svg",
+      "status": "published",
+      "purpose": "navigation-brand-mark",
+      "format": "svg",
+      "byteSize": 1024,
+      "width": 1000,
+      "height": 1000,
+      "publishedReferences": [
+        "/{locale}",
+        "/{locale}/*"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "ota-1.jpg",
+      "status": "published-supporting",
+      "purpose": "sanitized-device-update-field-evidence",
+      "format": "jpg",
+      "byteSize": 39555,
+      "height": 338,
+      "width": 598,
+      "publishedReferences": [
+        "/{locale}/projects/embedded-linux-ota"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-project-archive",
+        "privacyReviewed": true
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/atomic-ab-ota.svg",
+      "status": "published",
+      "purpose": "project-architecture-evidence",
+      "format": "svg",
+      "byteSize": 3029,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/embedded-linux-ota"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/hologram-delivery-architecture.svg",
+      "status": "published",
+      "purpose": "project-architecture-evidence",
+      "format": "svg",
+      "byteSize": 2505,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/ai-hologram-realtime-backend"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/hologram-fallback-states.svg",
+      "status": "published-supporting",
+      "purpose": "project-supporting-architecture-evidence",
+      "format": "svg",
+      "byteSize": 2350,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/ai-hologram-realtime-backend"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/hologram-installation-readiness.svg",
+      "status": "published-supporting",
+      "purpose": "project-supporting-architecture-evidence",
+      "format": "svg",
+      "byteSize": 2513,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/ai-hologram-realtime-backend"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/hologram-perception-control.svg",
+      "status": "published-supporting",
+      "purpose": "project-supporting-architecture-evidence",
+      "format": "svg",
+      "byteSize": 2281,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/ai-hologram-realtime-backend"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/honar-live-post-session.svg",
+      "status": "published",
+      "purpose": "project-and-article-architecture-evidence",
+      "format": "svg",
+      "byteSize": 3330,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/real-time-learning-platform",
+        "/{locale}/blog/honar-amoozesh-5000-concurrent-webrtc-case-study"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    },
+    {
+      "path": "project-media/payment-idempotency-reconciliation.svg",
+      "status": "published",
+      "purpose": "project-architecture-evidence",
+      "format": "svg",
+      "byteSize": 3488,
+      "width": 1600,
+      "height": 900,
+      "publishedReferences": [
+        "/{locale}/projects/crypto-fiat-payment-gateway"
+      ],
+      "containsRecognizablePeople": false,
+      "approvalEvidence": null,
+      "provenance": {
+        "kind": "owner-authored"
+      },
+      "embeddedPerformanceClaims": []
+    }
+  ],
+  "summary": {
+    "published": 12,
+    "published-supporting": 4
+  },
+  "errors": []
+}

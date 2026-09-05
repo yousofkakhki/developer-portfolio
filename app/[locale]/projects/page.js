@@ -5,7 +5,7 @@ import {
   isCaseStudyProject,
   projectCatalog,
 } from '@/utils/data/project-catalog';
-import ProjectVisual from '@/app/components/homepage/projects/project-visual';
+import ProjectHeroMedia from '@/app/components/projects/project-hero-media';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
       title: isFa ? `${title} | یوسف کاخکی` : `${title} | Yousef Kakhki`,
       description,
       locale: isFa ? 'fa_IR' : 'en_US',
-      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+      images: [{ url: `${url}/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }
@@ -48,6 +48,14 @@ export default async function ProjectsIndex({ params }) {
   const language = locale === 'fa' ? 'fa' : 'en';
   const t = await getTranslations({ locale: language, namespace: 'projects' });
   const projects = projectCatalog.map(project => getLocalizedProject(project, language));
+  const roleLabels = {
+    architecture: t('evidenceRoles.architecture'),
+    product: t('evidenceRoles.product'),
+    delivery: t('evidenceRoles.delivery'),
+    'team-context': t('evidenceRoles.team-context'),
+    'field-context': t('evidenceRoles.field-context'),
+    'supporting-only': t('evidenceRoles.supporting-only'),
+  };
   const url = `${siteUrl}/${language}/projects`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -86,11 +94,12 @@ export default async function ProjectsIndex({ params }) {
           const content = (
             <>
               <div className="brand-project-index__visual">
-                <ProjectVisual
-                  projectId={project.id}
-                  visualKind={project.visualKind}
-                  briefLabel={isCaseStudy ? t('caseStudyLabel') : t('snapshotLabel')}
-                  categoryLabel={t(`visualKinds.${project.visualKind}`)}
+                <ProjectHeroMedia
+                  project={project}
+                  roleLabels={roleLabels}
+                  fallbackLabel={isCaseStudy ? t('caseStudyLabel') : t('snapshotLabel')}
+                  fallbackCategory={t(`visualKinds.${project.visualKind}`)}
+                  compact
                 />
               </div>
               <div className="brand-project-index__copy">

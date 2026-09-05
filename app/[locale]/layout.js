@@ -61,7 +61,7 @@ export async function generateMetadata({ params: { locale } }) {
   
   // Locale-specific OG image alt text
   const ogImageAlt = `${localized(careerFacts.identity.localizedName, locale)} – ${primaryTitle}`;
-  const ogImagePath = locale === 'fa' ? '/og-fa.png' : '/og-en.png';
+  const ogImagePath = `/${locale}/opengraph-image`;
 
   return {
     title: {

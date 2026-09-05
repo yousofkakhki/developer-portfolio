@@ -1,45 +1,28 @@
 // @flow strict
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import { BsLinkedin } from 'react-icons/bs';
 import { careerFacts, getPublishableMetric, localized } from '@/utils/data/career-facts';
-import profileConfig from '@/utils/data/external-profiles.cjs';
 import { ConversionLink } from '../../analytics/conversion-link';
 import { AvatarFaceOverlay } from './avatar-face-overlay';
-
-const { getApprovedGlobalProfiles } = profileConfig;
 
 async function HeroSection() {
   const t = await getTranslations();
   const locale = await getLocale();
   const platformConcurrency = careerFacts.metrics.platformConcurrency;
   const backendExperience = careerFacts.metrics.backendExperience;
-  const approvedProfiles = getApprovedGlobalProfiles();
 
   const proofPoints = [
     {
       id: platformConcurrency.id,
-      index: '01',
       value: getPublishableMetric(platformConcurrency, 'homepage') ? localized(platformConcurrency.localizedValue, locale) : '—',
       label: localized(platformConcurrency.label, locale),
-      detail: t('hero.metricConcurrentDetail'),
     },
     {
       id: backendExperience.id,
-      index: '02',
       value: getPublishableMetric(backendExperience, 'homepage') ? localized(backendExperience.localizedValue, locale) : '—',
       label: localized(backendExperience.label, locale),
-      detail: t('hero.metricBackendDetail'),
-    },
-    {
-      id: 'education.msc-computer-science',
-      index: '03',
-      value: t('hero.metricDegree'),
-      label: t('hero.metricComputerScience'),
-      detail: t('hero.metricUniversity'),
     },
   ];
-  const traceSteps = t.raw('hero.trace');
 
   return (
     <section id="hero" className="brand-section hero-shell">
@@ -87,26 +70,6 @@ async function HeroSection() {
             >
               {t('hero.resumePdf')}
             </ConversionLink>
-
-            {approvedProfiles.length > 0 && (
-              <ul className="hero-socials flex items-center" aria-label={t('contact.profiles')}>
-                {approvedProfiles.map(profile => (
-                  <li key={profile.id}>
-                    <ConversionLink
-                      eventName={`${profile.id}_click`}
-                      source="homepage_hero"
-                      href={profile.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-slate-400 transition-colors"
-                      aria-label={`${t(`hero.${profile.id}Profile`)} (${t('common.opensInNewTab')})`}
-                    >
-                      {profile.id === 'linkedin' && <BsLinkedin size={21} aria-hidden="true" />}
-                    </ConversionLink>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
 
           <div className="hero-portrait-column flex shrink-0 justify-center">
@@ -130,32 +93,19 @@ async function HeroSection() {
             </div>
           </div>
 
-          <ol className="hero-trace" aria-label={t('hero.focusAreas')}>
-            {traceSteps.map((step, index) => (
-              <li className="hero-trace__step" key={step}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <bdi>{step}</bdi>
-              </li>
-            ))}
-          </ol>
-
           <ul className="hero-proof-grid" aria-label={t('hero.focusAreas')}>
             {proofPoints.map(point => (
               <li className="hero-proof" data-fact-id={point.id} key={point.id}>
-                <span className="hero-proof-index" aria-hidden="true">{point.index}</span>
                 <div className="hero-metric-value font-mono font-semibold">{point.value}</div>
                 <div className="hero-metric-label text-sm">{point.label}</div>
-                <div className="hero-metric-detail text-xs font-mono">{point.detail}</div>
               </li>
             ))}
           </ul>
 
-          <ul className="hero-credentials flex flex-wrap text-sm text-slate-400" aria-label={t('hero.credentials')}>
-            <li>{localized(careerFacts.identity.primaryTitle, locale)}</li>
-            <li><bdi dir="ltr">WebRTC · LiveKit</bdi></li>
-            <li><bdi dir="ltr">NATS · Kafka</bdi></li>
-            <li><bdi dir="ltr">PostgreSQL</bdi></li>
-          </ul>
+          <p className="hero-degree-line">
+            <strong>{t('hero.metricDegree')} · {t('hero.metricComputerScience')}</strong>
+            <span>{t('hero.metricUniversity')}</span>
+          </p>
         </div>
       </div>
     </section>

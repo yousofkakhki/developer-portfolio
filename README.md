@@ -1,418 +1,157 @@
-# Developer Portfolio - Yousef Kakhki
+# kakhki.me
 
-<p align="center">
-  <img height="100" src="https://github.com/said7388/developer-portfolio/assets/77630868/c0064908-cd5f-4751-a77c-eba90a62b55c">
-</p>
+The source for [kakhki.me](https://kakhki.me), the bilingual English/Persian portfolio of Yousef Kakhki, Senior Backend Engineer & Technical Lead.
 
-<p align="center">
-  <strong>A modern, high-performance, bilingual (English/Persian) portfolio website built with Next.js 15, React 19, and Tailwind CSS</strong>
-</p>
+This repository is an evidence-grounded portfolio application, not a generic résumé template. It presents public career facts, selected writing, three full systems case studies, and six concise project snapshots while keeping unsupported metrics, private client source, and unapproved external profiles out of public surfaces.
 
-<p align="center">
-  <a href="https://kakhki.ir">Live Demo</a> •
-  <a href="#features">Features</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#deployment">Deployment</a>
-</p>
+## Current architecture
 
----
+- Next.js 15 App Router with React 19.
+- `/en` and `/fa` route trees using `next-intl`, including RTL document direction for Persian.
+- Server-rendered homepage, writing, project index, case-study, and recruiter routes.
+- Canonical evidence model in `utils/data/career-facts.js`.
+- Explicit case-study versus project-snapshot publication model in `utils/data/project-publication-manifest.cjs`.
+- Validated bilingual project media and artifact models in `utils/data/project-media-manifest.cjs` and `utils/data/project-artifact-manifest.cjs`.
+- Route-specific, locale-aware Open Graph image generation at 1200×630.
+- Static local article routes backed by the eligible records under `content/blogs/`.
+- Opt-in voice/avatar enhancement; the static professional portrait is the complete default experience.
 
-## 🚀 Features
+The exact installed package versions are recorded in `package.json` and `package-lock.json`. At the time of this README update, the declared core versions are Next.js `^15.5.22`, React `^19.2.1`, React DOM `^19.2.1`, and next-intl `^4.13.4`.
 
-### Core Features
-- ✅ **Bilingual Support** - Full English/Persian (RTL) internationalization
-- ✅ **Modern UI/UX** - 2025 design trends with glassmorphism, micro-interactions, and smooth animations
-- ✅ **Performance Optimized** - Code splitting, lazy loading, optimized bundles
-- ✅ **SEO Optimized** - Meta tags, structured data, sitemap, hreflang
-- ✅ **Responsive Design** - Mobile-first, works on all devices
-- ✅ **Accessibility** - WCAG AA compliant, keyboard navigation, screen reader support
-- ✅ **Dark Theme** - Beautiful dark color scheme with gradient accents
+## Evidence and publication rules
 
-### Sections
-- 🎯 **Hero Section** - Animated introduction with parallax effects
-- 👤 **About Me** - Professional background and expertise
-- 💼 **Experience** - Work history with detailed descriptions
-- 🛠️ **Skills** - Interactive skill showcase with marquee
-- 🚀 **Projects** - Portfolio projects with image carousels
-- 🎓 **Education** - Academic background
-- 💬 **Testimonials** - Client recommendations
-- 📧 **Contact** - Contact form with email integration
+Public claims are fail-closed:
 
----
+- Repeated career facts and evidence status belong in `career-facts.js`.
+- Full project detail routes are generated only for published case studies.
+- Project snapshots remain on the project index and do not receive invented detail pages.
+- Client source is private unless a real repository is explicitly approved and attached to the project artifact model.
+- A generic GitHub profile is never treated as project source.
+- Proposed architectures and design hypotheses are labelled as such.
+- HonarAmoozesh uses LiveKit/WebRTC for live participation and delayed post-session HLS for later playback; the site does not present HLS as a live fallback.
+- Public images require a manifest classification, dimensions, route references, provenance, and approval evidence when recognizable people appear.
 
-## 🛠️ Tech Stack
+See:
 
-### Frontend
-- **Framework**: Next.js 15.5.7 (App Router)
-- **UI Library**: React 19.2.1
-- **Styling**: Tailwind CSS 3.x, SCSS
-- **Internationalization**: next-intl 4.5.6
-- **Animations**: CSS Animations, Lottie, Swiper
-- **Icons**: React Icons
+- `docs/content-fact-check.md`
+- `docs/owner-actions.md`
+- `docs/public-engineering-artifacts-plan.md`
+- `DESIGN.md`
 
-### Backend
-- **Runtime**: Node.js 20
-- **Email**: Nodemailer
-- **Rate Limiting**: express-rate-limit, rate-limiter-flexible
+## Public-asset policy
 
-### DevOps
-- **Containerization**: Docker, Docker Compose
-- **CI/CD**: GitHub Actions (configured)
-- **Deployment**: VPS/Docker, Vercel, Netlify compatible
-
-### Performance
-- **Image Optimization**: Next.js Image, Sharp
-- **Code Splitting**: Dynamic imports, route-based splitting
-- **Bundle Optimization**: Webpack optimizations, tree-shaking
-
----
-
-## 📋 Prerequisites
-
-- **Node.js** 20.x or higher
-- **npm** or **yarn**
-- **Docker** (optional, for containerized deployment)
-- **Git**
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
+`public/` contains only runtime files and publication-approved assets. The image inventory is fail-closed in `utils/data/public-asset-manifest.cjs` and audited by:
 
 ```bash
-git clone https://github.com/yourusername/developer-portfolio.git
-cd developer-portfolio
+node scripts/audit-public-assets.cjs
+node scripts/audit-public-assets.cjs --write
 ```
 
-### 2. Install Dependencies
+The generated machine-readable report is written to `artifacts/public-asset-audit.json`. Unreferenced visuals, abandoned social cards, unsupported claim-bearing artwork, draft-only media, and photographs without represented approval do not belong in `public/`.
+
+The approved portrait source used to generate the public derivative is kept outside the web root under `assets/source/`.
+
+## Local development
+
+Prerequisites:
+
+- Node.js 20 or a compatible runtime supported by the installed Next.js release.
+- npm.
+- Optional: Docker and Docker Compose for container builds.
+
+Install and run:
 
 ```bash
 npm install
-# or
-yarn install
-```
-
-### 3. Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Application
-NEXT_PUBLIC_APP_URL=https://kakhki.ir
-NEXT_PUBLIC_GTM=GTM-XXXXXXX
-
-# Email Configuration
-EMAIL_ADDRESS=contact@kakhki.ir
-GMAIL_PASSKEY=your-app-password
-
-# Telegram (Optional)
-TELEGRAM_BOT_TOKEN=your-bot-token
-TELEGRAM_CHAT_ID=your-chat-id
-```
-
-### 4. Customize Your Data
-
-Edit the following files in `utils/data/`:
-- `personal-data.js` - Your personal information
-- `career-facts.js` - Canonical professional facts and evidence status
-- `project-catalog.js` - Project publication copy backed by shared fact IDs
-- `skills.js` - Your skills
-- `educations.js` - Education history
-
-Update translations in `messages/`:
-- `en.json` - English translations
-- `fa.json` - Persian translations
-
-### 5. Run Development Server
-
-```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+The development server listens on `http://localhost:3000`.
 
----
+Use `.env.example` as the list of supported setting names. Do not commit `.env`, credentials, tokens, private certificates, analytics data, or production secrets.
 
-## 🐳 Docker Deployment
+## Validation
 
-### Development
+Run the source and build gates from the repository root:
 
 ```bash
-docker compose up dev
-```
-
-### Production
-
-```bash
-# Build and run production container
-docker compose up -d prod
-
-# View logs
-docker compose logs -f prod
-
-# Stop container
-docker compose down prod
-```
-
-### Manual Docker Build
-
-```bash
-# Development
-docker build -f Dockerfile.dev -t portfolio-dev .
-docker run -p 3000:3000 portfolio-dev
-
-# Production
-docker build -f Dockerfile.prod -t portfolio-prod .
-docker run -p 3000:3000 portfolio-prod
-```
-
----
-
-## 📦 Project Structure
-
-```
-developer-portfolio/
-├── app/                          # Next.js App Router
-│   ├── [locale]/                 # Internationalized routes
-│   │   ├── layout.js            # Root layout with i18n
-│   │   ├── page.js              # Home page
-│   │   └── blog/                # Blog pages
-│   ├── api/                      # API routes
-│   │   ├── contact/             # Contact form endpoint
-│   │   ├── data/                # Data API
-│   │   └── google/              # Google API proxy
-│   ├── components/              # React components
-│   │   ├── homepage/            # Homepage sections
-│   │   ├── helper/              # Utility components
-│   │   └── ...                 # Other components
-│   ├── css/                     # Global styles
-│   └── assets/                  # Static assets (Lottie, SVG)
-├── messages/                     # Translation files
-│   ├── en.json                  # English
-│   └── fa.json                  # Persian
-├── public/                       # Public assets
-├── utils/                        # Utility functions
-│   ├── data/                    # Data files
-│   ├── hooks/                   # Custom React hooks
-│   └── ...                     # Other utilities
-├── middleware.js                 # Next.js middleware
-├── middleware-security.js        # Security headers
-├── next.config.js               # Next.js configuration
-├── tailwind.config.js           # Tailwind configuration
-├── docker-compose.yml           # Docker Compose config
-├── Dockerfile.dev               # Development Dockerfile
-├── Dockerfile.prod              # Production Dockerfile
-└── package.json                 # Dependencies
-```
-
----
-
-## 🧪 Testing
-
-### Run Tests
-
-```bash
-# Run all tests
 npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Run tests with coverage
-npm test -- --coverage
+npm run lint
+npm run content:integrity
+npm run resume:check
+npm run build
 ```
 
-### Test Structure
+Built-origin checks require a running production build, normally on port 3100 for isolation:
 
-```
-__tests__/
-├── components/          # Component tests
-├── utils/              # Utility function tests
-└── pages/              # Page tests
-```
-
----
-
-## 🚢 Deployment
-
-### Vercel
-
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Configure environment variables
-4. Deploy automatically on push
-
-### Netlify
-
-1. Connect GitHub repository
-2. Configure build settings:
-   - Build command: `npm run build`
-   - Publish directory: `.next`
-3. Add environment variables
-4. Deploy
-
-### VPS with Docker
-
-1. Clone repository on server
-2. Configure environment variables
-3. Run: `docker compose up -d prod`
-4. Configure reverse proxy (Nginx) if needed
-
-See [DEPLOYMENT.md](./docs/DEPLOYMENT.md) for detailed instructions.
-
----
-
-## 📚 Documentation
-
-- [Architecture Documentation](./docs/ARCHITECTURE.md)
-- [Component Documentation](./docs/COMPONENTS.md)
-- [Deployment Guide](./docs/DEPLOYMENT.md)
-- [API Documentation](./docs/API.md)
-- [Contributing Guide](./docs/CONTRIBUTING.md)
-
----
-
-## 🔧 Configuration
-
-### Next.js Config
-
-Key configurations in `next.config.js`:
-- Image optimization
-- Webpack optimizations
-- Code splitting
-- Package import optimization
-
-### Tailwind Config
-
-Custom configurations:
-- 8pt grid system
-- Typography scale
-- Color palette
-- Animations and keyframes
-- RTL support
-
-### Internationalization
-
-Configured in `i18n.js`:
-- Supported locales: `en`, `fa`
-- Default locale: `en`
-- Locale detection
-- Routing strategy
-
----
-
-## 🎨 Customization
-
-### Colors
-
-Edit `tailwind.config.js` to customize the color scheme:
-
-```javascript
-colors: {
-  'accent': {
-    'primary': '#16f2b3',    // Cyan
-    'secondary': '#ec4899',  // Pink
-    'tertiary': '#8b5cf6',   // Violet
-  },
-}
+```bash
+BASE_URL=http://127.0.0.1:3100 npm run links:check
+BASE_URL=http://127.0.0.1:3100 npm run seo:health
+BASE_URL=http://127.0.0.1:3100 npm run viewport:check
+BASE_URL=http://127.0.0.1:3100 npm run a11y:check
 ```
 
-### Fonts
+These commands are validation tools, not standing claims about a particular Lighthouse score, field Core Web Vitals, or universal accessibility conformance. Report the output of the actual run and its environment.
 
-- **English**: Inter (Google Fonts)
-- **Persian**: Vazirmatn (Google Fonts)
+## Deployment
 
-### Animations
+The current production approach is Docker Compose on the owned VPS, behind an existing reverse proxy. The `prod` service:
 
-Customize animations in `tailwind.config.js` and `app/css/globals.scss`.
+- builds with `Dockerfile.prod`;
+- binds the application to `127.0.0.1:3000` rather than a public host interface;
+- runs with a read-only root filesystem, dropped Linux capabilities, `no-new-privileges`, and bounded CPU/memory/process settings;
+- mounts public content read-only and analytics storage separately;
+- joins the existing Mailcow network for the explicitly configured internal relay path.
 
----
+Build-only candidate validation is separate from promotion:
 
-## 🔒 Security
+```bash
+docker compose build prod
+```
 
-- Content Security Policy (CSP) headers
-- Rate limiting on API routes
-- Input validation and sanitization
-- Secure headers (HSTS, X-Frame-Options, etc.)
-- Environment variable protection
+Do not use `docker compose up`, restart services, or promote a candidate without explicit deployment authorization and a production-invariant check.
 
-See [SECURITY.md](./SECURITY.md) for details.
+## Repository structure
 
----
+```text
+app/                         Next.js routes, metadata, API endpoints, and components
+content/blogs/               eligible evidence-bounded article records
+messages/                    English and Persian UI messages
+public/                      approved public assets and runtime model files
+docs/                        evidence register, owner actions, and artifact plans
+scripts/                     integrity, résumé, link, SEO, viewport, and axe checks
+tests/                       Node test contracts
+utils/data/                  canonical facts, publication, media, artifact, and route models
+```
 
-## 📈 Performance
+## Security and privacy boundary
 
-### Optimizations Implemented
+`SECURITY.md` documents implemented controls and assurance limits. This repository does not publish credentials or private client source. Environment-variable examples contain names and safe blanks only. The contact, analytics, and revalidation write endpoints are bounded and tested, but repository tests are not a penetration test or compliance certification.
 
-- ✅ Code splitting and lazy loading
-- ✅ Image optimization with Next.js Image
-- ✅ Bundle size optimization
-- ✅ React.memo and useMemo for component optimization
-- ✅ Font loading optimization
-- ✅ CSS optimization
+## Public engineering artifacts
 
-### Performance Metrics
+No project source URL is invented here. Proposed companion repositories are specifications only until the owner creates, licenses, reviews, and externally verifies substantive implementations. See `docs/public-engineering-artifacts-plan.md`.
 
-- **First Load JS**: ~463KB (optimized)
-- **Lighthouse Score**: 90+ (Performance)
-- **Core Web Vitals**: All green
+A site-wide public-artifact section should remain absent until at least two substantive repositories exist, pass CI, have clear licenses, are owner-approved, and are externally verified.
 
----
+## Attribution and license status
 
-## 🌍 Internationalization
+This portfolio originated from the `said7388/developer-portfolio` template and has since been substantially reworked for the current bilingual evidence architecture. That reference is attribution only; it is not a claim that current project content, professional facts, media, or infrastructure belong to the template author.
 
-### Supported Languages
+There is currently no top-level `LICENSE` file in this repository. Do not claim a public reuse or redistribution grant unless the owner adds an explicit license after reviewing upstream attribution and asset rights. The absence of a license does not itself establish permission to reuse the code or assets.
 
-- **English** (`/en`) - LTR
-- **Persian/Farsi** (`/fa`) - RTL
+## History and publication decision
 
-### Adding New Languages
+Deleting unsupported files from the current tree does not erase them from Git history. Before presenting this repository itself as a public engineering artifact, the owner must choose one of two paths:
 
-1. Add locale to `i18n.js`
-2. Create translation file in `messages/`
-3. Update `generateStaticParams` in layout
-4. Test RTL support if needed
+1. keep the repository private; or
+2. perform a separately authorized history sanitation and legal/attribution review.
 
----
+This candidate does not rewrite shared Git history.
 
-## 🤝 Contributing
+## Contact
 
-Contributions are welcome! Please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for guidelines.
+- Website: [kakhki.me](https://kakhki.me)
+- LinkedIn: [Yousef Kakhki](https://www.linkedin.com/in/yousefkakhki/)
 
----
-
-## 📄 License
-
-This project is private and proprietary.
-
----
-
-## 👤 Author
-
-**Yousef Kakhki**
-- Website: [kakhki.ir](https://kakhki.ir)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yousefkakhki)
-- GitHub: [@yourusername](https://github.com/yourusername)
-
----
-
-## 🙏 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons from [React Icons](https://react-icons.github.io/react-icons/)
-- Animations with [Lottie](https://lottiefiles.com/)
-
----
-
-## 📞 Support
-
-For support, email contact@kakhki.ir or open an issue in the repository.
-
----
-
-**Made with ❤️ by Yousef Kakhki**
+GitHub remains excluded from global portfolio branding until the external profile and representative repositories satisfy the owner-action gate documented in `docs/owner-actions.md`.

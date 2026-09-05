@@ -49,7 +49,11 @@ test('flagship WebRTC case study is published and constrained to verified facts'
   assert.match(article.content.en, /HLS/);
   assert.match(article.content.en, /does not mean 5,000 simultaneous publishers/i);
   assert.ok(article.tags.includes('webrtc'));
-  assert.equal(article.coverImage, '/blog/og/honar-amoozesh-5000-concurrent-webrtc-case-study.png');
+  assert.equal(article.coverImage, '/project-media/honar-live-post-session.svg');
+  assert.equal(
+    fs.existsSync(path.join(root, 'public/blog/og/honar-amoozesh-5000-concurrent-webrtc-case-study.png')),
+    false,
+  );
   assert.doesNotMatch(article.content.en, /78%|99\.99|sub-100|€|\$[0-9]|Frankfurt production/i);
 });
 

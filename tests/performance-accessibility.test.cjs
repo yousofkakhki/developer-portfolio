@@ -14,7 +14,7 @@ test('LCP avatar is server rendered, right-sized, and high priority', () => {
   assert.match(source, /avatar-page-background\.webp/);
 });
 
-test('3D avatar remains available as a gated post-load enhancement', () => {
+test('3D avatar remains available only as an explicitly activated enhancement', () => {
   const hero = read('app/components/homepage/hero-section/index.jsx');
   const overlay = read('app/components/homepage/hero-section/avatar-face-overlay.jsx');
   const canvas = read('app/components/homepage/hero-section/avatar-face-canvas.jsx');
@@ -22,9 +22,10 @@ test('3D avatar remains available as a gated post-load enhancement', () => {
 
   assert.match(hero, /AvatarFaceOverlay/);
   assert.match(hero, /avatar-page-background\.webp/);
-  assert.match(overlay, /window\.addEventListener\(['"]load['"]/);
-  assert.match(overlay, /requestIdleCallback/);
-  assert.match(overlay, /hardFallbackTimer/);
+  assert.match(overlay, /const startAvatarVisual = useCallback/);
+  assert.match(overlay, /const startVoiceSession = useCallback\(\(\) => \{[\s\S]*startAvatarVisual\(\)/);
+  assert.match(overlay, /onClick=\{startVoiceSession\}/);
+  assert.doesNotMatch(overlay, /window\.addEventListener\(['"]load['"]|requestIdleCallback|hardFallbackTimer/);
   assert.match(overlay, /data-avatar-stage/);
   assert.match(overlay, /prefers-reduced-motion: reduce/);
   assert.match(overlay, /saveData/);
@@ -132,16 +133,23 @@ test('official Field Systems brand assets and metadata are wired into the site',
   assert.match(read('app/components/homepage/hero-section/index.jsx'), /hero-title/);
   assert.doesNotMatch(read('app/components/homepage/hero-section/index.jsx'), /\/brand\/yk-horizontal-lockup\.svg/);
   for (const asset of [
-    'public/brand/yk-horizontal-lockup.svg',
     'public/brand/yk-micro-icon.svg',
     'public/brand/app-icon.svg',
     'public/brand/favicon.svg',
     'app/icon.png',
     'app/apple-icon.png',
-    'public/og-default.png',
   ]) {
     assert.equal(fs.existsSync(path.join(root, asset)), true, `missing ${asset}`);
   }
+  for (const asset of [
+    'public/brand/yk-horizontal-lockup.svg',
+    'public/og-default.png',
+    'public/og-en.png',
+    'public/og-fa.png',
+  ]) {
+    assert.equal(fs.existsSync(path.join(root, asset)), false, `${asset} must be replaced by active route assets`);
+  }
+  assert.equal(fs.existsSync(path.join(root, 'app/[locale]/opengraph-image.js')), true);
 });
 
 test('homepage secondary text meets contrast requirements', () => {

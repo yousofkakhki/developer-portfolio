@@ -153,7 +153,7 @@
    "role": "نقش",
     "indexTitle": "نمونه‌کارهای سیستم‌ها",
     "indexEyebrow": "نمونه‌کارهای سیستم‌ها",
-    "indexIntro": "سه مطالعهٔ موردی مبتنی بر شواهد و پنج نمایهٔ کوتاه از کارهای بک‌اند، رسانهٔ بلادرنگ، پرداخت و سیستم‌های نهفته.",
+    "indexIntro": "سه مطالعهٔ موردی مبتنی بر شواهد و شش نمایهٔ کوتاه از کارهای بک‌اند، رسانهٔ بلادرنگ، پرداخت و سیستم‌های نهفته.",
     "caseStudyLabel": "مطالعهٔ موردی",
     "snapshotLabel": "نمایهٔ پروژه",
     "readCaseStudy": "مطالعهٔ موردی را بخوانید",
@@ -171,6 +171,17 @@
     "projectFacts": "مشخصات پروژه",
     "technology": "فناوری‌ها",
     "evidenceBoundary": "مرز شواهد",
+    "visualEvidence": "شواهد تصویری",
+    "projectArtifacts": "منابع و مستندات پروژه",
+    "privateSourceNote": "کد منبع مشتری خصوصی است. مطالعهٔ موردی عمومی، معماری و مرزهای پیاده‌سازی قابل‌افشا را مستند می‌کند.",
+    "evidenceRoles": {
+      "architecture": "معماری",
+      "product": "محصول",
+      "delivery": "تحویل",
+      "team-context": "زمینهٔ تیم",
+      "field-context": "زمینهٔ میدانی",
+      "supporting-only": "شواهد تکمیلی"
+    },
     "outcomeTypes": {
       "observed-outcome": "نتیجهٔ مشاهده‌شده",
       "implementation-scope": "محدودهٔ پیاده‌سازی",
@@ -188,6 +199,7 @@
       "learning": "نرم‌افزار آموزشی",
       "ledger": "دفاتر کل مالی",
       "blockchain": "پاداش‌های مجاز بلاک‌چینی"
+      ,"realtime-learning": "آموزش بلادرنگ"
     }
   },
   "education": {

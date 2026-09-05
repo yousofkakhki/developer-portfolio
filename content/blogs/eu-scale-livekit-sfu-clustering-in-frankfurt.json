@@ -1,6 +1,7 @@
 {
   "slug": "eu-scale-livekit-sfu-clustering-in-frankfurt",
   "articleType": "reference-architecture",
+  "homepageFeatured": false,
   "title": {
     "en": "Designing EU-Region LiveKit SFU Clusters",
     "fa": ""

@@ -153,7 +153,7 @@
    "role": "Role",
     "indexTitle": "Systems work",
     "indexEyebrow": "Systems work",
-    "indexIntro": "Three evidence-led case studies and five concise project snapshots across backend systems, real-time media, payments, and embedded delivery.",
+    "indexIntro": "Three evidence-led case studies and six concise project snapshots across backend systems, real-time media, payments, and embedded delivery.",
     "caseStudyLabel": "Case study",
     "snapshotLabel": "Project snapshot",
     "readCaseStudy": "Read case study",
@@ -171,6 +171,17 @@
     "projectFacts": "Project facts",
     "technology": "Technology",
     "evidenceBoundary": "Evidence boundary",
+    "visualEvidence": "Visual evidence",
+    "projectArtifacts": "Project artifacts",
+    "privateSourceNote": "Client source is private. The public case study documents the architecture and implementation boundaries that can be disclosed.",
+    "evidenceRoles": {
+      "architecture": "Architecture",
+      "product": "Product",
+      "delivery": "Delivery",
+      "team-context": "Team context",
+      "field-context": "Field context",
+      "supporting-only": "Supporting evidence"
+    },
     "outcomeTypes": {
       "observed-outcome": "Observed outcome",
       "implementation-scope": "Implementation scope",
@@ -188,6 +199,7 @@
       "learning": "Learning software",
       "ledger": "Financial ledgers",
       "blockchain": "Permissioned rewards"
+      ,"realtime-learning": "Real-time learning"
     }
   },
   "education": {

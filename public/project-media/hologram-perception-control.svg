@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Perception and projection control boundary</title>
+  <desc id="desc">Camera input and pose estimation produce bounded application events that cross an API or WebSocket boundary before projection control.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111F"/><stop offset="1" stop-color="#13243A"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#22D3EE"/></marker>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg)"/>
+  <text x="90" y="92" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#F3F7FB" letter-spacing="3">PERCEPTION / CONTROL CONTRACT</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g fill="#0D1A2B" stroke="#22D3EE" stroke-width="3">
+      <rect x="75" y="285" width="270" height="150" rx="14"/>
+      <rect x="445" y="285" width="270" height="150" rx="14"/>
+      <rect x="815" y="285" width="300" height="150" rx="14"/>
+      <rect x="1215" y="285" width="310" height="150" rx="14"/>
+    </g>
+    <g fill="#F3F7FB" font-size="25" font-weight="600">
+      <text x="210" y="370">Camera input</text>
+      <text x="580" y="350">Pose</text><text x="580" y="385">estimation</text>
+      <text x="965" y="350">Bounded</text><text x="965" y="385">application events</text>
+      <text x="1370" y="350">API / WebSocket</text><text x="1370" y="385">projection control</text>
+    </g>
+    <g stroke="#22D3EE" stroke-width="4" marker-end="url(#arrow)"><path d="M345 360H430"/><path d="M715 360H800"/><path d="M1115 360H1200"/></g>
+  </g>
+  <rect x="375" y="585" width="850" height="120" rx="14" fill="#0D1A2B" stroke="#F59E0B" stroke-width="3"/>
+  <text x="800" y="638" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#F3F7FB">Model internals stay outside the presentation layer</text>
+  <text x="800" y="677" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" fill="#A7B4C5">The renderer receives an explicit event contract, not raw inference state.</text>
+</svg>

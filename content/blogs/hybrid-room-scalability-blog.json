@@ -1,6 +1,8 @@
 {
   "slug": "hybrid-room-scalability-nats-livekit",
   "articleType": "design-guide",
+  "homepageFeatured": true,
+  "homepagePriority": 2,
   "title": {
     "en": "Scaling Hybrid Classrooms: Separating Live WebRTC from Delayed HLS Playback",
     "fa": "مقیاس‌پذیری کلاس‌های ترکیبی: تفکیک WebRTC زنده از بازپخش با تأخیر HLS"
