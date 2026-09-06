@@ -50,7 +50,9 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    restart: unless-stopped
+    # The production site must return after a Docker/VPS restart even if the
+    # container was previously stopped cleanly.
+    restart: always
     networks:
       - default
       - mailcow
