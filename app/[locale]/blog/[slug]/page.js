@@ -7,16 +7,15 @@ import { notFound } from 'next/navigation';
 import { getActivePillarSlugs, getPillarForTags, PILLARS } from '@/utils/data/blog-pillars';
 import { ConversionLink } from '@/app/components/analytics/conversion-link';
 import { renderMarkdown } from '@/utils/render-markdown.cjs';
+import articleTypes from '@/utils/data/article-types.cjs';
+import imageSchema from '@/utils/data/image-schema.cjs';
 
-export const revalidate = 60;
+const { buildImageObject } = imageSchema;
+
 export const dynamicParams = false;
 
-function getArticleImage(blog, siteUrl) {
-  if (typeof blog.cover_image === 'string' && blog.cover_image.endsWith('.png')) {
-    const version = encodeURIComponent(blog.updated_at || blog.published_at || '1');
-    return `${siteUrl}${blog.cover_image}?v=${version}`;
-  }
-  return `${siteUrl}/og-default.png`;
+function getArticleImage(blog, siteUrl, locale) {
+  return `${siteUrl}/${locale}/blog/${blog.slug}/opengraph-image`;
 }
 
 function formatArticleDate(value, locale) {
@@ -37,7 +36,7 @@ export async function generateMetadata({ params }) {
   if (getLocalBlogBySlug(slug, 'en')) languages.en = `${siteUrl}/en/blog/${slug}`;
   if (getLocalBlogBySlug(slug, 'fa')) languages.fa = `${siteUrl}/fa/blog/${slug}`;
   if (languages.en) languages['x-default'] = languages.en;
-  const ogImage = getArticleImage(blog, siteUrl);
+  const ogImage = getArticleImage(blog, siteUrl, locale);
   return {
     title: blog.seo_title,
     description: blog.seo_description,
@@ -92,16 +91,26 @@ export default async function BlogPost({ params }) {
   const activePillars = locale === 'en' ? getActivePillarSlugs(getLocalBlogs('en')) : [];
   const pillarSlug = activePillars.includes(candidatePillar) ? candidatePillar : null;
   const articleTypeLabel = t(`articleTypes.${blog.article_type}`);
+  const schemaType = articleTypes.getArticleSchemaType(blog.article_type);
+  const articleImageUrl = getArticleImage(blog, siteUrl, locale);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'BlogPosting',
+        '@type': schemaType,
         '@id': `${articleUrl}#article`,
         mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
         headline: blog.title,
         description: blog.seo_description,
-        image: { '@type': 'ImageObject', url: getArticleImage(blog, siteUrl), width: 1200, height: 630 },
+        image: buildImageObject({
+          id: `${articleUrl}#primary-image`,
+          url: articleImageUrl,
+          width: 1200,
+          height: 630,
+          name: blog.title,
+          caption: blog.seo_description,
+          thumbnailUrl: articleImageUrl,
+        }),
         datePublished: blog.published_at,
         dateModified: blog.updated_at,
         inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',

@@ -1,6 +1,8 @@
 {
   "slug": "ebpf-probes-for-faster-ota-fault-detection",
   "articleType": "design-hypothesis",
+  "homepageFeatured": true,
+  "homepagePriority": 4,
   "title": {
     "en": "eBPF Probes for Faster OTA Fault Detection",
     "fa": ""

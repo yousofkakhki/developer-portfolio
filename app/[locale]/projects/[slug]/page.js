@@ -1,10 +1,13 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ConversionLink, ConversionView } from '@/app/components/analytics/conversion-link';
-import ProjectVisual from '@/app/components/homepage/projects/project-visual';
+import ProjectArtifactList from '@/app/components/projects/project-artifact-list';
+import ProjectEvidenceGallery from '@/app/components/projects/project-evidence-gallery';
+import ProjectHeroMedia from '@/app/components/projects/project-hero-media';
+import ProjectStateTransitionTable from '@/app/components/projects/project-state-transition-table';
 import { getProjectCaseStudy } from '@/utils/data/project-case-studies';
+import projectSchema from '@/utils/data/project-schema.cjs';
 import { getLocalBlogBySlug } from '@/utils/data/local-blogs';
 import {
   caseStudyProjects,
@@ -13,6 +16,8 @@ import {
 } from '@/utils/data/project-catalog';
 import { careerFacts, localized } from '@/utils/data/career-facts';
 import { locales } from '@/i18n';
+
+const { buildProjectCaseStudyGraph } = projectSchema;
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 
@@ -54,7 +59,7 @@ export async function generateMetadata({ params }) {
       title: `${project.name} | ${ownerName}`,
       description: project.description,
       locale: language === 'fa' ? 'fa_IR' : 'en_US',
-      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+      images: [{ url: `${url}/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }
@@ -71,36 +76,25 @@ export default async function ProjectPage({ params }) {
   const narrativeSections = Object.entries(caseStudy.sections)
     .filter(([key, section]) => !['outcomes', 'evidence'].includes(key) && section?.body?.trim());
   const evidenceBoundary = caseStudy.sections.evidence?.body;
+  const roleLabels = {
+    architecture: t('evidenceRoles.architecture'),
+    product: t('evidenceRoles.product'),
+    delivery: t('evidenceRoles.delivery'),
+    'team-context': t('evidenceRoles.team-context'),
+    'field-context': t('evidenceRoles.field-context'),
+    'supporting-only': t('evidenceRoles.supporting-only'),
+  };
   const url = `${siteUrl}/${language}/projects/${project.slug}`;
   const related = (caseStudy.relatedWriting || [])
     .map(relatedSlug => getLocalBlogBySlug(relatedSlug, language))
     .filter(Boolean);
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'CreativeWork',
-        '@id': `${url}#case-study`,
-        name: project.name,
-        description: project.description,
-        url,
-        inLanguage: language === 'fa' ? 'fa-IR' : 'en-US',
-        author: { '@id': `${siteUrl}/#person` },
-        keywords: project.tools.join(', '),
-        about: caseStudy.category,
-        isPartOf: { '@id': `${siteUrl}/#website` },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `${url}#breadcrumb`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: language === 'fa' ? 'خانه' : 'Home', item: `${siteUrl}/${language}` },
-          { '@type': 'ListItem', position: 2, name: t('indexTitle'), item: `${siteUrl}/${language}/projects` },
-          { '@type': 'ListItem', position: 3, name: project.name, item: url },
-        ],
-      },
-    ],
-  };
+  const jsonLd = buildProjectCaseStudyGraph({
+    project,
+    category: caseStudy.category,
+    locale: language,
+    siteUrl,
+    projectsLabel: t('indexTitle'),
+  });
 
   return (
     <div className="brand-route brand-case-brief">
@@ -120,29 +114,13 @@ export default async function ProjectPage({ params }) {
         <p className="brand-route__lead">{project.description}</p>
       </header>
 
-      <figure className="brand-case-brief__visual">
-        {project.images?.[0] ? (
-          <Image
-            src={project.images[0]}
-            width={1280}
-            height={720}
-            sizes="(max-width: 768px) 100vw, 1216px"
-            priority
-            alt={caseStudy.visualAlt}
-            className="h-auto w-full object-cover"
-          />
-        ) : (
-          <div className="h-72 md:h-[30rem]">
-            <ProjectVisual
-              projectId={project.id}
-              visualKind={project.visualKind}
-              briefLabel={t('caseStudyLabel')}
-              categoryLabel={caseStudy.category}
-            />
-          </div>
-        )}
-        <figcaption>{caseStudy.visualCaption}</figcaption>
-      </figure>
+      <ProjectHeroMedia
+        project={project}
+        roleLabels={roleLabels}
+        fallbackLabel={t('caseStudyLabel')}
+        fallbackCategory={caseStudy.category}
+        priority
+      />
 
       <section className="brand-case-brief__facts" aria-label={t('projectFacts')}>
         <div className="brand-case-brief__fact">
@@ -178,6 +156,21 @@ export default async function ProjectPage({ params }) {
           </section>
         )}
       </div>
+
+      <ProjectStateTransitionTable stateTransitions={caseStudy.stateTransitions} />
+
+      <ProjectEvidenceGallery
+        media={project.media}
+        title={t('visualEvidence')}
+        roleLabels={roleLabels}
+      />
+
+      <ProjectArtifactList
+        artifacts={project.artifacts}
+        sourceAvailability={project.sourceAvailability}
+        title={t('projectArtifacts')}
+        privateSourceNote={t('privateSourceNote')}
+      />
 
       {related.length > 0 && (
         <section className="brand-route__section brand-case-study-related" aria-labelledby="related-writing-heading">

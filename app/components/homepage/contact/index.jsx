@@ -1,7 +1,7 @@
 // @flow strict
 "use client";
 
-import { personalData } from '@/utils/data/personal-data';
+import { careerFacts } from '@/utils/data/career-facts';
 import { isValidEmail } from '@/utils/check-email';
 import { useState, memo } from 'react';
 import { useTranslations } from 'next-intl';
@@ -192,11 +192,11 @@ function Contact() {
               <ConversionLink
                 eventName="contact_email_click"
                 source="homepage_contact"
-                href={`mailto:${personalData.email}`}
+                href={`mailto:${careerFacts.contact.email}`}
                 className="inline-flex min-h-[44px] items-center gap-3 text-slate-400 transition-colors hover:text-slate-200"
               >
                 <MdAlternateEmail size={20} />
-                <span>{personalData.email}</span>
+                <span>{careerFacts.contact.email}</span>
               </ConversionLink>
             </div>
 

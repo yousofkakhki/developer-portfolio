@@ -1,4 +1,3 @@
-export const revalidate = 60;
 export const dynamicParams = false;
 
 import Link from 'next/link';
@@ -33,7 +32,7 @@ export async function generateMetadata({ params }) {
       title: meta.title,
       description: meta.description,
       locale: 'en_US',
-      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+      images: [{ url: `${siteUrl}/en/blog/pillar/${pillar}/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }

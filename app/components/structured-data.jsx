@@ -1,12 +1,15 @@
 import { careerFacts, localized } from '@/utils/data/career-facts';
 import profileConfig from '@/utils/data/external-profiles.cjs';
+import imageSchema from '@/utils/data/image-schema.cjs';
 
 const { getApprovedGlobalProfiles } = profileConfig;
+const { buildImageObject } = imageSchema;
 
 export default function StructuredData({ locale }) {
   const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
   const personId = `${siteUrl}/#person`;
   const websiteId = `${siteUrl}/#website`;
+  const profileImageSemantics = careerFacts.identity.profileImageSemantics;
   const graph = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -18,12 +21,15 @@ export default function StructuredData({ locale }) {
         jobTitle: localized(careerFacts.identity.primaryTitle, locale),
         description: localized(careerFacts.identity.description, locale),
         url: siteUrl,
-        image: {
-          '@type': 'ImageObject',
-          '@id': `${siteUrl}/#profile-image`,
+        image: buildImageObject({
+          id: `${siteUrl}/#profile-image`,
           url: `${siteUrl}/avatar-page-background.webp`,
-          contentUrl: `${siteUrl}/avatar-page-background.webp`,
-        },
+          width: 1254,
+          height: 1254,
+          name: localized(profileImageSemantics.name, locale),
+          caption: localized(profileImageSemantics.caption, locale),
+          thumbnailUrl: `${siteUrl}/${locale}/opengraph-image`,
+        }),
         sameAs: getApprovedGlobalProfiles().map(profile => profile.url),
         alumniOf: {
           '@type': 'CollegeOrUniversity',

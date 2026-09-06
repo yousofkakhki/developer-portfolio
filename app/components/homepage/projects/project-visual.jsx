@@ -1,10 +1,16 @@
 // @flow strict
 
-export default function ProjectVisual({ visualKind, briefLabel, categoryLabel }) {
+export default function ProjectVisual({
+  publicationType,
+  projectLabel,
+  visualKind,
+  briefLabel,
+  categoryLabel,
+}) {
   return (
     <div
       aria-hidden="true"
-      data-project-visual="case-study"
+      data-project-visual={publicationType}
       data-project-visual-kind={visualKind}
       className="relative h-full min-h-48 overflow-hidden bg-[#08111F]"
     >
@@ -25,7 +31,10 @@ export default function ProjectVisual({ visualKind, briefLabel, categoryLabel })
 
       <div className="absolute inset-x-5 bottom-5">
         <div className="mb-3 h-px w-12 bg-[#F59E0B]" />
-        <p className="max-w-[18rem] font-mono text-sm font-medium tracking-[0.08em] text-[#F3F7FB]">
+        <p className="mb-1 max-w-[20rem] text-base font-semibold text-[#F3F7FB]">
+          {projectLabel}
+        </p>
+        <p className="max-w-[18rem] font-mono text-xs font-medium tracking-[0.08em] text-[#A7B4C5]">
           {categoryLabel}
         </p>
       </div>

@@ -1,6 +1,6 @@
 # Content fact check
 
-Last reviewed: 2026-08-25
+Last reviewed: 2026-08-31
 
 This register records public wording decisions where the live audit or repository contains conflicting variants. The canonical structured values live in [`utils/data/career-facts.js`](../utils/data/career-facts.js). `unconfirmed` and `doNotPublish` facts must not be rendered as public claims.
 
@@ -36,7 +36,7 @@ They are suppressed from public homepage, Work with me, case-study, metadata, an
 
 ### Testimonials
 
-Both testimonial assets are retained for review, but their public quote/attribution CTAs are disabled until the exact issuer, date, wording, and permitted attribution are confirmed. The second asset filename does not match the displayed person.
+The testimonial images were removed from the current public tree because approval and attribution evidence were not represented. Testimonials remain non-public until the exact issuer, date, wording, and permitted attribution are confirmed. Any future image also requires explicit publication approval and a new public-asset classification.
 
 ### Credentials and rankings
 
@@ -44,4 +44,4 @@ Both testimonial assets are retained for review, but their public quote/attribut
 
 ### Public repository
 
-The site should claim that the portfolio is open source only when an explicit public repository URL is present in the canonical facts and visible in the article/profile links.
+The portfolio must not claim that private client source is public. Repository links render only through the approved project-artifact model. A companion implementation must be labelled as a sanitized reference rather than production source, and global GitHub branding remains disabled until the external profile owner-action gate is complete.

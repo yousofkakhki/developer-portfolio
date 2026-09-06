@@ -25,12 +25,16 @@ function evaluateModule(file, resultExpression, context = {}) {
 const resumeManifest = require('../utils/data/resume-manifest.cjs');
 const careerFacts = evaluateModule('utils/data/career-facts.js', 'careerFacts', { resumeManifest });
 const publicationManifest = require('../utils/data/project-publication-manifest.cjs');
+const mediaManifest = require('../utils/data/project-media-manifest.cjs');
+const artifactManifest = require('../utils/data/project-artifact-manifest.cjs');
 const projectCatalog = evaluateModule(
   'utils/data/project-catalog.js',
   'projectCatalog',
   {
     careerFacts,
     publicationManifest,
+    mediaManifest,
+    artifactManifest,
     localized: (value, locale = 'en') => typeof value === 'string' ? value : value?.[locale] || value?.en || '',
   },
 );

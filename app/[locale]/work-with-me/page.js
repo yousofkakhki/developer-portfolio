@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import { ConversionLink, ConversionView } from '@/app/components/analytics/conversion-link';
-import { personalData } from '@/utils/data/personal-data';
 import { careerFacts, localized } from '@/utils/data/career-facts';
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
@@ -15,11 +15,38 @@ const copy = {
     topCta: 'Discuss a role',
     downloadResume: 'Download résumé (PDF)',
     evidenceTitle: 'What I bring',
+    viewEvidence: 'View supporting evidence',
     evidence: [
-      ['Real-time media', 'Architecture experience with LiveKit, WebRTC, delayed HLS playback, NATS JetStream, and Go on an educational platform serving {platformConcurrency} at platform level.'],
-      ['Backend and platforms', '{backendExperience} years across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.'],
-      ['Technical leadership', 'Hands-on architecture and engineering leadership across backend, infrastructure, embedded Linux, and cross-functional delivery.'],
-      ['ERP and business systems', 'Delivered self-hosted Odoo Enterprise, Persian/Jalali and Hijri calendar localization, and further CRM-addon development and customization for the Odoo CRM team at Holoo Corp.'],
+      {
+        id: 'realtime-media',
+        title: 'Real-time media',
+        detail: 'Architecture experience with LiveKit, WebRTC, delayed HLS playback, NATS JetStream, and Go on an educational platform serving {platformConcurrency} at platform level.',
+        href: '/projects/real-time-learning-platform',
+      },
+      {
+        id: 'transactional-backend',
+        title: 'Transactional backend',
+        detail: '{backendExperience} years across Node.js, Go, Python, PostgreSQL, Kafka, NATS, infrastructure, and production operations.',
+        href: '/projects/crypto-fiat-payment-gateway',
+      },
+      {
+        id: 'technical-leadership',
+        title: 'Technical leadership',
+        detail: 'Hands-on architecture and engineering leadership across backend, infrastructure, and cross-functional delivery.',
+        href: '/projects/ai-hologram-realtime-backend',
+      },
+      {
+        id: 'linux-edge',
+        title: 'Linux and edge delivery',
+        detail: 'Embedded Linux delivery with atomic A/B updates, rollback boundaries, and field-oriented operational safeguards.',
+        href: '/projects#project-embedded-linux-ota',
+      },
+      {
+        id: 'erp-business-systems',
+        title: 'ERP and business systems',
+        detail: 'Delivered self-hosted Odoo Enterprise, Persian/Jalali and Hijri calendar localization, and further CRM-addon development and customization for the Odoo CRM team at Holoo Corp.',
+        href: '#erp-expertise',
+      },
     ],
     rolesTitle: 'Best-fit roles',
     roles: careerFacts.targetRoles,
@@ -31,6 +58,13 @@ const copy = {
     contactLabel: 'Contact / Direct',
     consultingTitle: 'Consulting and project-based architecture support',
     consultingIntro: 'Bounded reviews for teams that need a clear architecture decision, risk register, or implementation path.',
+    processTitle: 'A concise consulting process',
+    process: [
+      { id: 'discovery', title: 'Discovery', detail: 'Clarify the system boundary, constraints, evidence, and decision that must be made.' },
+      { id: 'architecture-review', title: 'Architecture and implementation review', detail: 'Inspect the relevant design, failure modes, and implementation path.' },
+      { id: 'decision-brief', title: 'Decision brief and prioritized risk register', detail: 'Return concrete recommendations, trade-offs, and ranked risks.' },
+      { id: 'implementation-follow-up', title: 'Optional implementation follow-up', detail: 'Support implementation or verify that the selected safeguards were applied.' },
+    ],
   },
   fa: {
     title: 'همکاری با یوسف کاخکی',
@@ -42,11 +76,38 @@ const copy = {
     topCta: 'گفتگو دربارهٔ یک موقعیت',
     downloadResume: 'دریافت رزومه (PDF)',
     evidenceTitle: 'تجربه‌ای که ارائه می‌کنم',
+    viewEvidence: 'مشاهدهٔ شواهد مرتبط',
     evidence: [
-      ['رسانهٔ بلادرنگ', 'تجربهٔ معماری با LiveKit، WebRTC، بازپخش HLS با تأخیر، NATS JetStream و Go در یک پلتفرم آموزشی با {platformConcurrency} در سطح پلتفرم.'],
-      ['بک‌اند و پلتفرم', 'بیش از ۱۰ سال تجربه در Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.'],
-      ['رهبری فنی', 'معماری و رهبری مهندسی همراه با مشارکت عملی در بک‌اند، زیرساخت، لینوکس نهفته و تحویل بین‌تیمی.'],
-      ['ERP و سامانه‌های کسب‌وکار', 'تحویل Odoo Enterprise خودمیزبان، بومی‌سازی تقویم‌های فارسی/جلالی و هجری، و توسعه و سفارشی‌سازی بیشتر افزونه‌های CRM برای تیم Odoo CRM شرکت هلو.'],
+      {
+        id: 'realtime-media',
+        title: 'رسانهٔ بلادرنگ',
+        detail: 'تجربهٔ معماری با LiveKit، WebRTC، بازپخش HLS با تأخیر، NATS JetStream و Go در یک پلتفرم آموزشی با {platformConcurrency} در سطح پلتفرم.',
+        href: '/projects/real-time-learning-platform',
+      },
+      {
+        id: 'transactional-backend',
+        title: 'بک‌اند تراکنشی',
+        detail: '{backendExperience} تجربه در Node.js، Go، Python، PostgreSQL، Kafka، NATS، زیرساخت و عملیات تولید.',
+        href: '/projects/crypto-fiat-payment-gateway',
+      },
+      {
+        id: 'technical-leadership',
+        title: 'رهبری فنی',
+        detail: 'معماری و رهبری مهندسی همراه با مشارکت عملی در بک‌اند، زیرساخت و تحویل بین‌تیمی.',
+        href: '/projects/ai-hologram-realtime-backend',
+      },
+      {
+        id: 'linux-edge',
+        title: 'لینوکس و تحویل در لبه',
+        detail: 'تحویل لینوکس نهفته با به‌روزرسانی اتمیک A/B، مرزهای بازگشت و سازوکارهای حفاظتی عملیات میدانی.',
+        href: '/projects#project-embedded-linux-ota',
+      },
+      {
+        id: 'erp-business-systems',
+        title: 'ERP و سامانه‌های کسب‌وکار',
+        detail: 'تحویل Odoo Enterprise خودمیزبان، بومی‌سازی تقویم‌های فارسی/جلالی و هجری، و توسعه و سفارشی‌سازی بیشتر افزونه‌های CRM برای تیم Odoo CRM شرکت هلو.',
+        href: '#erp-expertise',
+      },
     ],
     rolesTitle: 'فرصت‌های مهندسی مناسب',
     roles: ['مهندس ارشد بک‌اند', 'مهندس Staff یا رهبر بک‌اند', 'مهندس پلتفرم', 'مهندس رسانهٔ بلادرنگ', 'معمار راهکار'],
@@ -58,6 +119,13 @@ const copy = {
     contactLabel: 'تماس / مستقیم',
     consultingTitle: 'مشاورهٔ معماری سامانه به‌صورت پروژه‌ای یا پاره‌وقت',
     consultingIntro: 'بازبینی‌های محدود و مشخص برای تیم‌هایی که به تصمیم معماری، دفتر ثبت ریسک یا مسیر پیاده‌سازی روشن نیاز دارند.',
+    processTitle: 'فرایند کوتاه مشاوره',
+    process: [
+      { id: 'discovery', title: 'شناخت مسئله', detail: 'مرز سامانه، محدودیت‌ها، شواهد موجود و تصمیم موردنیاز را روشن می‌کنیم.' },
+      { id: 'architecture-review', title: 'بازبینی معماری و پیاده‌سازی', detail: 'طراحی مرتبط، حالت‌های خرابی و مسیر پیاده‌سازی بررسی می‌شود.' },
+      { id: 'decision-brief', title: 'بریف تصمیم و دفتر ریسک اولویت‌بندی‌شده', detail: 'پیشنهادهای مشخص، مصالحه‌ها و ریسک‌های رتبه‌بندی‌شده ارائه می‌شود.' },
+      { id: 'implementation-follow-up', title: 'پیگیری اختیاری پیاده‌سازی', detail: 'در پیاده‌سازی همراهی می‌کنم یا اعمال سازوکارهای حفاظتی منتخب را بازبینی می‌کنم.' },
+    ],
   },
 };
 
@@ -77,12 +145,14 @@ function getCopy(language) {
   return {
     ...base,
     intro: relocation,
-    evidence: base.evidence.map(([title, detail]) => [
+    evidence: base.evidence.map(({ id, title, detail, href }) => ({
+      id,
       title,
-      detail
+      detail: detail
         .replace('{platformConcurrency}', platformConcurrency)
         .replace('{backendExperience}', backendExperience),
-    ]),
+      href: `/${language}${href}`,
+    })),
     roles,
     consulting,
   };
@@ -110,7 +180,7 @@ export async function generateMetadata({ params }) {
       title: text.title,
       description: text.description,
       locale: language === 'fa' ? 'fa_IR' : 'en_US',
-      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+      images: [{ url: `${url}/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }
@@ -183,11 +253,14 @@ export default async function WorkWithMePage({ params }) {
       <section className="brand-route__section" aria-labelledby="evidence-heading">
         <h2 id="evidence-heading" className="brand-route__section-title">{text.evidenceTitle}</h2>
         <ol className="brand-evidence-sheet">
-          {text.evidence.map(([title, detail], index) => (
-            <li key={title} className="brand-evidence-sheet__row">
+          {text.evidence.map(({ id, title, detail, href }, index) => (
+            <li key={id} className="brand-evidence-sheet__row brand-evidence-sheet__row--linked">
               <span className="brand-evidence-sheet__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <h3>{title}</h3>
               <p>{detail}</p>
+              <Link href={href} className="brand-evidence-sheet__link">
+                {text.viewEvidence} <span aria-hidden="true">→</span>
+              </Link>
             </li>
           ))}
         </ol>
@@ -223,6 +296,21 @@ export default async function WorkWithMePage({ params }) {
             </li>
           ))}
         </ul>
+
+        <div className="brand-consulting-process-block">
+          <h3 className="brand-route__section-title">{text.processTitle}</h3>
+          <ol className="brand-consulting-process">
+            {text.process.map((step, index) => (
+              <li key={step.id}>
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h4>{step.title}</h4>
+                  <p>{step.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section className="brand-route__cta" aria-labelledby="recruiter-contact-heading">
@@ -240,7 +328,7 @@ export default async function WorkWithMePage({ params }) {
           <ConversionLink
             eventName="contact_email_click"
             source="work_with_me_page"
-            href={`mailto:${personalData.email}`}
+            href={`mailto:${careerFacts.contact.email}`}
             className="brand-button brand-button--inverse"
           >
             {text.email}

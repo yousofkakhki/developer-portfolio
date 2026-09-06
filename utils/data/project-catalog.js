@@ -1,7 +1,14 @@
 import { careerFacts, localized } from './career-facts';
 import publicationManifest from './project-publication-manifest.cjs';
+import mediaManifest from './project-media-manifest.cjs';
+import artifactManifest from './project-artifact-manifest.cjs';
 
 export const { PROJECT_PUBLICATION_TYPES } = publicationManifest;
+const { getPublishableProjectMedia } = mediaManifest;
+const {
+  getApprovedProjectArtifacts,
+  projectSourceAvailability,
+} = artifactManifest;
 
 export const PROJECT_EVIDENCE_LEVELS = Object.freeze({
   publicEvidence: 'public-evidence',
@@ -11,11 +18,34 @@ export const PROJECT_EVIDENCE_LEVELS = Object.freeze({
 
 const projectContent = [
   {
+    id: 9,
+    slug: 'real-time-learning-platform',
+    evidenceLevel: PROJECT_EVIDENCE_LEVELS.publicEvidence,
+    outcomeType: 'implementation-scope',
+    visualKind: 'realtime-learning',
+    featured: true,
+    updatedAt: '2026-08-31',
+    factIds: ['honar.platform-concurrency', 'honar.live-webrtc', 'honar.delayed-hls'],
+    name: {
+      en: 'Real-Time Learning Platform',
+      fa: 'پلتفرم آموزش بلادرنگ',
+    },
+    summary: {
+      en: 'Designed the backend and media architecture for an educational platform serving more than 5,000 concurrent users at platform level, with interactive WebRTC/LiveKit sessions, Go and NATS JetStream coordination, and HLS playback available only after the session.',
+      fa: 'معماری بک‌اند و رسانهٔ یک پلتفرم آموزشی با بیش از ۵٬۰۰۰ کاربر همزمان در سطح پلتفرم را طراحی کردم؛ نشست‌های تعاملی با WebRTC/LiveKit، هماهنگی کاربرد با Go و NATS JetStream، و بازپخش HLS فقط پس از پایان نشست ارائه می‌شد.',
+    },
+    role: { en: 'Solutions Architect & Technical Lead', fa: 'معمار راهکار و رهبر فنی' },
+    technologies: ['WebRTC', 'LiveKit', 'Go', 'NATS JetStream', 'HLS'],
+    outcome: {
+      en: 'Implementation scope covered live interactive delivery, application coordination, and a separate delayed post-session playback path.',
+      fa: 'محدودهٔ پیاده‌سازی تحویل تعاملی زنده، هماهنگی لایهٔ کاربرد و مسیر جداگانهٔ بازپخش با تأخیر پس از نشست را پوشش می‌داد.',
+    },
+  },
+  {
     id: 1,
     slug: 'ai-hologram-realtime-backend',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.publicEvidence,
     outcomeType: 'observed-outcome',
-    images: ['/ai-1.jpg', '/ai-2.jpg', '/ai-3.jpg'],
     visualKind: 'ai',
     featured: true,
     updatedAt: '2026-08-26',
@@ -40,7 +70,6 @@ const projectContent = [
     slug: 'investment-analytics-platform',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: [],
     visualKind: 'analytics',
     featured: true,
     updatedAt: '2026-08-26',
@@ -62,7 +91,6 @@ const projectContent = [
     slug: 'crypto-fiat-payment-gateway',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: [],
     visualKind: 'payments',
     featured: true,
     updatedAt: '2026-08-26',
@@ -84,7 +112,6 @@ const projectContent = [
     slug: 'realtime-game-platform',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: ['/game-1.jpg'],
     visualKind: 'realtime',
     factIds: ['trading-gamification.backend-scope'],
     name: { en: 'Trading Gamification Platform', fa: 'پلتفرم گیمیفیکیشن معاملات' },
@@ -104,7 +131,6 @@ const projectContent = [
     slug: 'embedded-linux-ota',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: ['/ota-1.jpg', '/ota-2.jpg', '/ota-3.jpg'],
     visualKind: 'embedded',
     factIds: ['batna.atomic-ota', 'batna.embedded-linux'],
     name: { en: 'Embedded Linux OTA Platform', fa: 'پلتفرم OTA لینوکس نهفته' },
@@ -124,7 +150,6 @@ const projectContent = [
     slug: 'learning-platform',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: [],
     visualKind: 'learning',
     factIds: ['education.greedy-learner-thesis'],
     name: { en: 'GreedyLearner', fa: 'GreedyLearner' },
@@ -144,7 +169,6 @@ const projectContent = [
     slug: 'transaction-ledger-system',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: [],
     visualKind: 'ledger',
     factIds: ['avin-avisa.p2p-trading', 'avin-avisa.transaction-state'],
     name: { en: 'P2P Trading Platform', fa: 'پلتفرم معاملات همتا‌به‌همتا' },
@@ -164,7 +188,6 @@ const projectContent = [
     slug: 'blockchain-backend-platform',
     evidenceLevel: PROJECT_EVIDENCE_LEVELS.boundedPublicSummary,
     outcomeType: 'implementation-scope',
-    images: [],
     visualKind: 'blockchain',
     factIds: ['academic.hyperledger-prototype'],
     name: { en: 'Blockchain Rewards Prototype', fa: 'نمونهٔ اولیهٔ سامانهٔ پاداش بلاک‌چینی' },
@@ -186,7 +209,13 @@ export const projectCatalog = publicationManifest.projectPublicationManifest.map
   if (!content || content.slug !== publication.slug) {
     throw new Error(`Project publication manifest does not match project content for ID ${publication.id}.`);
   }
-  return { ...content, ...publication };
+  return {
+    ...content,
+    ...publication,
+    media: getPublishableProjectMedia(publication.slug),
+    artifacts: getApprovedProjectArtifacts(publication.slug),
+    sourceAvailability: projectSourceAvailability[publication.slug],
+  };
 });
 
 export const caseStudyProjects = projectCatalog.filter(
@@ -209,6 +238,18 @@ export function getLocalizedProject(project, locale = 'en') {
     role: localized(project.role, locale),
     tools: project.technologies.slice(),
     outcome: localized(project.outcome, locale),
+    media: (project.media || []).map(item => ({
+      ...item,
+      locale,
+      alt: localized(item.alt, locale),
+      caption: localized(item.caption, locale),
+    })),
+    artifacts: (project.artifacts || []).map(item => ({
+      ...item,
+      url: item.urlByLocale?.[locale] || item.url,
+      label: localized(item.label, locale),
+      description: localized(item.description, locale),
+    })),
   };
 }
 

@@ -54,10 +54,14 @@ test('VRM head replacement remains passive while voice loads only after explicit
   assert.match(overlay, /NEXT_PUBLIC_ENABLE_VRM_AVATAR/);
   assert.match(overlay, /const AVATAR_VISUAL_ENABLED = process\.env\.NEXT_PUBLIC_ENABLE_VRM_AVATAR !== 'false'/);
   const fallbackGuards = overlay.match(/!AVATAR_VISUAL_ENABLED \|\| reducedMotion \|\| saveData/g) || [];
-  assert.equal(fallbackGuards.length, 2, 'both loading and transition effects must honor visual fallback');
-  assert.match(overlay, /const startVoiceSession = useCallback/);
+  assert.equal(fallbackGuards.length, 1, 'the explicit visual activation path must honor visual fallback');
+  assert.match(overlay, /const startAvatarVisual = useCallback/);
+  assert.match(overlay, /const startVoiceSession = useCallback\(\(\) => \{[\s\S]*startAvatarVisual\(\)/);
   assert.match(overlay, /onClick=\{startVoiceSession\}/);
+  assert.match(overlay, /import\(['"]\.\/avatar-face-canvas['"]\)/);
   assert.match(overlay, /import\(['"]\.\/avatar-voice-session['"]\)/);
+  assert.doesNotMatch(overlay, /window\.addEventListener\(['"]load['"]/);
+  assert.doesNotMatch(overlay, /requestIdleCallback|hardFallbackTimer/);
   assert.doesNotMatch(overlay, /const voiceSessionImport = import/);
   assert.doesNotMatch(overlay, /useEffect\(\(\) => \{\s*startVoiceSession\(\)/);
 });

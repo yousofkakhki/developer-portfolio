@@ -1,6 +1,4 @@
 // @flow strict
-export const revalidate = 60;
-export const dynamicParams = true;
 
 import { getTranslations } from 'next-intl/server';
 import { getLocalBlogs } from "@/utils/data/local-blogs";
@@ -35,7 +33,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       locale: isEn ? 'en_US' : 'fa_IR',
-      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+      images: [{ url: `${siteUrl}/${locale}/blog/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }

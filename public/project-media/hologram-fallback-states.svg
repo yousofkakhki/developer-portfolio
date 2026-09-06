@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Stable projection fallback states</title>
+  <desc id="desc">Input, inference, and transport readiness lead to active projection; loss of any dependency moves presentation ownership to a stable fallback state.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111F"/><stop offset="1" stop-color="#13243A"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#22D3EE"/></marker>
+    <marker id="amber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#F59E0B"/></marker>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg)"/>
+  <text x="90" y="92" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#F3F7FB" letter-spacing="3">VISIBLE RECOVERY OWNERSHIP</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g fill="#0D1A2B" stroke="#22D3EE" stroke-width="3">
+      <rect x="90" y="280" width="270" height="130" rx="14"/>
+      <rect x="470" y="280" width="270" height="130" rx="14"/>
+      <rect x="850" y="280" width="270" height="130" rx="14"/>
+      <rect x="1230" y="280" width="280" height="130" rx="14"/>
+    </g>
+    <g fill="#F3F7FB" font-size="24" font-weight="600">
+      <text x="225" y="355">Input ready</text>
+      <text x="605" y="355">Inference ready</text>
+      <text x="985" y="355">Transport ready</text>
+      <text x="1370" y="355">Projection active</text>
+    </g>
+    <g stroke="#22D3EE" stroke-width="4" marker-end="url(#arrow)"><path d="M360 345H455"/><path d="M740 345H835"/><path d="M1120 345H1215"/></g>
+    <rect x="500" y="615" width="600" height="130" rx="16" fill="#0D1A2B" stroke="#F59E0B" stroke-width="4"/>
+    <text x="800" y="672" fill="#F3F7FB" font-size="27" font-weight="700">Stable presentation fallback</text>
+    <text x="800" y="712" fill="#A7B4C5" font-size="21">projection remains responsible for visible recovery</text>
+    <g stroke="#F59E0B" stroke-width="4" stroke-dasharray="11 10" marker-end="url(#amber)"><path d="M225 410V560H650V600"/><path d="M605 410V600"/><path d="M985 410V560H950V600"/></g>
+  </g>
+</svg>

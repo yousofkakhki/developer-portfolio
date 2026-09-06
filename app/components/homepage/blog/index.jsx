@@ -1,46 +1,37 @@
 // @flow strict
-"use client";
 import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
-import { memo } from 'react';
+import { getLocale, getTranslations } from 'next-intl/server';
 import BlogCard from './blog-card';
 
-function Blog({ blogs }) {
-  const t = useTranslations();
-  const locale = useLocale();
-
-  const validBlogs = blogs?.filter(blog => blog?.cover_image) || [];
+export default async function Blog({ blogs = [] }) {
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'blog' });
 
   return (
-    <section id='blogs' className="brand-section">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="brand-section__title text-3xl font-semibold text-slate-100 mb-8">
-          {t('blog.title')}
+    <section id="blogs" className="brand-section" aria-labelledby="homepage-writing-heading">
+      <div className="mx-auto max-w-5xl">
+        <h2 id="homepage-writing-heading" className="brand-section__title mb-8 text-3xl font-semibold text-slate-100">
+          {t('title')}
         </h2>
 
-        {validBlogs.length > 0 ? (
+        {blogs.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {validBlogs.slice(0, 4).map((blog, i) => (
-                <BlogCard blog={blog} key={blog.id || i} index={i} />
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {blogs.map(blog => (
+                <BlogCard blog={blog} key={blog.id} />
               ))}
             </div>
 
             <div className="mt-8">
-              <Link
-                href={`/${locale}/blog`}
-                className="brand-button"
-              >
-                {t('blog.viewAllPosts')} →
+              <Link href={`/${locale}/blog`} className="brand-button">
+                {t('viewAllPosts')} <span aria-hidden="true">→</span>
               </Link>
             </div>
           </>
         ) : (
-          <p className="text-slate-400">{t('blog.noPostsYet')}</p>
+          <p className="text-slate-400">{t('noPostsYet')}</p>
         )}
       </div>
     </section>
   );
 }
-
-export default memo(Blog);

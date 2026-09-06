@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const messages = (locale) => JSON.parse(read(`messages/${locale}.json`));
 
-test('project publication manifest distinguishes three case studies from five snapshots', () => {
+test('project publication manifest distinguishes three case studies from six named snapshots', () => {
   const { PROJECT_PUBLICATION_TYPES, projectPublicationManifest } = require('../utils/data/project-publication-manifest.cjs');
   const caseStudies = projectPublicationManifest.filter(project => project.publicationType === PROJECT_PUBLICATION_TYPES.caseStudy);
   const snapshots = projectPublicationManifest.filter(project => project.publicationType === PROJECT_PUBLICATION_TYPES.projectSnapshot);
@@ -16,11 +16,14 @@ test('project publication manifest distinguishes three case studies from five sn
   const visual = read('app/components/homepage/projects/project-visual.jsx');
 
   assert.equal(caseStudies.length, 3);
-  assert.equal(snapshots.length, 5);
+  assert.equal(snapshots.length, 6);
+  assert.match(messages('en').projects.indexIntro, /six concise project snapshots/i);
+  assert.match(messages('fa').projects.indexIntro, /شش نمایهٔ کوتاه/);
   assert.doesNotMatch(catalog, /\/png\/placeholder\.png/);
-  assert.match(card, /ProjectVisual/);
-  assert.match(card, /data-project-media-state/);
-  assert.match(visual, /data-project-visual="case-study"/);
+  assert.match(card, /ProjectHeroMedia/);
+  assert.doesNotMatch(card, /data-project-media-state|useState|onError/);
+  assert.match(visual, /data-project-visual=\{publicationType\}/);
+  assert.doesNotMatch(visual, /data-project-visual="case-study"/);
   assert.match(visual, /aria-hidden="true"/);
 });
 
@@ -58,7 +61,11 @@ test('only case studies have detail routes and sitemap entries; snapshots remain
   assert.match(page, /project_case_study_view/);
   assert.doesNotMatch(page, /fallbackSections|confidentialityNote|permanentRedirect/);
   assert.match(page, /brand-case-study-grid/);
-  assert.match(page, /'@type': 'CreativeWork'/);
+  assert.match(page, /buildProjectCaseStudyGraph/);
+  assert.doesNotMatch(page, /'@type': 'CreativeWork'/);
+  const schema = read('utils/data/project-schema.cjs');
+  assert.match(schema, /'@type': 'TechArticle'/);
+  assert.match(schema, /'@type': 'ImageObject'/);
   assert.match(index, /projectCatalog\.map/);
   assert.match(index, /isCaseStudyProject/);
   assert.match(index, /<article className="brand-project-index__link brand-project-index__link--snapshot">/);

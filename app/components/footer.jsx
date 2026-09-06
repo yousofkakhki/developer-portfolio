@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsLinkedin } from 'react-icons/bs';
 import { getTranslations } from 'next-intl/server';
-import { personalData } from '@/utils/data/personal-data';
 import { careerFacts } from '@/utils/data/career-facts';
 import profileConfig from '@/utils/data/external-profiles.cjs';
 
@@ -58,10 +57,10 @@ async function Footer() {
             ))}
             <li>
               <a
-                href={`mailto:${personalData.email}`}
+                href={`mailto:${careerFacts.contact.email}`}
                 className="inline-flex min-h-[48px] items-center gap-2 border border-slate-700 px-3 text-slate-400 transition-colors hover:border-cyan-400 hover:text-cyan-300"
               >
-                <span>{personalData.email}</span>
+                <span>{careerFacts.contact.email}</span>
               </a>
             </li>
           </ul>

@@ -1,6 +1,7 @@
 {
   "slug": "building-bilingual-portfolio-nextjs",
   "articleType": "site-engineering",
+  "homepageFeatured": false,
   "title": {
     "en": "Building a Premium Bilingual Portfolio with Next.js",
     "fa": "ساخت پورتفولیوی دوزبانهٔ حرفه‌ای با Next.js"

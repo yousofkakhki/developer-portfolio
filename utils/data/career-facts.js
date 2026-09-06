@@ -37,6 +37,16 @@ export const careerFacts = Object.freeze({
       en: 'Senior backend engineer and technical lead working across distributed systems, real-time media, platform engineering, and Linux.',
       fa: 'مهندس ارشد بک‌اند و رهبر فنی در حوزهٔ سیستم‌های توزیع‌شده، رسانهٔ بلادرنگ، مهندسی پلتفرم و لینوکس.',
     },
+    profileImageSemantics: {
+      name: {
+        en: 'Portrait of Yousef Kakhki',
+        fa: 'پرترهٔ یوسف کاخکی',
+      },
+      caption: {
+        en: 'Professional profile portrait of Yousef Kakhki.',
+        fa: 'پرترهٔ حرفه‌ای یوسف کاخکی برای پروفایل.',
+      },
+    },
     surfaces: ['homepage', 'work', 'resume', 'metadata', 'structuredData'],
   },
 
@@ -297,7 +307,6 @@ export const careerFacts = Object.freeze({
       id: 'ali-mohammadian',
       displayedName: 'Ali Mohammadian',
       displayedRole: 'CEO, Capitalino',
-      asset: '/recommendation-ali-mohammadian.jpg',
       evidenceStatus: EVIDENCE_STATUS.unconfirmed,
       publish: false,
       reason: 'Attribution and exact source wording require owner confirmation.',
@@ -306,7 +315,6 @@ export const careerFacts = Object.freeze({
       id: 'emran-mohades',
       displayedName: 'Emran Mohades',
       displayedRole: 'COO, Capitalino',
-      asset: '/recommendation-sara-mozaffari.jpg',
       evidenceStatus: EVIDENCE_STATUS.unconfirmed,
       publish: false,
       reason: 'The asset filename and displayed attribution do not currently establish provenance.',

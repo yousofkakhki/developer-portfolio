@@ -59,6 +59,13 @@ export function getLocalBlogs(locale = 'en') {
     .map(blog => normalize(blog, locale));
 }
 
+export function getHomepageBlogs(locale = 'en') {
+  return loadAll()
+    .filter(blog => blog.homepageFeatured === true && hasCompleteTranslation(blog, locale))
+    .sort((a, b) => a.homepagePriority - b.homepagePriority)
+    .map(blog => normalize(blog, locale));
+}
+
 export function getLocalBlogBySlug(slug, locale = 'en') {
   const blog = loadAll().find(b => b.slug === slug);
   return blog && hasCompleteTranslation(blog, locale) ? normalize(blog, locale) : null;
