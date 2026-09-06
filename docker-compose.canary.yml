@@ -1,0 +1,13 @@
+services:
+  prod:
+    image: kakhkime-prod:ux-audit-32954f7
+    container_name: kakhkime-ux-audit-canary
+    env_file: !override
+      - /root/Projects/kakhki.me/.env
+    volumes: !override
+      - /root/Projects/kakhki.me/content:/app/content:ro
+      - /root/Projects/kakhki.me/public/blog:/app/public/blog:ro
+      - /root/Projects/kakhki.me/data/analytics:/app/data/analytics
+      - /opt/mailcow-dockerized/data/assets/ssl/cert.pem:/app/certs/mailcow.pem:ro
+    ports: !override
+      - "127.0.0.1:3002:3000"
