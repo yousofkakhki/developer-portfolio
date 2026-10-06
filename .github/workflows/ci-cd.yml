@@ -130,7 +130,7 @@ jobs:
       - name: Transfer release
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_USER: blockchain_specialist_aut
           RELEASE_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail

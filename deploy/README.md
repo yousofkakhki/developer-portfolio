@@ -8,9 +8,12 @@ image to the Debian VM. The VM does not build source code.
 The deploy job expects these repository or production-environment secrets:
 
 - `DEPLOY_HOST`: `35.209.91.226`
-- `DEPLOY_USER`: `kakhki-deploy`
 - `DEPLOY_SSH_KEY`: a dedicated private key whose public half is authorized on the VM
 - `DEPLOY_KNOWN_HOSTS`: the pinned `ssh-keyscan -H 35.209.91.226` output
+
+The workflow connects as `blockchain_specialist_aut`; its public deployment
+key is authorized for that account on the VM. The old `DEPLOY_USER` secret is
+no longer used.
 
 Public build-time values can be set as repository variables. They are optional
 because the application has safe defaults:
