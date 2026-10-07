@@ -8,8 +8,9 @@ import { getActivePillarSlugs, getPillarForTags, PILLARS } from '@/utils/data/bl
 import { ConversionLink } from '@/app/components/analytics/conversion-link';
 import { renderMarkdown } from '@/utils/render-markdown.cjs';
 
-export const revalidate = 60;
-export const dynamicParams = false;
+// New articles arrive from the career engine after the image is built.
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 function getArticleImage(blog, siteUrl) {
   if (typeof blog.cover_image === 'string' && blog.cover_image.endsWith('.png')) {

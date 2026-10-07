@@ -4,6 +4,8 @@ import { getActivePillarSlugs, getPillarForTags } from '@/utils/data/blog-pillar
 import { caseStudyProjects } from '@/utils/data/project-catalog';
 import routeManifest from '@/utils/data/site-route-manifest.cjs';
 
+export const dynamic = 'force-dynamic';
+
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://kakhki.me';
 const { siteRouteManifest } = routeManifest;
 

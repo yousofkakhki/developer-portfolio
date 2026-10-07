@@ -12,6 +12,8 @@ services:
       - "127.0.0.1:3000:3000"
     volumes:
       - analytics:/app/data/analytics
+      - /srv/projects/career/kakhki-site/content/blogs:/app/content/blogs:ro
+      - /srv/projects/career/kakhki-site/public/blog/og:/app/public/blog/og:ro
     read_only: true
     tmpfs:
       - /tmp:uid=1000,gid=1000,mode=1777

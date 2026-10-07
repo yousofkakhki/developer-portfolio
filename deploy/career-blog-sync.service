@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync career blog content from devbots to websites
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/career-blog-sync

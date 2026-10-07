@@ -27,6 +27,21 @@ because the application has safe defaults:
 Application secrets stay in `/etc/kakhki.me/app.env` on the VM and are never
 stored in GitHub Actions artifacts.
 
+## Career blog content
+
+The career engine writes article JSON and OG images on devbots under
+`/srv/projects/career/kakhki-site`. The websites VM reads those files into the
+portfolio through read-only Compose mounts. Its `career-blog-sync.timer` pulls
+the content once per minute with the root-only SSH key at
+`/root/.ssh/career-blog-sync`, then calls the local revalidation endpoint with
+`REVALIDATE_SECRET` from `/etc/kakhki.me/app.env`.
+
+Install `deploy/career-blog-sync.sh` as
+`/usr/local/sbin/career-blog-sync` and the accompanying service and timer in
+`/etc/systemd/system`. The destination directories must exist before the
+portfolio Compose release starts. The SSH public key is authorized for
+`hermes` on devbots with forwarding and interactive sessions disabled.
+
 ## HTTPS activation
 
 Point the `kakhki.me` and `www.kakhki.me` A records at `35.209.91.226`, then
